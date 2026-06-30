@@ -1,0 +1,449 @@
+{
+  "_comment": "Acte 3 — Seïra. Mode Stratégie. 4 scènes + CP3 (recevoir Aldric) + CP4 (la mine).",
+  "_design": "L'acte 3 de Seïra est celui où son réseau lui survit — et où elle doit décider si c'est une victoire ou une perte de contrôle. Elle a construit quelque chose qui ne lui appartient plus.",
+
+  "scenes": {
+
+    "seira_a3_s1_coalition_vacille": {
+      "id": "seira_a3_s1_coalition_vacille",
+      "character": "seira",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Réunion du conseil de coalition. Quatre représentants des provinces alliées. Ils ont mis des conditions à leur soutien pour la campagne finale."},
+          "next": "seira_entend_conditions"
+        },
+
+        "seira_entend_conditions": {
+          "type": "description",
+          "text": {"fr": "Les conditions : pas de campagne vers la mine, seulement retrait de Vareth des villes. Pas de gouvernement de transition, seulement 'retour au status quo ante'. Pas de reconnaissance des déserteurs intégrés à ses forces."},
+          "next": "seira_analyse_conditions"
+        },
+
+        "seira_analyse_conditions": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Chaque condition est raisonnable prise séparément. Ensemble, elles rendent la victoire creuse. On repousse Vareth de la surface, on les laisse garder la mine, on ne change rien à la structure qui les a amenés là. Ils reviendront dans cinq ans."},
+          "next": "representant_parle"
+        },
+
+        "representant_parle": {
+          "type": "line",
+          "speaker": "Representant Orwen",
+          "text": {"fr": "Vous avez construit quelque chose d'impressionnant, Commandante. Mais nos provinces ont besoin de stabilité, pas d'une révolution."},
+          "next": "choix_coalition"
+        },
+
+        "choix_coalition": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Négocier. Accepter la limitation de campagne en échange de reconnaissance formelle des déserteurs."},
+              "next": "seira_negocie_coalition",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Refuser les conditions. La mine est l'objectif central. Sans elle, il n'y a pas de victoire."},
+              "next": "seira_refuse_conditions",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_negocie_coalition": {
+          "type": "description",
+          "text": {"fr": "Elle obtient la reconnaissance. Elle concède la limitation officielle de campagne. La mine reste un objectif non déclaré. Certains alliés savent. Ils choisissent de ne pas voir."},
+          "next": "fin_coalition"
+        },
+
+        "seira_refuse_conditions": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Alors nous n'avons pas d'accord. Vos provinces peuvent choisir la neutralité. J'espère que la stabilité durera."},
+          "next": "seira_perd_allies"
+        },
+
+        "seira_perd_allies": {
+          "type": "description",
+          "text": {"fr": "Deux représentants partent. Deux restent. Elle a perdu des alliés. Elle a conservé une direction. Elle ne sait pas encore si c'était le bon calcul."},
+          "next": "fin_coalition"
+        },
+
+        "fin_coalition": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 3, "scene_id": "seira_a3_s1_coalition_vacille"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a3_s2_allies_partent": {
+      "id": "seira_a3_s2_allies_partent",
+      "character": "seira",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Trois personnes sont venues lui dire au revoir cette semaine. Chacune pour une raison différente. Chacune avec la même lourdeur dans les mots."},
+          "next": "seira_pense_departs"
+        },
+
+        "seira_pense_departs": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Thessa est partie vers le nord avec ses gens. Rael n'est plus au camp depuis deux jours — pas déserteur, juste parti en mission seul sans en parler. Brennan, peut-être. Il y a des gens qui savent quand ils vont mourir dans quelque chose."},
+          "next": "thessa_depart"
+        },
+
+        "thessa_depart": {
+          "type": "description",
+          "text": {"fr": "Thessa, en partant : 'Tu as construit quelque chose de vrai. Il faut maintenant que quelqu'un reste pour reconstruire après.' Elle n'a pas dit que ce ne serait pas Seïra."},
+          "next": "seira_apres_thessa"
+        },
+
+        "seira_apres_thessa": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Son réseau tient sans elle maintenant. C'est ce qu'elle avait voulu. Elle ne s'était pas demandé ce qu'elle ferait quand ce serait vrai."},
+          "next": "choix_apres_departs"
+        },
+
+        "choix_apres_departs": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Continuer. La mission avant le réseau. Ce qu'il y a après, c'est après."},
+              "next": "seira_continue_mission",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Écrire à Thessa. Lui demander de préparer la structure de gouvernance pour après la mine."},
+              "next": "seira_prepare_apres",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_continue_mission": {
+          "type": "description",
+          "text": {"fr": "Elle reprend la carte. La mine. Les routes. Les délais. Elle travaille jusqu'à l'aube. C'est une façon de répondre à une question qu'elle n'a pas posée."},
+          "next": "fin_allies_partent"
+        },
+
+        "seira_prepare_apres": {
+          "type": "description",
+          "text": {"fr": "Elle écrit à Thessa. Une page. Les bases d'un gouvernement de transition. Elle ne sait pas si elles en auront besoin. Elle préfère l'avoir écrit."},
+          "next": "fin_allies_partent"
+        },
+
+        "fin_allies_partent": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 3, "scene_id": "seira_a3_s2_allies_partent"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a3_s3_confrontation_daven": {
+      "id": "seira_a3_s3_confrontation_daven",
+      "character": "seira",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Daven est dans la pièce. Pas en fuite, pas en négociation. Il est là parce qu'elle lui a demandé d'être là. Il attend."},
+          "next": "seira_commence_confrontation"
+        },
+
+        "seira_commence_confrontation": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Vous avez eu l'information sur Vel'Shan 36 heures avant que ça arrive. Combien de personnes sont mortes ?"},
+          "next": "daven_repond_nombre"
+        },
+
+        "daven_repond_nombre": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Deux mille quatre cents."},
+          "next": "seira_poids_nombre"
+        },
+
+        "seira_poids_nombre": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Et vous avez calculé que votre couverture valait ça."},
+          "next": "daven_ni_oui_ni_non"
+        },
+
+        "daven_ni_oui_ni_non": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "J'ai calculé que ma couverture permettrait d'accéder à des informations qui pourraient en sauver plus. Ce calcul était peut-être juste. Je ne peux pas le vérifier."},
+          "next": "seira_question_impossible"
+        },
+
+        "seira_question_impossible": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Non. Vous ne pouvez pas. C'est le problème avec vos calculs — vous calculez avec des variables que personne ne peut vérifier."},
+          "next": "daven_accepte_critique"
+        },
+
+        "daven_accepte_critique": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Oui."},
+          "next": "seira_comprend_oui"
+        },
+
+        "seira_comprend_oui": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Il n'essaie pas de se justifier davantage. 'Oui' — c'est tout. Elle ne sait pas si c'est de la résignation ou de la lucidité. Les deux, peut-être."},
+          "next": "choix_seira_daven_final"
+        },
+
+        "choix_seira_daven_final": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Vous venez avec nous à la mine. Pas comme allié. Comme quelqu'un qui doit être là."},
+              "next": "seira_emmene_daven",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Je n'ai pas besoin de votre absolution et vous n'avez pas besoin de la mienne. Ce que vous faites ensuite vous appartient."},
+              "next": "seira_laisse_daven_libre",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_emmene_daven": {
+          "type": "description",
+          "text": {"fr": "Il hoche la tête. Elle ne lui dit pas pourquoi elle veut qu'il soit là. Il ne demande pas. Peut-être qu'il sait déjà."},
+          "next": "fin_confrontation_daven"
+        },
+
+        "seira_laisse_daven_libre": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Je viens quand même. Vous n'avez pas à me le demander."},
+          "next": "fin_confrontation_daven"
+        },
+
+        "fin_confrontation_daven": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 3, "scene_id": "seira_a3_s3_confrontation_daven"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a3_s4_victoire_signifie": {
+      "id": "seira_a3_s4_victoire_signifie",
+      "character": "seira",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Salle de cartes. La veille. Seïra seule devant les lignes de front, les routes vers la mine, les noms sur la liste des alliés qui restent."},
+          "next": "seira_contemple_cartes"
+        },
+
+        "seira_contemple_cartes": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Si la campagne réussit, Vareth recule. La mine est hors de portée. Les soldats du 7ème sont morts ou sauvés selon comment les choses tournent. Ce n'est pas la paix. C'est l'absence d'une guerre particulière."},
+          "next": "seira_pense_victoire"
+        },
+
+        "seira_pense_victoire": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Elle avait dix-huit ans quand elle a décidé que la politique était la forme la plus honnête du pouvoir. Parce qu'on peut nommer ce qu'on veut atteindre. Elle nomme : elle veut que personne ne soit forcé de respirer l'Échorite pour obéir aux ordres d'un empire."},
+          "next": "seira_dit_victoire_simple"
+        },
+
+        "seira_dit_victoire_simple": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "C'est suffisamment simple pour tenir dans une phrase. C'est suffisamment grand pour que ça dure après elle. C'est ce qu'elle a construit."},
+          "next": "fin_victoire_signifie"
+        },
+
+        "fin_victoire_signifie": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 3, "scene_id": "seira_a3_s4_victoire_signifie"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a3_cp3": {
+      "id": "seira_a3_cp3",
+      "character": "seira",
+      "act": 3,
+      "condition": {"flag": 25, "value": true},
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Aldric est assis en face d'elle. Désarmé. Les gardes sont là mais il n'y a pas de tension. Il a traversé les lignes seul. Ce n'est pas rien."},
+          "next": "seira_evalue_aldric_cp3"
+        },
+
+        "seira_evalue_aldric_cp3": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Elle a ses trois preuves. Elle n'a pas besoin de lui pour agir. Elle a besoin de savoir si elle peut lui faire confiance, pas comme allié mais comme quelqu'un qui a vu la mine de l'intérieur."},
+          "next": "aldric_cp3_dit_verite"
+        },
+
+        "aldric_cp3_dit_verite": {
+          "type": "description",
+          "text": {"fr": "Il lui dit tout. Vel'Shan, la colline, sa signature refusée et celle d'Orhal. La mine, les yeux des soldats, ce que ça fait après deux semaines. Il ne s'embélit pas. Il ne s'efface pas non plus."},
+          "next": "seira_ecoute_aldric_cp3"
+        },
+
+        "seira_ecoute_aldric_cp3": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Il dit la vérité. Pas parce qu'il est courageux — parce qu'il a compris que le mensonge partiel ne lui servirait à rien ici. C'est une forme d'intelligence qu'elle respecte."},
+          "next": "choix_seira_accept_aldric"
+        },
+
+        "choix_seira_accept_aldric": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Vous restez. Vous ouvrez la marche sur la mine. C'est votre rôle."},
+              "next": "seira_integre_aldric",
+              "effects": [{"type": "set_flag", "flag": 45, "value": true}]
+            },
+            {
+              "text": {"fr": "Vous pouvez rester comme informateur. Pas comme combattant. Je ne vous fais pas encore assez confiance pour ça."},
+              "next": "seira_confiance_partielle",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_integre_aldric": {
+          "type": "description",
+          "text": {"fr": "Elle lui rend son couteau — pas ses armes lourdes, juste le couteau. Un geste précis. Il comprend ce que ça signifie."},
+          "next": "fin_cp3_seira"
+        },
+
+        "seira_confiance_partielle": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "C'est juste."},
+          "next": "fin_cp3_seira"
+        },
+
+        "fin_cp3_seira": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 3, "scene_id": "cp3_done"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a3_cp4_mine": {
+      "id": "seira_a3_cp4_mine",
+      "character": "seira",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Passage secret, flancière est de la mine. Seïra entre par là avec Brand et deux agents. Pas par l'assaut principal. Par là où les cartes ne montrent rien."},
+          "next": "seira_passage_secret"
+        },
+
+        "seira_passage_secret": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Kira avait marqué ce passage dans ses plans. 'Anatomique', elle avait écrit. Elle comprend maintenant. Les murs ne sont pas creusés. Ils ont poussé autour d'une structure préexistante. Comme une veine dans un corps."},
+          "next": "seira_voit_inscriptions"
+        },
+
+        "seira_voit_inscriptions": {
+          "type": "description",
+          "text": {"fr": "Les inscriptions. Partout. Régulières, précises. Elle en prend des relevés à la main. Elle a des gens qui sauront peut-être les lire."},
+          "next": "seira_trouve_varek"
+        },
+
+        "seira_trouve_varek": {
+          "type": "description",
+          "text": {"fr": "Varek est dans la chambre centrale. Seul. Il la regarde entrer. Il n'a pas l'air menaçant. Il a l'air de quelqu'un qui attendait que quelqu'un arrive."},
+          "next": "choix_seira_varek_mine"
+        },
+
+        "choix_seira_varek_mine": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Varek. Ce que vous avez fait ici est fini. La question est ce qu'on fait maintenant."},
+              "next": "seira_parle_varek_mine",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Lui laisser la parole. Il est là depuis plus longtemps. Il sait peut-être quelque chose qu'elle ne sait pas encore."},
+              "next": "seira_ecoute_varek_mine",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_parle_varek_mine": {
+          "type": "description",
+          "text": {"fr": "Elle explique. Les preuves, les inscriptions, ce que la mine fait aux soldats. Varek l'écoute. Il n'interrompt pas. Quand elle finit, il dit : 'Je sais'."},
+          "next": "fin_cp4_seira"
+        },
+
+        "seira_ecoute_varek_mine": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Mon père a commencé à l'utiliser il y a quarante ans. Mon père était un homme craintif qui voulait contrôler ce qu'il ne pouvait pas comprendre. J'ai cru que j'étais différent."},
+          "next": "fin_cp4_seira"
+        },
+
+        "fin_cp4_seira": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 3, "scene_id": "cp4_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

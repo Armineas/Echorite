@@ -1,0 +1,1087 @@
+═══════════════════════════════════════════════════════════════════════════════
+  CHRONIQUES DE L'ÉCHORITE — Prompts Suno
+  32 tracks · Format export : .ogg (Godot)
+
+  UTILISER OBLIGATOIREMENT LE MODE CUSTOM DE SUNO
+  → Deux champs : "Style" (description musicale) et "Lyrics" (structure)
+  → [Instrumental] en tête de Lyrics = pas de paroles, même avec Extend
+  → Durée : ~35-45s par section → 5-6 sections = ~3min
+  → Jamais [Outro] ni [Chorus] dans les tracks loopables (impliquent une fin)
+  → Tracks events courtes : 1-2 sections seulement
+
+  CONVENTION DE NOMMAGE : personnage_acte_etat.ogg
+═══════════════════════════════════════════════════════════════════════════════
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ALDRIC — 5 tracks / audio/music/aldric/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[01] aldric_a1_exploration.ogg
+Usage : Exploration Aldric, Acte 1. Le chevalier croit encore en l'ordre.
+✓ VALIDÉ
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  orchestral RPG exploration, noble and hopeful, warm french horn melody,
+  strings pizzicato underneath, medieval fantasy, 80 BPM,
+  SNES JRPG inspired, Final Fantasy VI walking theme style, gentle woodwinds,
+  optimistic but weighted with duty, no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  strings pizzicato establish the rhythm, french horn introduces the main melody softly
+
+  [Instrumental Break]
+  full orchestral texture, woodwinds join the strings, melody develops and breathes
+
+  [Verse]
+  main theme repeats with richer harmonics, horn more prominent, strings fuller
+
+  [Instrumental Break]
+  strings carry a counter-melody, woodwinds respond, calm and expansive, no rush
+
+  [Bridge]
+  single instrument sustains a long held note, texture thins to almost nothing, stillness
+
+  [Verse]
+  full theme returns, all instruments together, unhurried, same as the opening
+
+─────────────────────────────────────────────────────────────────────────────
+
+[02] aldric_a1_combat.ogg
+Usage : Combats d'Aldric, Acte 1. Décisif et héroïque.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  turn-based JRPG battle theme, energetic orchestral, driving strings,
+  brass fanfare, classic SNES battle music, Final Fantasy IV battle theme inspired,
+  fast tempo 140 BPM, decisive and heroic energy, snare drum and timpani,
+  tension and resolve, no electric instruments, pure orchestral,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  driving strings and snare establish the combat rhythm, brass announces the battle
+
+  [Instrumental Break]
+  brass fanfare rises, timpani punctuates, full orchestral attack
+
+  [Verse]
+  strings accelerate, horn pushes the main theme with urgency and power
+
+  [Instrumental Break]
+  brief tactical pause, low brass holds tension, strings prepare the return
+
+  [Verse]
+  full battle theme returns at peak energy, all instruments, decisive and forward
+
+─────────────────────────────────────────────────────────────────────────────
+
+[03] aldric_a2_tension.ogg
+Usage : Exploration Aldric, Acte 2. Les doutes commencent.
+Note : utiliser "Covers" depuis [01] avec ce Style pour garder la mélodie de base.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  same orchestral RPG exploration theme but darker arrangement, minor key variation,
+  strings more prominent, horn melody distant and uncertain, 70 BPM,
+  unease beneath the surface, noble duty becoming a burden,
+  occasional dissonant chord left unresolved, medieval fantasy, somber,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  strings pizzicato but heavier, the same melody as before played with less conviction
+
+  [Instrumental Break]
+  low strings introduce a dissonant undertone, horn melody enters but trails off
+
+  [Verse]
+  main theme plays but the harmonic resolution is delayed, something is wrong
+
+  [Instrumental Break]
+  strings sustain a dark chord, woodwinds carry a fragmented version of the melody
+
+  [Bridge]
+  near silence, a single low note holds, the weight of doubt
+
+  [Verse]
+  theme returns quieter, the same notes but without the earlier optimism
+
+─────────────────────────────────────────────────────────────────────────────
+
+[04] aldric_a3_deserter.ogg
+Usage : Exploration Aldric, Acte 3. Après la désertion — plus de soldat.
+Note : utiliser "Covers" depuis [01] avec ce Style.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  solo acoustic guitar, sparse and intimate, the same RPG melody deconstructed,
+  medieval folk, melancholic, slow tempo 55 BPM, fraying at the edges,
+  occasional cello joining briefly then fading, minor pentatonic,
+  sounds like a memory of a better theme, no percussion,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  solo acoustic guitar begins the melody quietly, hesitant, a few wrong notes left in
+
+  [Instrumental Break]
+  cello joins for a brief phrase then fades away, guitar continues alone
+
+  [Verse]
+  main melody continues, sparse, long pauses between phrases
+
+  [Bridge]
+  guitar stops, silence for a full measure, then a single slow arpeggio
+
+  [Verse]
+  the melody returns one final time, softer than before, trailing into space
+
+─────────────────────────────────────────────────────────────────────────────
+
+[05] aldric_a3_combat.ogg
+Usage : Combats d'Aldric, Acte 3. Déserteur — survie, pas héroïsme.
+Note : utiliser "Covers" depuis [02] avec ce Style.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  desperate battle music, orchestral but stripped down, same battle motif deconstructed,
+  strings and brass without the fanfare, survival energy not heroism,
+  irregular rhythm, fast tempo 130 BPM, raw and urgent,
+  no triumphant brass, minor key throughout, no resolution,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  strings attack with urgency, irregular rhythm, no clean entrance, already in danger
+
+  [Instrumental Break]
+  brass joins but dark and low, no fanfare, just pressure, relentless
+
+  [Verse]
+  the combat theme plays but fragmented, resolution never comes, forward momentum
+
+  [Bridge]
+  near silence, one breath, then the strings come back harder
+
+  [Verse]
+  full desperate energy returns, everything strained, no celebration in sight
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SEÏRA — 3 tracks / audio/music/seira/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[06] seira_a1_planning.ogg
+Usage : Mode Seïra, Acte 1. Elle construit méthodiquement.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  chamber orchestra, strategic and methodical, strings pizzicato and muted brass,
+  structured counterpoint, late Renaissance polyphony feel, moderate tempo 75 BPM,
+  no drums, organized and deliberate, cool-headed intelligence,
+  Tactics Ogre LUCT inspired, each instrument has a precise role,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  pizzicato strings establish a careful rhythmic grid, each note placed deliberately
+
+  [Instrumental Break]
+  muted brass enters with a counter-theme, precise and measured, no emotion wasted
+
+  [Verse]
+  strings and brass develop a tight counterpoint, two voices answering each other
+
+  [Instrumental Break]
+  woodwind adds a third voice, the ensemble is structured like a well-planned strategy
+
+  [Bridge]
+  all instruments pause to a single sustained note, then reorganize quietly
+
+  [Verse]
+  the three voices return together, methodical, each instrument knowing its role
+
+─────────────────────────────────────────────────────────────────────────────
+
+[07] seira_a2_resistance.ogg
+Usage : Mode Seïra, Acte 2. La résistance prend de l'ampleur.
+Note : utiliser "Covers" depuis [06].
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  chamber orchestra growing into full strings, same strategic theme expanding,
+  brass entering gradually as the alliance builds, moderate fast tempo 90 BPM,
+  determination without triumph, structured momentum, percussion entering midway,
+  the ensemble is growing but still controlled,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  same pizzicato opening as before but fuller strings, the network is growing
+
+  [Instrumental Break]
+  full brass joins for the first time, adding weight to the strategy theme
+
+  [Verse]
+  the main theme plays with more confidence, strings and brass locked together
+
+  [Instrumental Break]
+  light percussion enters, marking the beat, the resistance has momentum now
+
+  [Bridge]
+  a quieter moment — a single instrument carries the theme, not everything is secure
+
+  [Verse]
+  full ensemble returns with drive, determined, not victorious, still moving forward
+
+─────────────────────────────────────────────────────────────────────────────
+
+[08] seira_a3_coalition.ogg
+Usage : Mode Seïra, Acte 3. La coalition vacille — Seïra tient seule.
+Note : utiliser "Covers" depuis [06].
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  fragile chamber strings only, no brass, no full orchestra, as if the ensemble is incomplete,
+  same strategic theme but hollowed out, minor key, solitary but resolute,
+  slow moderate tempo 65 BPM, loneliness of leadership, sustained string notes,
+  no percussion, melancholic determination,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  only strings, fewer than expected, the same theme played with gaps where other instruments were
+
+  [Instrumental Break]
+  a moment where the brass would normally enter — instead silence, then strings continue
+
+  [Verse]
+  the melody plays but thinner, Seïra's theme carrying the weight alone
+
+  [Bridge]
+  near silence, one cello sustains a long note, the cost of leading alone
+
+  [Verse]
+  strings return, quiet but unbroken, the theme holds even without the full ensemble
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  VAREK — 3 tracks / audio/music/varek/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[09] varek_a1_power.ogg
+Usage : Mode Varek, Acte 1. L'empire à son apogée. Froid et précis.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  dark minimalist piano and sparse string quartet, cold imperial atmosphere,
+  bureaucratic power, deliberate slow tempo 60 BPM, no melody only texture and rhythm,
+  Philip Glass influenced, dystopian government aesthetic, low and precise,
+  every note placed with authority, no warmth, modern classical minimalism,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  piano plays a sparse rhythmic pattern, cold and even, no emotional inflection
+
+  [Instrumental Break]
+  string quartet enters one instrument at a time, adding texture without warmth
+
+  [Verse]
+  piano and strings together, a structured repetition, the machinery of power at work
+
+  [Instrumental Break]
+  brief moment where only the piano plays, minimal, each note deliberate
+
+  [Bridge]
+  the rhythm shifts slightly, still cold, something calculating in the pattern
+
+  [Verse]
+  full texture returns, the same authoritative rhythm, nothing has changed
+
+─────────────────────────────────────────────────────────────────────────────
+
+[10] varek_a2_doubt.ogg
+Usage : Mode Varek, Acte 2. Les premières fissures — Vel'Shan, les archives filtrées.
+Note : utiliser "Covers" depuis [09].
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  same minimalist piano and string quartet, cold imperial theme with dissonance entering,
+  subtle wrong notes that don't resolve, slow tempo 55 BPM,
+  the machinery developing faults, controlled dissonance, modern classical,
+  reluctant emotional undertone just beneath the surface,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  same piano pattern as before, but one note occasionally lands slightly off, unresolved
+
+  [Instrumental Break]
+  strings develop a dissonant interval, held too long, something is wrong beneath the surface
+
+  [Verse]
+  the main pattern continues but the dissonance is harder to ignore now
+
+  [Instrumental Break]
+  strings and piano together emphasize the dissonant chord, then silence
+
+  [Bridge]
+  piano alone plays the original clean pattern, one last time, before a wrong note interrupts
+
+  [Verse]
+  the dissonant texture returns, the pattern holds but the foundation is cracking
+
+─────────────────────────────────────────────────────────────────────────────
+
+[11] varek_a3_isolation.ogg
+Usage : Mode Varek, Acte 3. Sans Échorite depuis 11 jours. Il réentend le bruit.
+Note : utiliser "Covers" depuis [09].
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  solo piano only, very sparse, long silences between phrases,
+  same imperial motif barely recognizable, introspective and stripped,
+  very slow tempo 45 BPM, something human emerging from the cold theme,
+  not warm not resolved, just honest, minimalist and contemplative,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  solo piano, three notes, then silence, the same pattern from before but alone
+
+  [Instrumental Break]
+  longer silence than expected, then two quiet chords, the machinery has stopped
+
+  [Verse]
+  the melody tries to form but stops halfway, something is being felt for the first time
+
+  [Bridge]
+  one sustained note, very quiet, held for a long time, just listening
+
+  [Verse]
+  the sparse pattern returns, slower than before, nothing resolved, just present
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DAVEN — 3 tracks / audio/music/daven/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[12] daven_a1_cover.ogg
+Usage : Mode Daven, Acte 1. Couverture active. Tout sous contrôle.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  neo-noir jazz infiltration, solo bass clarinet melody, sparse upright bass underneath,
+  urban tension without action, shadows and waiting, low BPM 58,
+  spy thriller atmosphere, Mediterranean folk undertone,
+  calculated silence between phrases, introspective and precise,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  bass clarinet introduces a quiet sinuous melody, upright bass marks the slow pulse beneath
+
+  [Instrumental Break]
+  the melody pauses, only bass, footsteps in an empty corridor, then clarinet returns
+
+  [Verse]
+  the melody develops, still quiet, occasional grace notes, someone who knows what he is doing
+
+  [Instrumental Break]
+  both instruments drop to near silence, a long breath, then the clarinet re-enters from below
+
+  [Bridge]
+  only bass, very slow, three notes, the space between them is intentional
+
+  [Verse]
+  clarinet and bass return together, the same careful melody, everything still under control
+
+─────────────────────────────────────────────────────────────────────────────
+
+[13] daven_a2_pressure.ogg
+Usage : Mode Daven, Acte 2. La couverture se fissure après l'extraction de Kira.
+Note : utiliser "Covers" depuis [12].
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  same bass clarinet and upright bass, jazz noir tension rising, tempo slightly faster 68 BPM,
+  something is slipping, controlled panic beneath the cool exterior,
+  occasional dissonant piano chord entering, the cover becoming a burden,
+  urban shadows becoming dangerous, mounting unease,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  bass clarinet begins the familiar melody but faster, something is off in the timing
+
+  [Instrumental Break]
+  a dissonant piano chord enters unexpectedly, held, then the clarinet pushes past it
+
+  [Verse]
+  the melody continues but the piano keeps interrupting with wrong notes, tension building
+
+  [Instrumental Break]
+  all instruments stop for a beat, then re-enter harder, less controlled than before
+
+  [Bridge]
+  bass clarinet alone, rushing, then catching itself, slowing deliberately
+
+  [Verse]
+  the familiar pattern returns but the piano is still there underneath, a constant dissonance
+
+─────────────────────────────────────────────────────────────────────────────
+
+[14] daven_a3_unmasked.ogg
+Usage : Mode Daven, Acte 3. Plus de couverture. Lui-même pour la première fois.
+Note : utiliser "Covers" depuis [12].
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  solo piano, the same melody from the bass clarinet theme but reinterpreted,
+  unexpected understated warmth, stripped of all spy apparatus,
+  slow contemplative jazz, 52 BPM, minor but not tragic,
+  honest and exposed, no bass, no percussion, only piano and long silences,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  solo piano plays the same melody that the bass clarinet carried, simpler, more direct
+
+  [Instrumental Break]
+  the piano pauses, silence, then continues the phrase from a different angle
+
+  [Verse]
+  the melody develops, still quiet, but without the calculation of the earlier theme
+
+  [Bridge]
+  the longest silence yet, then one chord, something that has never been played before
+
+  [Verse]
+  the melody continues, the same notes but finally, unhidden, just played
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  POINTS DE CROISEMENT — 4 tracks / audio/music/crossing_points/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  MÉTHODE DE PRODUCTION — CPs
+  Suno Cover = une seule source. Pour les convergences thématiques, on utilise
+  l'instrument qui PORTE LA MÉLODIE dans chaque thème :
+    Aldric = french horn AS LEAD MELODY (le pizzicato dans [01] est juste l'accompagnement)
+    Seïra  = strings AS LEAD MELODY (les cordes chantent, pas seulement accompagnent)
+    Varek  = piano as solo melodic voice, cold and sparse
+    Daven  = bass clarinet as lead melody, jazz sinuous
+  Si le cor chante → Aldric. Si les cordes chantent sans cor → Seïra.
+  Génération Suno directe, sans post-production.
+
+─────────────────────────────────────────────────────────────────────────────
+
+[15] cp1_delegation.ogg
+Usage : CP1 — La Délégation brisée. Quatre perspectives sur le même instant.
+Production : génération Suno directe. Les 4 timbres personnages jouent ensemble.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  orchestral tension, four instruments each carrying their own melody simultaneously —
+  french horn singing the main line (noble, chivalric, Aldric),
+  strings carrying a separate melodic counterpoint (methodical, chamber, Seïra),
+  solo piano stating a cold sparse phrase (imperial, calculating, Varek),
+  bass clarinet weaving a sinuous jazz melody (shadowed, Daven) —
+  four melodic voices, none dominant, none resolving, moderate tempo 80 BPM,
+  political drama, dissonant harmony throughout,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  all four instrumental voices enter together, each distinct, none yielding to the others
+
+  [Instrumental Break]
+  the four voices develop their own thread simultaneously, the tension is structural
+
+  [Verse]
+  horn, strings, piano and bass clarinet in counterpoint, no resolution between them
+
+  [Instrumental Break]
+  a brief moment of near-unison, then each voice pulls away in its own direction
+
+  [Bridge]
+  all four voices hold a dissonant chord, maximum tension, the moment of rupture
+
+  [Verse]
+  the four voices continue separately, unresolved, the delegation has broken apart
+
+─────────────────────────────────────────────────────────────────────────────
+
+[16] cp2_velshan.ogg
+Usage : CP2 — Vel'Shan. Le massacre. Le moment le plus difficile du jeu.
+Production : génération Suno directe — pas de superposition de thèmes.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  tragic orchestral, slow 50 BPM, strings in lower register only,
+  no brass fanfare, this is not heroic, this is a wound,
+  sparse and heavy, long sustained notes, Górecki Symphony 3 influenced,
+  grief without sentimentality, solo oboe melody above quiet strings,
+  no percussion, no resolution, just weight,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  low strings sustain a heavy chord, slow, the weight of what has happened
+
+  [Instrumental Break]
+  solo oboe enters above the strings, a simple melody, not beautiful, just honest
+
+  [Verse]
+  the oboe continues, the strings support it without resolution, grief held steady
+
+  [Bridge]
+  the oboe fades, strings alone, lower, the silence after is part of the music
+
+  [Verse]
+  oboe returns quietly, the same phrase, because grief does not move forward quickly
+
+─────────────────────────────────────────────────────────────────────────────
+
+[17] cp3_desertion.ogg
+Usage : CP3 — La Désertion. Aldric et Seïra trouvent le même camp. (conditionnel flag 25)
+Production : génération Suno directe. Cor (Aldric) + cordes (Seïra) en dialogue prudent.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  two orchestral voices in cautious convergence —
+  french horn carrying a fragile melody (Aldric, deserter, stripped of armor),
+  strings carrying a separate methodical melody (Seïra, chamber, structured) —
+  both instruments singing simultaneously but not together,
+  moderate tempo 70 BPM, warm but tense, neither triumphant nor resolved,
+  two distinct melodic lines finding the same side without fully merging,
+  medieval fantasy, sparse and intimate,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  strings pizzicato establish a methodical rhythm, horn enters carefully with its own melody
+
+  [Instrumental Break]
+  the two voices play in parallel, neither leading, the distance between them is real
+
+  [Verse]
+  horn and strings begin to approach the same harmonic space, still cautious, not yet allies
+
+  [Instrumental Break]
+  one instrument from each voice lands on the same note together, a tentative meeting point
+
+  [Bridge]
+  a shared phrase emerges briefly between horn and strings, then both pull slightly back
+
+  [Verse]
+  both voices continue side by side, not merged, but no longer opposed
+
+─────────────────────────────────────────────────────────────────────────────
+
+[18] cp4_mine.ogg
+Usage : CP4 — La Mine. Convergence finale. Les quatre histoires en un seul endroit.
+Production : génération Suno directe. Les 4 timbres à pleine densité, jamais résolus.
+Note : générer en dernier pour s'assurer que les Style descriptions des 4 thèmes sont bien connues.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  final orchestral convergence, four instruments each singing their own melody simultaneously —
+  french horn carrying a desperate noble line (Aldric, no longer a soldier),
+  strings carrying a fragile methodical melody (Seïra, coalition cracking),
+  piano stating a cold isolated phrase (Varek, the machinery failing),
+  bass clarinet weaving an exposed jazz line (Daven, no cover left) —
+  four melodic voices in dissonant counterpoint, never resolving, epic but not triumphant,
+  moderate tempo 65 BPM, final act confrontation, dense and sustained,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  all four voices enter simultaneously — horn, strings, piano, bass clarinet — dense and dissonant
+
+  [Instrumental Break]
+  each voice pushes its own direction, the tension is structural, no resolution offered
+
+  [Verse]
+  the four timbres in full counterpoint, the mine holds all four stories at once
+
+  [Bridge]
+  near silence — each instrument holds one note, overlapping, the convergence suspended
+
+  [Verse]
+  full density returns, all four voices, the harmony never resolves, the music continues
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  AMBIANCES — 6 tracks / audio/music/ambient/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[19] ambient_mine_echorite.ogg
+Usage : Zones Échorite (mines). Couche indépendante jouée par-dessus la musique principale.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  dark ambient drone, crystal resonance, dissonant sustained tones,
+  no melody, only texture and very slow movement, underground cave feel,
+  something organic and alive in the walls, low frequency rumble,
+  eerie and otherworldly, subtle distortion on the edges,
+  no tempo, no beat, just presence and slow evolution,
+  no vocals, pure instrumental texture
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  low drone begins, a deep sustained tone that breathes very slowly
+
+  [Instrumental Break]
+  a higher dissonant frequency enters above the drone, they vibrate against each other
+
+  [Verse]
+  the two tones shift almost imperceptibly, the walls seem to be listening
+
+  [Instrumental Break]
+  the texture thickens slightly, organic overtones, something crystalline and alive
+
+  [Verse]
+  the drone returns to its initial tone, the cycle begins again without a seam
+
+─────────────────────────────────────────────────────────────────────────────
+
+[20] ambient_camp_resistance.ogg
+Usage : Camp de la résistance, zones sécurisées de Seïra.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  warm acoustic ambient, folk camp atmosphere, gentle acoustic guitar,
+  soft woodwind in the distance, low energy, safe haven feeling, 60 BPM,
+  melancholic hope, not triumphant, people gathering quietly,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  acoustic guitar plays a quiet folk melody, unhurried, the sound of people at rest
+
+  [Instrumental Break]
+  a woodwind joins from a distance, a simple responding phrase, someone else is there
+
+  [Verse]
+  guitar and woodwind settle into a gentle pattern, camp sounds implied in the texture
+
+  [Bridge]
+  guitar alone, one slow arpeggio, the fire is low, the night is quiet
+
+  [Verse]
+  both instruments return softly, the same melody, safety that is not permanent but real
+
+─────────────────────────────────────────────────────────────────────────────
+
+[21] ambient_imperial_court.ogg
+Usage : Palais impérial, bureaux Vareth, zones d'administration.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  cold ceremonial ambient, imperial architecture in sound, distant brass echoes,
+  marble and power, formal and oppressive, no warmth, measured slow tempo 55 BPM,
+  bureaucratic machinery as music, stone corridor acoustic reverb,
+  minimal and authoritative, no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  distant brass plays a formal phrase, reverb fills the space, cold stone architecture
+
+  [Instrumental Break]
+  low strings add a steady under-pulse, measured and inevitable, like paper being stamped
+
+  [Verse]
+  brass and strings together in the cold space, authoritative, no one is here by choice
+
+  [Bridge]
+  the music drops to almost nothing, only the faint reverb tail remains
+
+  [Verse]
+  the formal phrase returns, the same as before, the empire does not change
+
+─────────────────────────────────────────────────────────────────────────────
+
+[22] ambient_overworld.ogg
+Usage : Routes de transit, zones neutres entre les territoires.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  neutral fantasy overworld, travel and distance, melancholic open landscape,
+  sparse strings and woodwind, 72 BPM moderate walking pace,
+  neither safe nor dangerous, war-touched countryside,
+  JRPG world map inspired but somber, no major key triumph,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  strings establish a walking rhythm, woodwind carries a simple traveling melody
+
+  [Instrumental Break]
+  the melody develops across the landscape, neither threatening nor welcoming
+
+  [Verse]
+  strings and woodwind together, the road goes on, no destination implied
+
+  [Bridge]
+  a quieter passage, only strings, the weight of distance
+
+  [Verse]
+  traveling melody returns, the same horizon, the journey continues
+
+─────────────────────────────────────────────────────────────────────────────
+
+[23] ambient_night.ogg
+Usage : Scènes nocturnes, dialogues de veille (Aldric A3 S5 — Brennan la nuit avant la mine).
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  night ambient, solo cello and very distant piano, very slow 45 BPM,
+  quiet reflection before something irreversible, the weight of a threshold,
+  not peaceful, weighted, sparse and intimate, long silences, emotional not sentimental,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  solo cello, a slow descending phrase, the night is not peaceful, only quiet
+
+  [Instrumental Break]
+  distant piano adds two notes, very soft, then silence, then cello returns
+
+  [Verse]
+  cello and piano together but barely, the space between notes is part of the music
+
+  [Bridge]
+  only silence for a full measure, then one cello note, held until it disappears
+
+  [Verse]
+  the same phrases return, cello and distant piano, the night has not changed
+
+─────────────────────────────────────────────────────────────────────────────
+
+[24] ambient_velardane_occupe.ogg
+Usage : Vel'Ardane et zones d'occupation militaire Vareth.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  oppressive military ambient, occupation soundscape, low brass drones,
+  distant percussion like boots on stone, rigid tempo 68 BPM,
+  no warmth, controlled and surveilled, the low-level dread of occupation,
+  not battle music, the fear of constant presence,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  low brass holds a sustained dark note, distant percussion marks a rigid beat
+
+  [Instrumental Break]
+  the percussion becomes more prominent, the rhythm of patrol, regular and oppressive
+
+  [Verse]
+  brass and percussion together, a heavy texture, the weight of being watched
+
+  [Bridge]
+  the beat stops for a moment, only brass drone, then the patrol resumes
+
+  [Verse]
+  the same oppressive texture returns, nothing has changed, nothing will change easily
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ÉVÉNEMENTS NARRATIFS — 5 tracks / audio/music/events/
+  Note : tracks courtes, NON loopables. 1-2 sections seulement.
+  Note : [26] [28] sont très courts (8-15s) — clipper depuis la génération Suno
+         (Suno génère ~40s minimum, utiliser seulement le début).
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[25] event_companion_death.ogg
+Usage : Mort d'un compagnon. Jouée après 0.5s de silence géré dans le code.
+Durée cible : ~45 secondes.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  short mournful orchestral piece, solo strings, slow 40 BPM,
+  quiet grief without melodrama, intimate and private loss,
+  the companion's melody briefly stated then fading into nothing,
+  no percussion, ends in near silence not resolution,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  solo strings play a quiet phrase, just enough to be recognized, then it fades away
+
+─────────────────────────────────────────────────────────────────────────────
+
+[26] event_victory_minor.ogg
+Usage : Victoire de combat. Bittersweet — on a gagné mais à quel prix.
+Durée cible : ~15s → clipper les premières secondes de la génération Suno.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  very short bittersweet orchestral sting, brass resolution that falls slightly flat,
+  minor sixth ending, not triumphant, JRPG fanfare subverted,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  brass plays a short fanfare but the final note resolves to minor, understated
+
+─────────────────────────────────────────────────────────────────────────────
+
+[27] event_revelation.ogg
+Usage : Découverte critique (archives, vérité sur la mine, document royal).
+Durée cible : ~20 secondes → clipper depuis la génération.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  short discovery sting, strings ascending then sustaining, sobering not joyful,
+  the weight of knowing something new, piano chord held, unresolved harmony,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  strings ascend a scale and hold the final note, piano adds one unresolved chord beneath
+
+─────────────────────────────────────────────────────────────────────────────
+
+[28] event_tension_sting.ogg
+Usage : Alerte Daven — détection ennemie, danger imminent.
+Durée cible : ~8s → clipper uniquement les toutes premières secondes.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  sudden tension sting, low brass hit followed immediately by strings tremolo rising,
+  sharp and short, pure danger signal, no melody, no resolution,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  one low brass impact, then strings tremolo rising fast, cut abruptly
+
+─────────────────────────────────────────────────────────────────────────────
+
+[29] event_companion_joins.ogg
+Usage : Recrutement d'un compagnon — première fois dans l'équipe.
+Durée cible : ~12s → clipper depuis la génération.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  short warm orchestral sting, hopeful ascending strings, bittersweet welcome,
+  JRPG recruitment fanfare but understated and small, ends warmly not triumphantly,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  strings ascend gently, a brief warm phrase, someone new has arrived, quiet welcome
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MENU & TRANSITIONS — 3 tracks / audio/music/menu/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[30] menu_main.ogg
+Usage : Menu principal. Première impression du jeu.
+Production : génération Suno directe. Les 4 timbres présents très discrètement.
+Loopable.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  dark fantasy atmospheric orchestral, mysterious and inviting, slow tempo 58 BPM,
+  four melodic voices barely audible — distant french horn humming a fragment,
+  strings carrying a soft phrase in counterpoint, cold piano placing two sparse notes,
+  bass clarinet murmuring a low sinuous line — none fully formed, just present,
+  warm reverb, the world before the story begins, no drums, no percussion,
+  melancholic and open, no single voice dominant,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  atmospheric strings establish a slow harmonic bed, a distant horn fragment rises then recedes
+
+  [Instrumental Break]
+  cold piano adds two sparse notes from below, bass clarinet enters as a low texture
+
+  [Verse]
+  the four instrumental colors coexist without melody, the world is suggested not told
+
+  [Instrumental Break]
+  all voices drop to near silence, warm reverb holds the space, the game has not started
+
+  [Bridge]
+  a single horn note sustained, then strings return quietly, anticipation without resolution
+
+  [Verse]
+  the same atmospheric texture returns, the same invitation, the menu loops back quietly
+
+─────────────────────────────────────────────────────────────────────────────
+
+[31] menu_act_transition.ogg
+Usage : Transition entre les actes. Non loopable.
+Production : génération Suno directe. Les 4 timbres entrent puis s'effacent.
+Durée cible : ~30 secondes.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  short orchestral transition, time passing, the war moving forward,
+  four melodic voices enter in sequence then fade —
+  french horn sings a brief phrase, then strings sing their phrase,
+  then piano states two cold notes, then bass clarinet murmurs and fades —
+  each voice carries a melody for a few seconds then disappears, moderate tempo 75 BPM,
+  not triumphant not tragic, the march of events, ends in near silence,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  horn enters with a brief phrase, then strings answer, then piano, then bass clarinet, then silence
+
+─────────────────────────────────────────────────────────────────────────────
+
+[32] menu_game_over.ogg
+Usage : Écran de Game Over. Non loopable.
+Durée cible : ~25 secondes.
+
+  ── STYLE ────────────────────────────────────────────────────────────────────
+
+  somber game over, understated and honest, quiet strings only,
+  no dramatic fanfare, no cheesy orchestration, just acknowledgment,
+  a moment of stillness, ends cleanly,
+  no vocals, no singing, pure instrumental
+
+  ── LYRICS ───────────────────────────────────────────────────────────────────
+
+  [Instrumental]
+
+  [Verse]
+  strings play one quiet descending phrase, no drama, just the quiet end of something
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  WORKFLOW : SUNO → AUDACITY → GODOT
+═══════════════════════════════════════════════════════════════════════════════
+
+ORDRE DE GÉNÉRATION :
+  1. [01] aldric_a1_exploration (référence Aldric) ✓ VALIDÉ
+  2. [02] aldric_a1_combat
+  3. [03][04][05] — Cover depuis [01] (tension), [01] (deserter), [02] (a3 combat)
+  4. [06] seira_a1_planning — puis [07][08] en Cover depuis [06]
+  5. [09] varek_a1_power — puis [10][11] en Cover depuis [09]
+  6. [12] daven_a1_cover — puis [13][14] en Cover depuis [12]
+  7. [19]-[24] Ambiances — indépendantes, à tout moment
+  8. [25]-[29][32] Events/Game Over — indépendants, à tout moment
+  9. [16] cp2_velshan — indépendant
+  10. [15][17][18][30][31] — en dernier (utiliser les 4 timbres dans le Style)
+
+CRÉER LA BOUCLE DANS AUDACITY (tracks loopables uniquement) :
+  → Ouvrir le MP3 dans Audacity
+  → Repérer les 2-3 dernières secondes → Effect > Fade Out
+  → File > Export > Export as OGG Vorbis (Quality 6)
+  → Dans Godot : sélectionner le .ogg > onglet Import > cocher "Loop"
+
+CONVERSION MP3 → OGG (si Audacity non disponible) :
+  ffmpeg -i fichier.mp3 -c:a libvorbis -q:a 6 fichier.ogg
+
+CLIPPER LES EVENTS COURTS [26][27][28][29][31][32] :
+  → Suno génère ~40s minimum
+  → Dans Audacity : sélectionner et supprimer la fin, garder uniquement les premières secondes
+  → Exporter en .ogg sans Loop
+
+═══════════════════════════════════════════════════════════════════════════════
+  TOTAL : 32 tracks · 21 loopables · 11 non-loopables (events/transitions)
+═══════════════════════════════════════════════════════════════════════════════

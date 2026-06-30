@@ -1,0 +1,66 @@
+{
+  "id": "brand",
+  "name": { "fr": "Brand" },
+  "role": { "fr": "Ancien prisonnier de guerre, ex-soldat Vareth" },
+  "description": {
+    "fr": "Un des 23 soldats Vareth capturés à la bataille du Bastion Est. Seïra doit décider quoi en faire. Brand parle au nom des 23 quand elle leur offre le choix."
+  },
+
+  "recruitment": {
+    "character": "seira",
+    "act": 2,
+    "condition": { "flag": 40 },
+    "cost": { "gold": 0, "morale": 15 },
+    "scene_id": "seira_a2_s5_brand_prisonniers",
+    "note": "Recrutement conditionnel sur le choix de politique des prisonniers (flag 40 = politique libération). Coût en morale : certains membres de la résistance désapprouvent."
+  },
+
+  "stats": {
+    "atk": 9,
+    "def": 9,
+    "hp": 55,
+    "special": "moral_combattant"
+  },
+
+  "special_ability": {
+    "id": "moral_combattant",
+    "name": { "fr": "Moral de combat" },
+    "description": { "fr": "Si Brand est dans le groupe, réduit la désertion des troupes de 10% et augmente la DEF du groupe de 1." },
+    "passive": true
+  },
+
+  "prisoner_policy_impact": {
+    "options": {
+      "liberate": { "flag": 40, "recruits_brand": true, "morale_cost": 15, "intel_gain": 5 },
+      "hold": { "flag": 40, "recruits_brand": false, "morale_cost": 0, "intel_gain": 10 },
+      "execute": { "flag": 40, "recruits_brand": false, "morale_gain": -20, "note": "Perte de morale massive, aucun gain" }
+    },
+    "note": "Les trois options sont disponibles dans seira_a2_s5. Brand ne peut rejoindre que si 'liberate'."
+  },
+
+  "echorite_exposure": {
+    "initial": 42,
+    "rate_per_mine_visit": 12,
+    "note": "Affecté au secteur minier pendant 4 mois. Exposition significative — 3ème seuil déjà approché."
+  },
+
+  "key_dialogues": [
+    {
+      "scene": "seira_a2_s5_brand_prisonniers",
+      "node": "brand_parle_pour_tous",
+      "text": { "fr": "— Les vingt-trois, on vous demande pas de nous faire confiance. On vous demande de nous donner quelque chose à perdre si on vous trahit." }
+    },
+    {
+      "scene": "seira_a3_s1_coalition_vacille",
+      "node": "brand_temoignage",
+      "text": { "fr": "— J'étais de l'autre côté il y a six mois. Ce que vous combattez, c'est pas un empire. C'est ce que l'empire fait à ceux qui lui obéissent." },
+      "condition": { "flag": 40 }
+    }
+  ],
+
+  "narrative_arc": {
+    "act2": "Prisonnier, porte-parole des 23. Son recrutement est un pari de Seïra.",
+    "act3": "Soldat retourné. Son témoignage sur les mines est le plus direct de tous.",
+    "mine": "Entre dans la mine si recruté. Reconnaît des zones qu'il a traversées en mission — mais différemment maintenant."
+  }
+}

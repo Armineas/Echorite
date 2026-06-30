@@ -1,0 +1,557 @@
+{
+  "_comment": "Acte 3 — Aldric. Mode RPG/Combat. 5 scènes + CP3 (déserteur qui traverse) + CP4 (la mine).",
+  "_design": "L'acte 3 d'Aldric est celui où il apprend que refuser un ordre et commander la résistance sont deux choses différentes. La décision de Vel'Shan n'était pas la fin. C'était le début.",
+
+  "scenes": {
+
+    "aldric_a3_s1_apprendre_commander": {
+      "id": "aldric_a3_s1_apprendre_commander",
+      "character": "aldric",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Camp de la résistance, deux semaines après Vel'Shan. Aldric donne son premier ordre en tant que déserteur. Personne ne l'a nommé commandant. Ils l'écoutent quand même."},
+          "next": "aldric_observe_camp"
+        },
+
+        "aldric_observe_camp": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il y a une différence entre obéir à la chaîne de commandement et être obéi parce que tu es celui qui sait faire les choses. Dans le premier cas, l'autorité vient d'en haut. Dans le second, elle vient des résultats. Il n'a jamais su faire ça avant. Il apprend."},
+          "next": "rael_arrive_camp"
+        },
+
+        "rael_arrive_camp": {
+          "type": "description",
+          "text": {"fr": "Rael est là. L'imprimeur. Il n'est plus imprimeur maintenant. Il est messager, faussaire, et il commence à apprendre le combat. Aldric le regarde s'entraîner."},
+          "next": "aldric_pense_rael"
+        },
+
+        "aldric_pense_rael": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il avait vingt-deux ans quand il a rejoint l'armée impériale. Il croyait que servir l'empire était servir quelque chose de plus grand que lui. Rael a le même regard maintenant en regardant la résistance."},
+          "next": "aldric_parle_rael"
+        },
+
+        "aldric_parle_rael": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "Tu n'es pas obligé d'apprendre à te battre."},
+          "next": "rael_repond_camp"
+        },
+
+        "rael_repond_camp": {
+          "type": "line",
+          "speaker": "Rael",
+          "text": {"fr": "Je sais. C'est pour ça que je le fais."},
+          "next": "aldric_comprend_rael"
+        },
+
+        "aldric_comprend_rael": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il n'a pas de réponse à ça. C'est exactement ce qu'il aurait répondu à vingt-deux ans."},
+          "next": "choix_rael_camp"
+        },
+
+        "choix_rael_camp": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "L'entraîner lui-même. Si Rael va se battre, autant qu'il le fasse en sachant ce que c'est vraiment."},
+              "next": "aldric_entraine_rael",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Le laisser apprendre comme les autres. Traiter tout le monde pareil."},
+              "next": "aldric_laisse_rael_apprendre",
+              "effects": []
+            }
+          ]
+        },
+
+        "aldric_entraine_rael": {
+          "type": "description",
+          "text": {"fr": "Il l'entraîne. Il lui dit ce que les manuels ne disent pas. Rael l'écoute comme une éponge. Aldric ne sait pas si c'est une bonne chose."},
+          "next": "fin_apprendre_commander"
+        },
+
+        "aldric_laisse_rael_apprendre": {
+          "type": "description",
+          "text": {"fr": "Rael apprend avec les autres. Il progresse vite. Il pose les bonnes questions. Aldric ne sait pas si c'est une bonne chose non plus."},
+          "next": "fin_apprendre_commander"
+        },
+
+        "fin_apprendre_commander": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 3, "scene_id": "aldric_a3_s1_apprendre_commander"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a3_s2_rael_miroir": {
+      "id": "aldric_a3_s2_rael_miroir",
+      "character": "aldric",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Rael revient d'une mission de reconnaissance. Il a tué quelqu'un pour la première fois. Il cherche Aldric."},
+          "next": "rael_trouve_aldric"
+        },
+
+        "rael_trouve_aldric": {
+          "type": "line",
+          "speaker": "Rael",
+          "text": {"fr": "C'était nécessaire. Il allait prévenir leur position. Il était tout seul. J'avais le temps de fuir mais le camp risquait. Alors j'ai... J'ai fait ce qu'il fallait faire."},
+          "next": "aldric_reconnait_mots"
+        },
+
+        "aldric_reconnait_mots": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Ces mots. 'Ce qu'il fallait faire.' Il les a prononcés lui-même, combien de fois. Ils sont vrais et ils sont dangereux. Vrais parce que la décision était juste. Dangereux parce qu'ils effacent la texture de la chose."},
+          "next": "rael_attend_reponse"
+        },
+
+        "rael_attend_reponse": {
+          "type": "line",
+          "speaker": "Rael",
+          "text": {"fr": "Tu vas me dire que ça devient plus facile ?"},
+          "next": "choix_reponse_rael_miroir"
+        },
+
+        "choix_reponse_rael_miroir": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Non. Ça devient plus rapide. C'est différent."},
+              "next": "aldric_dit_verite_rael",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Oui. Si tu continues. Mais j'espère que tu arrêtes de chercher ça."},
+              "next": "aldric_avertit_rael",
+              "effects": []
+            }
+          ]
+        },
+
+        "aldric_dit_verite_rael": {
+          "type": "line",
+          "speaker": "Rael",
+          "text": {"fr": "C'est quoi la différence ?"},
+          "next": "aldric_explique_vitesse"
+        },
+
+        "aldric_explique_vitesse": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "La vitesse, c'est de l'efficacité. La facilité, c'est quelque chose qu'on perd. Si ça devient facile, ça veut dire que t'as perdu le truc qui te permettait de décider que c'était nécessaire."},
+          "next": "fin_rael_miroir"
+        },
+
+        "aldric_avertit_rael": {
+          "type": "description",
+          "text": {"fr": "Rael hoche la tête. Il n'a pas compris vraiment. Il comprendra plus tard, ou pas du tout. Aldric n'a pas trouvé les mots qui auraient aidé."},
+          "next": "fin_rael_miroir"
+        },
+
+        "fin_rael_miroir": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 3, "scene_id": "aldric_a3_s2_rael_miroir"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a3_s3_soldats_7eme": {
+      "id": "aldric_a3_s3_soldats_7eme",
+      "character": "aldric",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Un groupe de soldats du 7ème Régiment s'est rendu au camp. Douze hommes. Ils ont l'air désorienté — pas de peur, pas d'intention hostile, juste désorientés. Les yeux lisses."},
+          "next": "aldric_evalue_soldats_7eme"
+        },
+
+        "aldric_evalue_soldats_7eme": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Six mois minimum dans les galeries. Peut-être plus. Il a vu ça à la mine. Le sevrage prend des semaines. Pendant ce temps, ils exécutent les derniers ordres qu'ils ont mémorisés. Comme des automates qui n'ont plus reçu de nouvelles instructions."},
+          "next": "soldat_7eme_parle"
+        },
+
+        "soldat_7eme_parle": {
+          "type": "line",
+          "speaker": "Soldat (7ème)",
+          "text": {"fr": "On a plus d'ordres. Le commandant est... parti. Ou mort. On sait plus. On sait plus où aller."},
+          "next": "choix_soldats_7eme"
+        },
+
+        "choix_soldats_7eme": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Les accueillir. Suivi médical par Lyria si elle est là. Pas d'armes pendant trois semaines."},
+              "next": "aldric_accueille_7eme",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Les laisser partir vers les villages neutres. Le camp ne peut pas gérer douze personnes en sevrage."},
+              "next": "aldric_renvoie_7eme",
+              "effects": []
+            }
+          ]
+        },
+
+        "aldric_accueille_7eme": {
+          "type": "description",
+          "text": {"fr": "Ils restent. La première semaine, deux d'entre eux pleurent sans raison visible. Un troisième refuse de manger. Aldric passe un soir assis avec eux. Il ne dit rien. Il est juste là."},
+          "next": "fin_soldats_7eme"
+        },
+
+        "aldric_renvoie_7eme": {
+          "type": "description",
+          "text": {"fr": "Il leur donne des provisions et une carte des villages neutres. Deux reviennent le lendemain. Il les accueille cette fois."},
+          "next": "fin_soldats_7eme"
+        },
+
+        "fin_soldats_7eme": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 3, "scene_id": "aldric_a3_s3_soldats_7eme"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a3_s4_ancien_second": {
+      "id": "aldric_a3_s4_ancien_second",
+      "character": "aldric",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Orhal. Son ancien second. Celui qui a signé l'ordre de Vel'Shan après que lui a refusé. Ils se retrouvent face à face sur le pont de Laeven. Orhal est seul. Aldric est seul."},
+          "next": "orhal_aldric_pont"
+        },
+
+        "orhal_aldric_pont": {
+          "type": "line",
+          "speaker": "Orhal",
+          "text": {"fr": "Je t'ai cherché. Pas pour te capturer. Pour te dire que tu avais raison. Mais que ça n'avait rien changé. L'ordre aurait été exécuté de toute façon. Quelqu'un d'autre aurait signé."},
+          "next": "aldric_ecoute_orhal"
+        },
+
+        "aldric_ecoute_orhal": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il veut que ça serve d'absolution. L'ordre aurait été exécuté de toute façon, donc sa signature n'a rien changé. C'est vrai et c'est une façon de rendre la vérité inutile."},
+          "next": "choix_orhal_pont"
+        },
+
+        "choix_orhal_pont": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Tu avais raison : l'ordre aurait été exécuté. Ça ne change pas ce que ta signature dit sur ce que tu as décidé d'être."},
+              "next": "aldric_dit_signature",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Pourquoi tu me cherches vraiment ?"},
+              "next": "aldric_demande_vraie_raison",
+              "effects": []
+            }
+          ]
+        },
+
+        "aldric_dit_signature": {
+          "type": "line",
+          "speaker": "Orhal",
+          "text": {"fr": "Je suis venu pour te demander si tu m'aurais arrêté. Sur le moment. Si tu aurais pu."},
+          "next": "aldric_repond_aurait"
+        },
+
+        "aldric_repond_aurait": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "Non. Je n'aurais pas pu t'arrêter. Et je ne sais pas si j'aurais voulu. J'avais juste refusé de signer moi-même. C'est moins héroïque que ce que ça paraît."},
+          "next": "fin_ancien_second"
+        },
+
+        "aldric_demande_vraie_raison": {
+          "type": "line",
+          "speaker": "Orhal",
+          "text": {"fr": "Parce que le 7ème régiment a reçu l'ordre d'élimination. Pas des déserteurs. Des soldats qui servent encore. J'ai accès aux ordres de déploiement encore deux jours. Si tu veux les avoir."},
+          "next": "aldric_comprend_offre_orhal"
+        },
+
+        "aldric_comprend_offre_orhal": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il trahit Vareth pour quoi ? Pour se racheter. Pour lui. Il accepte quand même. Ce n'est pas de la pureté mais c'est de l'information qui peut sauver des gens."},
+          "next": "fin_ancien_second"
+        },
+
+        "fin_ancien_second": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 3, "scene_id": "aldric_a3_s4_ancien_second"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a3_s5_veille": {
+      "id": "aldric_a3_s5_veille",
+      "character": "aldric",
+      "act": 3,
+      "condition": {"flag": 0, "value": true},
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La nuit avant la mine. Brennan est là. Ils sont assis dehors, dans le froid, sans raison particulière d'être dehors plutôt que dedans."},
+          "next": "brennan_feu"
+        },
+
+        "brennan_feu": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "La première fois que j'ai déserté, j'ai mis six mois avant d'accepter que je ne retournerais jamais. Il m'a fallu encore un an pour comprendre que c'était la bonne décision."},
+          "next": "aldric_brennan_nuit"
+        },
+
+        "aldric_brennan_nuit": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "Toi tu avais déserté. Moi j'ai juste refusé un ordre et regardé quelqu'un d'autre exécuter ce que j'avais refusé."},
+          "next": "brennan_repond_pareil"
+        },
+
+        "brennan_repond_pareil": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "C'est pareil. Tu n'étais plus avec eux à partir de ce moment-là. Tu l'as juste pas encore écrit nulle part."},
+          "next": "aldric_veille_nuit"
+        },
+
+        "aldric_veille_nuit": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Demain ils entrent dans la mine. Il ne sait pas ce qu'ils trouveront. Il sait qu'il sera celui qui ouvre la marche. C'est la première fois depuis longtemps qu'il est exactement à l'endroit où il doit être."},
+          "next": "fin_veille"
+        },
+
+        "fin_veille": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 3, "scene_id": "aldric_a3_s5_veille"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a3_cp3": {
+      "id": "aldric_a3_cp3",
+      "character": "aldric",
+      "act": 3,
+      "condition": {"flag": 25, "value": true},
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La frontière entre les lignes. Aldric la traverse à pied, seul, de nuit. Il a une lettre dans sa poche intérieure. Il n'est pas sûr que ça suffit."},
+          "next": "aldric_traverse_lignes"
+        },
+
+        "aldric_traverse_lignes": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Caïn avait raison. Ce n'était pas la désertion ou l'obéissance. C'était ça aussi : traverser et demander à être reçu."},
+          "next": "daven_intercepte"
+        },
+
+        "daven_intercepte": {
+          "type": "description",
+          "text": {"fr": "Quelqu'un l'arrête dans l'obscurité. Une main sur l'épaule. Pas une prise d'arrestation. Juste — une main."},
+          "next": "daven_chuchote"
+        },
+
+        "daven_chuchote": {
+          "type": "line",
+          "speaker": "Voix dans l'ombre",
+          "text": {"fr": "Dis-lui la vérité. Pas seulement les faits. La vérité sur ce que tu savais et ce que tu as fait quand même. Elle a besoin de ça pour décider."},
+          "next": "aldric_comprend_intercepteur"
+        },
+
+        "aldric_comprend_intercepteur": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "La voix disparaît avant qu'il puisse demander qui. Mais le conseil est juste. Il a vieilli à apprendre que les faits sans la vérité sur soi-même ne servent à rien dans une négociation de confiance."},
+          "next": "aldric_continue_chemin"
+        },
+
+        "aldric_continue_chemin": {
+          "type": "description",
+          "text": {"fr": "Il continue. Il demande à voir Seïra. Les gardes le désarment. Il attend dans la lumière."},
+          "next": "seira_arrive_cp3"
+        },
+
+        "seira_arrive_cp3": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Vous avez refusé l'ordre de Vel'Shan. Mais l'exécution a quand même eu lieu. Qu'est-ce que vous voulez que je fasse de votre refus ?"},
+          "next": "choix_aldric_repond_seira"
+        },
+
+        "choix_aldric_repond_seira": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Rien. Je ne vous demande pas de le récompenser. Je vous demande de m'utiliser pour ce que vous voulez faire ensuite."},
+              "next": "aldric_offre_utilite",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Je sais ce que ça vaut. Pas grand chose. Mais j'ai des informations sur le 7ème régiment et sur la mine que vous n'avez peut-être pas."},
+              "next": "aldric_offre_info",
+              "effects": []
+            }
+          ]
+        },
+
+        "aldric_offre_utilite": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Trois preuves. Je travaille sur trois preuves. Si les vôtres complètent les miennes, vous restez."},
+          "next": "fin_cp3_aldric"
+        },
+
+        "aldric_offre_info": {
+          "type": "description",
+          "text": {"fr": "Il lui dit ce qu'il sait. La mine, les yeux des soldats, Orhal, le 7ème régiment. Seïra l'écoute sans interrompre. Elle note deux choses sur sa carte. Elle n'en dit pas plus."},
+          "next": "fin_cp3_aldric"
+        },
+
+        "fin_cp3_aldric": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 3, "scene_id": "cp3_done"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a3_cp4_mine": {
+      "id": "aldric_a3_cp4_mine",
+      "character": "aldric",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "L'entrée de la mine. La résistance est là. Seïra est là. Varek est quelque part à l'intérieur. Daven aussi, probablement."},
+          "next": "aldric_entre_mine"
+        },
+
+        "aldric_entre_mine": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il a dirigé des assauts. Il en a reçu. La mine est différente. L'air change dès les premiers mètres. Il se rappelle ce que ça faisait — la clarté, le silence des pensées. Il se rappelle aussi ce que ça faisait aux soldats après six semaines."},
+          "next": "aldric_galerie_profonde"
+        },
+
+        "aldric_galerie_profonde": {
+          "type": "description",
+          "text": {"fr": "La galerie profonde. Les veines de cristal pulsent. Il y a des inscriptions partout — pas de l'impérial, pas du vieux dialete. Quelque chose d'autre."},
+          "next": "aldric_lit_inscriptions"
+        },
+
+        "aldric_lit_inscriptions": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il ne sait pas les lire. Mais il reconnaît la forme de quelque chose d'ancien et de délibéré. Ce n'était pas un accident géologique. Quelqu'un a construit ça."},
+          "next": "choix_mine_finale"
+        },
+
+        "choix_mine_finale": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Détruire les galeries. L'entrée, les veines. Couper l'accès pour toujours."},
+              "next": "aldric_detruit_mine",
+              "effects": [{"type": "set_flag", "flag": 50, "value": true}]
+            },
+            {
+              "text": {"fr": "Protéger le site. L'évacuer, le sceller, empêcher Vareth d'y revenir."},
+              "next": "aldric_protege_mine",
+              "effects": [{"type": "set_flag", "flag": 51, "value": true}]
+            },
+            {
+              "text": {"fr": "Comprendre avant de décider. Quelqu'un a construit ça. Il faut savoir pourquoi."},
+              "next": "aldric_comprend_mine",
+              "effects": [{"type": "set_flag", "flag": 52, "value": true}]
+            }
+          ]
+        },
+
+        "aldric_detruit_mine": {
+          "type": "description",
+          "text": {"fr": "Les charges sont posées. Aldric ordonne l'évacuation. Il est le dernier à sortir. Derrière lui, la mine s'effondre dans un son qui ressemble moins à une explosion qu'à un soupir."},
+          "next": "fin_cp4_aldric"
+        },
+
+        "aldric_protege_mine": {
+          "type": "description",
+          "text": {"fr": "Ils scellent les entrées. Brûlent les cartes. La mine existe encore — mais Vareth ne sait plus où. Pour combien de temps, il ne sait pas."},
+          "next": "fin_cp4_aldric"
+        },
+
+        "aldric_comprend_mine": {
+          "type": "description",
+          "text": {"fr": "Ils restent trois heures. Les linguistes de Seïra copient les inscriptions. Daven reconnaît quelque chose. Varek aussi, peut-être. La décision finale est repoussée d'un jour. Parfois c'est ça, comprendre."},
+          "next": "fin_cp4_aldric"
+        },
+
+        "fin_cp4_aldric": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 3, "scene_id": "cp4_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "id": "thessa",
+  "name": { "fr": "Thessa" },
+  "role": { "fr": "Commandante nordiste, alliance conditionnelle" },
+  "description": {
+    "fr": "Représentante des communautés du nord. Elle dirige sa propre force armée et ne fait pas partie de la résistance — elle est une alliée à conditions. Son alliance avec Seïra est fragile et repose sur des résultats concrets, pas sur la confiance."
+  },
+
+  "recruitment": {
+    "character": "seira",
+    "act": 3,
+    "condition": { "all": [{ "flag": 41 }, { "flag": 43 }] },
+    "cost": { "gold": 40, "intel": 15 },
+    "scene_id": "seira_a3_s1_coalition_vacille",
+    "note": "Thessa part vers le nord si Seïra ne peut pas répondre à ses conditions (ravitaillement + retrait des postes Vareth zone nord). Son départ est attendu — l'enjeu est de voir si Seïra négocie ou concède."
+  },
+
+  "stats": {
+    "atk": 11,
+    "def": 10,
+    "hp": 65,
+    "special": "commandement_nordiste"
+  },
+
+  "special_ability": {
+    "id": "commandement_nordiste",
+    "name": { "fr": "Commandement nordiste" },
+    "description": { "fr": "Apporte 5 troupes nordistes supplémentaires. Si elle dirige une attaque, les troupes bénéficient de +2 DEF (terrain montagneux/forestier seulement)." },
+    "passive": true,
+    "troops_bonus": 5
+  },
+
+  "negotiation_conditions": {
+    "required_flags": [41, 43],
+    "success": { "thessa_stays": true, "troops_gain": 5 },
+    "failure": {
+      "thessa_leaves": true,
+      "flag": 63,
+      "note": "Flag 63 = THESSA_LEFT_NORTH. Elle part mais ne trahit pas — juste absente de la mine."
+    }
+  },
+
+  "echorite_exposure": {
+    "initial": 3,
+    "rate_per_mine_visit": 10,
+    "note": "Exposition quasi nulle — communautés nordistes éloignées des mines. Sa perception de la mine est donc non biaisée."
+  },
+
+  "key_dialogues": [
+    {
+      "scene": "seira_a3_s1_coalition_vacille",
+      "node": "thessa_conditions",
+      "text": { "fr": "— Mes gens ont besoin de grain avant l'hiver, pas après la victoire. Si vous attendez la victoire pour nourrir vos alliés, vous perdrez les deux." }
+    },
+    {
+      "scene": "seira_a3_s2_allies_partent",
+      "node": "thessa_depart",
+      "text": { "fr": "— On se retrouvera après. Si vous gagnez, on reviendra voir ce que ça vaut." },
+      "condition": { "flag": 63 }
+    }
+  ],
+
+  "narrative_arc": {
+    "act3": "Alliance fragile. Son départ dans A3 S2 n'est pas une trahison — c'est du réalisme. Seïra doit l'accepter.",
+    "mine": "Présente seulement si conditions remplies. Apporte une force militaire significant à l'approche de la mine."
+  }
+}

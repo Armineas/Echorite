@@ -1,0 +1,61 @@
+{
+  "_comment": "CP1 — La Délégation Brisée. Séquence de transition inter-stories.",
+  "_design_note": "Ce fichier joue après que les 4 personnages ont vu leur POV cp1_done. La scène est silencieuse — pas de choix, pas d'effets. Elle montre les 4 simultanément avec une coupe sèche entre chaque POV. C'est la première fois que le joueur voit tous les personnages en même temps.",
+
+  "id": "cp1_delegation_shared",
+  "character": "shared",
+  "act": 1,
+  "scene": "cp1_delegation",
+  "title": "CP1 — La Délégation Brisée",
+
+  "nodes": {
+
+    "start": {
+      "type": "line",
+      "speaker": "Narrateur",
+      "text": "La délégation de Lyreveth traverse Varethgard pour la dernière fois.",
+      "next": "cut_aldric"
+    },
+
+    "cut_aldric": {
+      "type": "line",
+      "speaker": "ALDRIC",
+      "text": "Il escorte. Il ne sait pas encore ce qu'il escorte. Il saura. Plus tard.",
+      "next": "cut_seira"
+    },
+
+    "cut_seira": {
+      "type": "line",
+      "speaker": "SEÏRA",
+      "text": "Elle sait. Elle ne peut pas le prouver. Elle décide de ne plus jamais attendre d'avoir des preuves.",
+      "next": "cut_varek"
+    },
+
+    "cut_varek": {
+      "type": "line",
+      "speaker": "VAREK",
+      "text": "Il a signé les documents. Il dort bien. La comédie est terminée.",
+      "next": "cut_daven"
+    },
+
+    "cut_daven": {
+      "type": "line",
+      "speaker": "DAVEN",
+      "text": "Il regarde depuis la fenêtre. Il reconnaît les documents. Il n'est pas soulagé que ça marche.",
+      "next": "silence"
+    },
+
+    "silence": {
+      "type": "line",
+      "speaker": "Narrateur",
+      "text": "La délégation disparaît au coin de la rue. Quatre personnes dans quatre endroits différents. La même chose vient de se passer.",
+      "next": "fin_cp1_shared"
+    },
+
+    "fin_cp1_shared": {
+      "type": "auto",
+      "effects": [],
+      "next": "end"
+    }
+  }
+}

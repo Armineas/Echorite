@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chroniques de l'Échorite — Bible Narrative</title>
+<style>
+:root {
+  --ground:#0D0F1A; --ground-r:#12152A; --ground-c:#181B2E; --ground-c2:#1E2238;
+  --text:#C4A96A; --dim:#7A6848; --muted:#3D3828; --faint:#252015;
+  --accent:#7B5CF0; --ag:rgba(123,92,240,.12); --a2:#2ABFA0;
+  --border:#24273A; --bs:#1A1D2E;
+  --aldric:#4A8DB8; --aldric-b:rgba(74,141,184,.07);
+  --seira:#5AAB7F;  --seira-b:rgba(90,171,127,.07);
+  --varek:#C44B4B;  --varek-b:rgba(196,75,75,.07);
+  --daven:#C4952A;  --daven-b:rgba(196,149,42,.07);
+  --fd:'Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  --fb:Georgia,'Times New Roman',serif;
+  --fu:'Courier New',Courier,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ground);color:var(--text);font-family:var(--fb);font-size:14px;line-height:1.75}
+
+/* NAV */
+.top-nav{position:sticky;top:0;z-index:100;background:rgba(13,15,26,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 48px;display:flex;gap:4px;overflow-x:auto}
+.top-nav a{font-family:var(--fu);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding:14px 12px;text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.top-nav a:hover{color:var(--text);border-color:var(--accent)}
+
+/* HEADER */
+.site-header{position:relative;padding:64px 48px 56px;border-bottom:1px solid var(--border);overflow:hidden}
+#hc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hi{position:relative;max-width:780px}
+.eyebrow{font-family:var(--fu);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.eyebrow::after{content:'';display:block;width:40px;height:1px;background:var(--accent);opacity:.4}
+h1{font-family:var(--fd);font-size:clamp(32px,4.5vw,58px);font-weight:400;line-height:1.08;color:#EAD9AA;letter-spacing:-.025em;margin-bottom:20px}
+h1 .sub{display:block;font-size:.52em;color:var(--dim);font-style:italic;margin-top:8px;letter-spacing:.02em}
+.header-lead{font-size:15px;color:var(--dim);line-height:1.8;max-width:520px;margin-bottom:28px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{font-family:var(--fu);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border);color:var(--muted)}
+.tag.hi{border-color:var(--accent);color:var(--accent);background:var(--ag)}
+
+/* SECTIONS */
+.section{padding:52px 48px 0}
+.sec-label{font-family:var(--fu);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* MYTHOLOGY */
+.myth-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:32px}
+.myth-card{background:var(--ground-c);padding:24px 20px;border-top:2px solid var(--accent)}
+.myth-card.full{grid-column:1/-1}
+.myth-card h3{font-family:var(--fd);font-size:18px;font-weight:400;color:#EAD9AA;margin-bottom:12px}
+.myth-card p{font-size:13.5px;color:var(--dim);line-height:1.75}
+.myth-card p+p{margin-top:10px}
+.myth-label{font-family:var(--fu);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.timeline-list{list-style:none;margin-top:8px}
+.timeline-list li{font-size:13px;color:var(--dim);padding:6px 0;border-bottom:1px solid var(--bs);display:grid;grid-template-columns:60px 1fr;gap:12px}
+.timeline-list li .yr{font-family:var(--fu);font-size:11px;color:var(--muted)}
+.geo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.geo-item{background:rgba(0,0,0,.2);padding:10px 12px}
+.geo-item .gn{font-family:var(--fu);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:4px}
+.geo-item .gd{font-size:12px;color:var(--dim)}
+
+/* CHAR CARDS */
+.char-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.char-card{background:var(--ground-c);padding:22px 18px 20px;border-top:2px solid var(--c);position:relative}
+.char-card::after{content:'';position:absolute;inset:0;background:var(--cbg);pointer-events:none}
+.cs{font-family:var(--fu);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--c);opacity:.65;margin-bottom:8px;position:relative;z-index:1}
+.cn{font-family:var(--fd);font-size:21px;font-weight:400;color:#EAD9AA;line-height:1.15;margin-bottom:3px;position:relative;z-index:1}
+.cr{font-family:var(--fu);font-size:10px;color:var(--c);margin-bottom:14px;letter-spacing:.06em;position:relative;z-index:1}
+.cb{font-size:12.5px;color:var(--dim);line-height:1.65;margin-bottom:14px;position:relative;z-index:1}
+.cm{font-family:var(--fu);font-size:10.5px;color:var(--muted);padding-top:12px;border-top:1px solid var(--bs);letter-spacing:.04em;position:relative;z-index:1}
+.cm b{color:var(--c);font-weight:normal}
+
+/* TIMELINE CANVAS */
+.tl-wrap{width:100%;height:130px;background:var(--ground-c);border:1px solid var(--border)}
+#tc{display:block;width:100%;height:130px}
+
+/* ACTS */
+.act-section{padding:52px 48px 0}
+.act-head{display:flex;align-items:baseline;gap:20px;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.act-tag{font-family:var(--fu);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);flex-shrink:0}
+.act-title{font-family:var(--fd);font-size:26px;font-weight:400;color:#EAD9AA;letter-spacing:-.01em}
+.act-hours{font-family:var(--fu);font-size:10px;color:var(--muted);margin-left:auto;letter-spacing:.1em}
+.act-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:48px}
+.act-col{background:var(--ground-c);position:relative}
+.act-col::after{content:'';position:absolute;inset:0;background:var(--cbg);pointer-events:none}
+.col-hed{display:flex;align-items:center;gap:7px;padding:16px 16px 0;position:relative;z-index:1}
+.col-dot{width:7px;height:7px;border-radius:50%;background:var(--c);flex-shrink:0}
+.col-lbl{font-family:var(--fu);font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--c);opacity:.8}
+
+/* SCENE CARDS */
+.scenes{padding:8px 0 12px;position:relative;z-index:1}
+.scene{border-bottom:1px solid var(--bs)}
+.scene:last-child{border-bottom:none}
+.scene-btn{width:100%;background:none;border:none;cursor:pointer;padding:10px 16px;display:flex;align-items:center;gap:8px;text-align:left}
+.scene-btn:hover{background:rgba(255,255,255,.02)}
+.snum{font-family:var(--fu);font-size:9px;color:var(--muted);letter-spacing:.1em;flex-shrink:0;min-width:20px}
+.stitle{font-family:var(--fu);font-size:10.5px;color:var(--dim);letter-spacing:.06em;flex:1}
+.sarr{font-family:var(--fu);font-size:12px;color:var(--muted);flex-shrink:0;transition:transform .2s}
+.scene.open .sarr{transform:rotate(45deg)}
+.scene-body{display:none;padding:0 16px 14px}
+.scene.open .scene-body{display:block}
+.scene-body p{font-size:13px;color:var(--dim);line-height:1.72}
+.scene-body p+p{margin-top:9px}
+.scene-stakes{margin-top:10px;padding-top:10px;border-top:1px solid var(--bs);font-family:var(--fu);font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+.scene-stakes b{color:var(--c);font-weight:normal}
+
+/* CROSSING POINTS */
+.cp{background:var(--ground-r);padding:36px 48px;position:relative;margin:0}
+.cp::before,.cp::after{content:'';position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent) 20%,var(--a2) 50%,var(--accent) 80%,transparent)}
+.cp::before{top:0}.cp::after{bottom:0}
+.cp-inner{display:grid;grid-template-columns:240px 1fr;gap:36px;align-items:start}
+.cp-badge{font-family:var(--fu);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.cp-title{font-family:var(--fd);font-size:20px;font-weight:400;color:#EAD9AA;line-height:1.2;margin-bottom:6px}
+.cp-loc{font-family:var(--fu);font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:14px}
+.cp-desc{font-size:13px;color:var(--dim);line-height:1.72}
+.cp-povs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.cp-pov{padding:12px 14px;background:rgba(0,0,0,.25);border-left:2px solid var(--c)}
+.cp-who{font-family:var(--fu);font-size:9px;text-transform:uppercase;letter-spacing:.2em;color:var(--c);margin-bottom:6px}
+.cp-txt{font-size:12.5px;color:var(--dim);line-height:1.6;font-style:italic}
+
+/* COMPANIONS */
+.comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:48px}
+.comp-card{background:var(--ground-c);border-top:2px solid var(--c)}
+.comp-head{display:flex;align-items:center;gap:10px;padding:16px;cursor:pointer;position:relative}
+.comp-head::after{content:'';position:absolute;inset:0;background:var(--cbg);pointer-events:none}
+.comp-dot{width:7px;height:7px;border-radius:50%;background:var(--c);flex-shrink:0;position:relative;z-index:1}
+.comp-name{font-family:var(--fd);font-size:16px;color:#EAD9AA;flex:1;position:relative;z-index:1}
+.comp-arch{font-family:var(--fu);font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--c);position:relative;z-index:1}
+.comp-avail{font-family:var(--fu);font-size:9px;letter-spacing:.1em;padding:3px 8px;position:relative;z-index:1}
+.avail-ok{color:#5AAB7F;border:1px solid rgba(90,171,127,.3)}
+.avail-cond{color:#C4952A;border:1px solid rgba(196,149,42,.3)}
+.avail-rare{color:#C44B4B;border:1px solid rgba(196,75,75,.3)}
+.comp-arr{font-family:var(--fu);font-size:12px;color:var(--muted);margin-left:4px;transition:transform .2s;position:relative;z-index:1}
+.comp-card.open .comp-arr{transform:rotate(45deg)}
+.comp-body{display:none;padding:16px;border-top:1px solid var(--bs)}
+.comp-card.open .comp-body{display:block}
+.comp-body p{font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:10px}
+.comp-section{font-family:var(--fu);font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);margin:14px 0 8px;padding-top:14px;border-top:1px solid var(--bs)}
+.comp-body ul{list-style:none}
+.comp-body li{font-size:12.5px;color:var(--dim);padding:5px 0;border-bottom:1px solid var(--bs);padding-left:10px;position:relative}
+.comp-body li::before{content:'—';position:absolute;left:0;color:var(--muted)}
+
+/* FOOTER */
+.site-footer{margin-top:80px;padding:28px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.ft{font-family:var(--fu);font-size:10px;color:var(--muted);letter-spacing:.12em}
+.em{font-family:var(--fu);font-size:10px;color:var(--accent);opacity:.45}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.char-grid,.act-cols{grid-template-columns:repeat(2,1fr)}.cp-inner{grid-template-columns:1fr}.cp-povs{grid-template-columns:repeat(2,1fr)}.myth-grid{grid-template-columns:1fr}.comp-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.section,.act-section,.site-header,.cp,.site-footer{padding-left:20px;padding-right:20px}.top-nav{padding:0 20px}.char-grid,.act-cols,.cp-povs,.comp-grid,.geo-grid{grid-template-columns:1fr}.act-hours{margin-left:0;width:100%}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="#mythologie">Mythologie</a>
+  <a href="#protagonistes">Protagonistes</a>
+  <a href="#acte1">Acte I</a>
+  <a href="#acte2">Acte II</a>
+  <a href="#acte3">Acte III</a>
+  <a href="#compagnons">Compagnons</a>
+</nav>
+
+<!-- HEADER -->
+<header class="site-header">
+  <canvas id="hc"></canvas>
+  <div class="hi">
+    <p class="eyebrow">Bible Narrative — v0.2</p>
+    <h1>Chroniques de l'Échorite<span class="sub">Quatre histoires simultanées · Trois actes · Permadeath</span></h1>
+    <p class="header-lead">Vareth envahit Élindre pour sa mine d'Échorite. Quatre personnages traversent cette guerre depuis l'intérieur — un chevalier qui déserte, une princesse qui reconstruit, un empereur qui amplifie, un espion qui choisit. Leurs histoires se jouent en parallèle et se recoupent en quatre points de rupture.</p>
+    <div class="tags">
+      <span class="tag hi">Échorite · les Soth</span>
+      <span class="tag">Vareth · Élindre</span>
+      <span class="tag">4 protagonistes</span>
+      <span class="tag">9 compagnons · permadeath</span>
+      <span class="tag">3 actes · 4 points de croisement</span>
+    </div>
+  </div>
+</header>
+
+<!-- MYTHOLOGIE -->
+<div class="section" id="mythologie">
+  <p class="sec-label">Mythologie & monde</p>
+  <div class="myth-grid">
+
+    <div class="myth-card">
+      <p class="myth-label">Les Soth</p>
+      <h3>La civilisation ancienne</h3>
+      <p>Il y a 1 200 ans, une civilisation appelée les Soth découvrit et raffina l'Échorite. Sur plusieurs générations, ils s'amplifièrent eux-mêmes — leurs capacités, leurs intuitions, leurs convictions. La technique fonctionnait. Trop bien. L'amplification collective atteignit un point de non-retour : leurs pulsions les plus profondes prirent le contrôle. En quelques décennies, les Soth s'effacèrent d'eux-mêmes. Leur moment final — une vague d'amplification totale — cristallisa dans le sol.</p>
+      <p>Ce que nous appelons l'Échorite, c'est leurs dernières émotions pétrifiées. Ce que nous appelons la mine, c'est leur tombeau.</p>
+    </div>
+
+    <div class="myth-card">
+      <p class="myth-label">L'Échorite</p>
+      <h3>Ce qu'il fait vraiment</h3>
+      <p>L'Échorite n'est pas un stimulant. C'est un amplificateur. En petites doses : clarté mentale, force accrue, soins accélérés. En doses prolongées : les inhibitions disparaissent, les instincts prennent le dessus, le corps commence à changer pour correspondre à ce que la personne est <em>vraiment</em>.</p>
+      <p>Varek l'utilise depuis huit ans. Il n'a pas été détruit — parce que sa nature profonde est le contrôle, pas la destruction. L'Échorite l'a rendu plus lui-même : plus froid, plus précis, plus certain. Les soldats du 7ème régiment, amplifiés massivement et rapidement, ont été transformés en autre chose. La différence n'est pas de dose — c'est de ce qu'il y avait à amplifier.</p>
+    </div>
+
+    <div class="myth-card">
+      <p class="myth-label">La Mine</p>
+      <h3>Un coffre-fort, pas un gisement</h3>
+      <p>Les Soth savaient ce qui allait leur arriver. Dans leurs dernières années cohérentes, ils creusèrent des salles profondes et y confinèrent les cristallisations les plus puissantes — les résidus de leurs moments d'amplification collective les plus intenses. Ce que Vareth extrait depuis trois ans, c'est la couche superficielle. Ce qui se trouve au fond — dans les salles intactes marquées d'inscriptions Soth — est d'un autre ordre.</p>
+      <p>Daven le sait. Sa famille vivait dans la région avant que les deux royaumes existent. Cette connaissance est la raison pour laquelle Varek l'a recruté il y a six ans plutôt que de l'éliminer.</p>
+    </div>
+
+    <div class="myth-card">
+      <p class="myth-label">Géographie</p>
+      <h3>Le monde du jeu</h3>
+      <div class="geo-grid">
+        <div class="geo-item"><div class="gn">La Chaîne des Ossen</div><div class="gd">Frontière naturelle entre les deux royaumes. La mine se trouve dans son flanc oriental — territoire d'Élindre.</div></div>
+        <div class="geo-item"><div class="gn">Vel'Ardane</div><div class="gd">Ville frontalière stratégique. Premier objectif militaire de Vareth. Tombe en 48h.</div></div>
+        <div class="geo-item"><div class="gn">Vel'Shan</div><div class="gd">Village à deux jours de la mine. CP2. 200 civils. Signé en 30 secondes.</div></div>
+        <div class="geo-item"><div class="gn">Forêt de Gael</div><div class="gd">Zone tampon nord. Là où Aldric traverse les lignes. CP3.</div></div>
+        <div class="geo-item"><div class="gn">Bastion de l'Est</div><div class="gd">Forteresse rebelle dans les montagnes. QG de Seïra. Construite sur des routes commerciales abandonnées.</div></div>
+        <div class="geo-item"><div class="gn">La Mine</div><div class="gd">CP4. Salles taillées par les Soth. Intactes. Ce que tout le monde vient chercher pour des raisons différentes.</div></div>
+      </div>
+    </div>
+
+    <div class="myth-card full">
+      <p class="myth-label">Chronologie</p>
+      <h3>Avant le jeu & pendant la guerre</h3>
+      <ul class="timeline-list">
+        <li><span class="yr">AN -12</span><span>Varek prend le pouvoir à Vareth par un coup d'État administratif. Pas de sang — de la paperasse et des alliances. Les opposants sont repositionnés, pas éliminés.</span></li>
+        <li><span class="yr">AN -8</span><span>Première utilisation documentée d'Échorite par Varek. Usage médical initialement — une blessure de guerre ancienne. Il note l'effet sur sa cognition et continue.</span></li>
+        <li><span class="yr">AN -6</span><span>Recrutement de Daven. Il vient des régions proches de la mine et sait des choses. Varek lui propose un contrat de survie déguisé en recrutement. Daven comprend la distinction et signe quand même.</span></li>
+        <li><span class="yr">AN -4</span><span>Mort du roi Aeren d'Élindre — cause officielle : maladie. Seïra reprend les rênes en pratique. Elle a 23 ans. Elle ne pleure pas devant ses conseillers.</span></li>
+        <li><span class="yr">AN -3</span><span>Varek mobilise ses armées. Seïra commence ses réseaux de résistance secrète. Les deux font semblant de négocier.</span></li>
+        <li><span class="yr">AN 0</span><span>Daven plante les faux documents. La délégation éclate. La guerre est déclarée. <strong>CP1.</strong></span></li>
+        <li><span class="yr">AN 0+4m</span><span>Siège de Vel'Ardane. Varek autorise l'expérimentation Échorite sur le 7ème régiment.</span></li>
+        <li><span class="yr">AN 0+7m</span><span>Massacre de Vel'Shan. <strong>CP2.</strong> Aldric refuse d'exécuter. Son second le fait. Daven était là la veille.</span></li>
+        <li><span class="yr">AN 0+8m</span><span>Désertion d'Aldric. <strong>CP3.</strong> Seïra lui fait confiance après trois preuves convergentes. Daven est l'éclaireur qui l'intercepte.</span></li>
+        <li><span class="yr">AN 0+14m</span><span>Le 7ème régiment devient incontrôlable. Varek signe l'élimination de 800 de ses propres soldats. Lireth refuse. Varek y va lui-même.</span></li>
+        <li><span class="yr">AN 0+16m</span><span>Veyra montre à Varek les dessins des salles Soth. Il part seul vers la mine. <strong>CP4.</strong></span></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- PROTAGONISTES -->
+<div class="section" id="protagonistes">
+  <p class="sec-label">Protagonistes jouables</p>
+  <div class="char-grid">
+    <div class="char-card" style="--c:var(--aldric);--cbg:var(--aldric-b)">
+      <p class="cs">CHV · Vareth</p><p class="cn">Aldric</p>
+      <p class="cr">Chevalier de première classe</p>
+      <p class="cb">Loyal par conviction — pas par peur. Il croit en l'ordre qu'il sert jusqu'au jour où il voit ce que cet ordre produit. Sa force est physique et morale. Sa faiblesse : il met trop longtemps à accepter qu'il a servi une mauvaise cause. Survit à 0 PV si ses compagnons tiennent.</p>
+      <p class="cm"><b>RPG classique ·</b> exploration, combat tactique, décisions morales à conséquences différées</p>
+    </div>
+    <div class="char-card" style="--c:var(--seira);--cbg:var(--seira-b)">
+      <p class="cs">PRI · Élindre</p><p class="cn">Seïra</p>
+      <p class="cr">Princesse — architecte de la rébellion</p>
+      <p class="cb">Elle pense là où Aldric frappe. Ses décisions de recrutement déterminent quels compagnons Aldric peut avoir — et lesquels peuvent mourir. Pragmatique jusqu'à la froideur politique. Capable d'empathie sans se laisser paralyser par elle.</p>
+      <p class="cm"><b>Gestion / recrutement ·</b> réseau d'alliances, ressources, choix politiques ramifiés</p>
+    </div>
+    <div class="char-card" style="--c:var(--varek);--cbg:var(--varek-b)">
+      <p class="cs">EMP · Vareth</p><p class="cn">Varek</p>
+      <p class="cr">Empereur — le monde appartient aux forts</p>
+      <p class="cb">Il a raison sur les faits et tort sur les valeurs. Sa brillance est réelle — ses analyses politiques sont souvent justes. L'Échorite l'a amplifié dans sa direction naturelle : un homme de contrôle total. Il ne se perçoit pas comme un méchant. C'est le problème.</p>
+      <p class="cm"><b>4X stratégique ·</b> empire, guerre, ressources, gestion de cour intérieure</p>
+    </div>
+    <div class="char-card" style="--c:var(--daven);--cbg:var(--daven-b)">
+      <p class="cs">ESP · Double agent</p><p class="cn">Daven</p>
+      <p class="cr">Opérateur — il était là avant tout le monde</p>
+      <p class="cb">Six ans au service de Varek par contrat de survie. Il connaît le secret de la mine depuis le début. Présent comme personnage secondaire dans les trois autres histoires. Son propre arc devient jouable quand son double jeu implose. Il choisit quand et à qui révéler ce qu'il sait.</p>
+      <p class="cm"><b>Infiltration ·</b> couvertures, sabotage, navigation sociale, compte à rebours final</p>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="section">
+  <p class="sec-label">Chronologie parallèle</p>
+  <div class="tl-wrap"><canvas id="tc"></canvas></div>
+</div>
+
+<!-- ═══ ACTE I ═══ -->
+<div class="act-section" id="acte1">
+  <div class="act-head">
+    <span class="act-tag">Acte I</span>
+    <span class="act-title">Le Seuil de la Guerre</span>
+    <span class="act-hours">Heures 1 – 5</span>
+  </div>
+  <div class="act-cols">
+
+    <!-- ALDRIC A1 -->
+    <div class="act-col" style="--c:var(--aldric);--cbg:var(--aldric-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Aldric</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">La Frontière</span><span class="sarr">+</span></button><div class="scene-body"><p>La délégation entre dans Élindre à l'aube. Aldric observe la garde frontalière avec l'œil d'un professionnel et note que leur discipline est meilleure qu'attendu. Sur la route vers la capitale, il croise trois soldats de Vareth affectés à une garnison frontalière — des hommes qui ont utilisé l'Échorite trop longtemps. Une tension dans les yeux, une violence qui cherche un prétexte. Il note. Il n'agit pas encore.</p><p class="scene-stakes"><b>Enjeu ·</b> première exposition aux effets de l'Échorite. Établit ce qu'Aldric voit sans encore comprendre.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">Nira, ville pacifiée</span><span class="sarr">+</span></button><div class="scene-body"><p>Une ville frontalière "pacifiée" par Vareth l'année précédente. Les habitants répondent aux questions avec des silences mesurés. Un vieillard au poste frontière lui demande si son fils a été "intégré" aux forces de Vareth ou "relocalisé". Aldric ne comprend pas la distinction. Ce soir-là dans le rapport de terrain, il cherche la case qui correspondrait à ce qu'il a vu. Il ne la trouve pas.</p><p class="scene-stakes"><b>Enjeu ·</b> la langue militaire cache des réalités que les mots officiels ne peuvent pas nommer.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">La Réception au Palais</span><span class="sarr">+</span></button><div class="scene-body"><p>Il escorte la délégation dans la salle où Seïra les reçoit. Il la juge intelligente en trente secondes — elle le juge loyal en autant, ce qui ne lui inspire pas confiance. Pendant deux heures, il regarde des adultes politiques jouer une pièce dont tout le monde connaît la fin. Sur le chemin du retour, il réalise que la délégation de Vareth n'apportait pas des propositions — elle prenait des mesures.</p><p class="scene-stakes"><b>Enjeu ·</b> première rencontre avec Seïra. Établit leur dynamique future.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Brennan (Nuit de Taverne)</span><span class="sarr">+</span></button><div class="scene-body"><p>Un capitaine mercenaire avec un verre et une question déguisée en métaphore : les lames qui n'ont pas eu de mauvaises nuits ne savent pas ce qu'elles coupent. Aldric répond honnêtement — il a eu des mauvaises nuits, il sait ce que ses lames ont fait. Brennan l'écoute sans commenter. Rien n'est conclu mais quelque chose commence.</p><p class="scene-stakes"><b>Enjeu ·</b> première rencontre avec Brennan. Si Seïra le recrute plus tard, Aldric se souviendra de cette conversation.</p></div></div>
+      </div>
+    </div>
+
+    <!-- SEÏRA A1 -->
+    <div class="act-col" style="--c:var(--seira);--cbg:var(--seira-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Seïra</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">La Nuit de la Chute</span><span class="sarr">+</span></button><div class="scene-body"><p>Elle brûle les cartes du royaume dans la cheminée de son bureau avant de pleurer. Pas parce qu'elle abandonne — parce qu'elle ne peut pas se permettre d'être attachée à ce que le royaume était. Ce qu'elle reconstruira sera différent. Elle pleure une fois, et pas deux fois.</p><p class="scene-stakes"><b>Enjeu ·</b> geste fondateur du personnage. Établit sa méthode : deuil puis action, dans cet ordre, sans retour.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">Le Réseau Réfugiés</span><span class="sarr">+</span></button><div class="scene-body"><p>Les réfugiés qui fuient les zones frontalières sont sa première source de renseignement. Dans leurs récits, elle cherche des patterns — des villages "pacifiés", des soldats qui changent de comportement, une soigneuse qui traitait des brûlures "qui ne ressemblaient pas à des brûlures". Elle trouve Lyria par ce chemin.</p><p class="scene-stakes"><b>Décision ·</b> allouer des ressources au réseau réfugiés (ouvre accès à Lyria et Mira) ou aux fortifications (réduit les pertes militaires en Acte 2). Les deux ont des coûts.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Brennan (Négociation)</span><span class="sarr">+</span></button><div class="scene-body"><p>Rencontre dans un relais routier. Brennan veut de l'argent. Elle lui donne l'argent ET lui pose une question : il a servi les deux camps — lequel était juste ? Il dit que les deux avaient des gens qui le croyaient. Elle dit que c'est précisément pourquoi elle a besoin de quelqu'un qui sait faire la différence entre croire et avoir raison. Il part sans répondre. Il revient deux jours plus tard.</p><p class="scene-stakes"><b>Décision ·</b> payer seulement (recrutement instable, Brennan peut partir en Acte 3) ou payer + convaincre (recrutement stable mais coût de ressources élevé).</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Caïn (Le Déserteur Amer)</span><span class="sarr">+</span></button><div class="scene-body"><p>Un déserteur de Vareth caché dans une ferme abandonnée. Caïn a fui six mois avant Aldric et il est beaucoup plus amer — pas de cause, pas d'idéal, juste de la survie. Elle ne lui demande pas de croire à quelque chose. Elle lui dit qu'elle a besoin de quelqu'un qui sait viser quelqu'un qui mérite d'être visé. Silence. "Je sais déjà qui ça serait." Voilà.</p><p class="scene-stakes"><b>Enjeu ·</b> Caïn sera un miroir moins flatteur qu'Aldric — son cynisme est une contre-voix utile dans l'équipe.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">05</span><span class="stitle">Rael (Aucun Bon Choix)</span><span class="sarr">+</span></button><div class="scene-body"><p>Le jeune noble se présente avec 200 hommes de sa garde personnelle. Il veut défendre l'honneur d'Élindre. Elle sait que son idéalisme le rendra dangereux sous le feu — il cherchera la mort glorieuse plutôt que la victoire utile. Elle prend les 200 hommes et lui dit qu'il commandera quand il aura survécu à sa première défaite. Il prend ça comme un défi. C'est le problème.</p><p class="scene-stakes"><b>Décision ·</b> l'intégrer (200 hommes précieux, mais Rael devient incontrôlable en Acte 3) ou le renvoyer (perte de ressources militaires, Rael rejoint une faction neutre).</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">06</span><span class="stitle">Orwen (Trois Semaines)</span><span class="sarr">+</span></button><div class="scene-body"><p>Trois semaines pour convaincre un vieux général à la retraite de repartir à la guerre. Elle va le voir chaque semaine. Elle ne plaide pas pour la cause. Elle parle de ses hommes — les vivants, les morts, ceux qui ne savent pas encore qu'ils le seront. La troisième semaine, il est en train de faire ses bagages quand elle arrive. Il ne dit pas pourquoi il a changé d'avis. Elle ne demande pas.</p><p class="scene-stakes"><b>Enjeu ·</b> Orwen est le compagnon le plus protecteur d'Aldric. Il mourra probablement pour lui. Il le sait.</p></div></div>
+      </div>
+    </div>
+
+    <!-- VAREK A1 -->
+    <div class="act-col" style="--c:var(--varek);--cbg:var(--varek-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Varek</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">Le Rapport du Matin</span><span class="sarr">+</span></button><div class="scene-body"><p>Chaque matin à 7h : cinq généraux, un conseiller, des cartes. Varek écoute, pose deux questions, donne trois ordres. Orveth, son général le plus enthousiaste, prend des notes que personne d'autre ne lit. Varek le remarque et ne dit rien. Les chiens de chasse mordent. C'est leur nature — et c'est à ça qu'ils servent.</p><p class="scene-stakes"><b>Enjeu 4X ·</b> premiers choix de mobilisation. Orveth est introduit comme outil efficace et problème latent.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">La Délégation (7 Minutes)</span><span class="sarr">+</span></button><div class="scene-body"><p>Il reçoit la délégation d'Élindre dans la salle du conseil. Écoute la proposition de Seïra — accès partagé, revenus communs, neutralité garantie — pendant sept minutes. Répond que Vareth prendra l'intégralité en considération. Raccompagne la délégation. Ses armées étaient en position depuis trois semaines. La proposition était bonne. C'est sans rapport.</p><p class="scene-stakes"><b>Enjeu ·</b> le joueur fait semblant de négocier. C'est inconfortable. C'est prévu.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Le 7ème Régiment</span><span class="sarr">+</span></button><div class="scene-body"><p>Veyra, la scientifique affectée à l'Échorite, présente sa proposition pour un essai à grande échelle. Varek signe. Veyra mentionne des "effets secondaires à surveiller". Il classe le rapport confidentiel et le remet à Sehn pour archivage. Sehn hoche la tête. Sehn classe tout ce qui pourrait inquiéter l'Empereur "en attente de validation".</p><p class="scene-stakes"><b>Décision 4X ·</b> amplification Échorite du 7ème (gains militaires en Acte 2, problème grave en Acte 3) ou protocole standard (progression plus lente mais sans dette).</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">L'Usage Privé</span><span class="sarr">+</span></button><div class="scene-body"><p>Seul dans ses appartements. Une fiole de teinture d'Échorite, précisément dosée depuis huit ans. Pas de fébrilité — la routine d'un homme qui a rationalisé depuis longtemps. Ce qu'il ressent après n'est pas de l'euphorie. C'est de la clarté : le monde tel qu'il est, sans le bruit de ce qu'il devrait être. Il travaille encore trois heures avant de dormir.</p><p class="scene-stakes"><b>Enjeu ·</b> le joueur voit l'Échorite fonctionner exactement comme décrit — et comprend pourquoi Varek ne s'arrêtera pas.</p></div></div>
+      </div>
+    </div>
+
+    <!-- DAVEN A1 -->
+    <div class="act-col" style="--c:var(--daven);--cbg:var(--daven-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Daven</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">Six Mois de Couverture</span><span class="sarr">+</span></button><div class="scene-body"><p>Il vend du tissu importé sur le marché de la capitale d'Élindre depuis six mois. Il connaît tous ses voisins par leurs habitudes et deux de leurs secrets. Son rapport hebdomadaire à Vareth est d'une précision chirurgicale. Il commence à détester à quel point c'est facile — pas la mission, mais la facilité avec laquelle les gens lui font confiance.</p><p class="scene-stakes"><b>Enjeu ·</b> établit sa compétence et sa position morale de départ : professionnel efficace qui commence à se regarder en face.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">Mira (Protection)</span><span class="sarr">+</span></button><div class="scene-body"><p>Une opératrice de l'ancien réseau du feu roi dont Vareth veut l'identité. Daven la trouve avant les agents de Vareth et lui dit de changer de logement — sans expliquer pourquoi. Elle est assez expérimentée pour ne pas demander et assez intelligente pour comprendre qu'elle a une dette. Il repart sans avoir rien gagné opérationnellement. Il note ça.</p><p class="scene-stakes"><b>Décision ·</b> protéger Mira (rend Kira disponible plus tard via la chaîne de confiance) ou laisser Vareth agir (Mira disparaît, mais Daven reste non-suspect).</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Les Faux Documents</span><span class="sarr">+</span></button><div class="scene-body"><p>Il plante les documents dans les quartiers de la délégation à 3h du matin. Mission propre, exécution parfaite. Sur le chemin du retour, il pense à la femme de chambre qui les trouvera au matin — la tête qu'elle fera, la peur dans ses mains en tenant quelque chose d'aussi chargé sans savoir ce que c'est. Il décide de ne plus penser à la femme de chambre. Cette décision lui prend plusieurs heures.</p><p class="scene-stakes"><b>Enjeu ·</b> le premier crack visible. Il fait son travail parfaitement et ça lui coûte quelque chose.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Observation d'Aldric</span><span class="sarr">+</span></button><div class="scene-body"><p>Pendant une réception diplomatique, il observe le chevalier d'escorte de la délégation. Aldric regarde les serviteurs dans les yeux quand il leur parle. Daven note ça sans savoir encore pourquoi ça lui semble remarquable — et pourquoi le fait que ça lui semble remarquable lui dit quelque chose sur lui-même.</p><p class="scene-stakes"><b>Enjeu ·</b> seed de la relation Daven-Aldric. La reconnaissance de quelque chose qu'il avait peut-être été.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CP 1 -->
+<div class="cp">
+  <div class="cp-inner">
+    <div>
+      <p class="cp-badge">Point de Croisement 01</p>
+      <p class="cp-title">La Délégation Brisée</p>
+      <p class="cp-loc">Salle du Conseil — Palais Royal d'Élindre</p>
+      <p class="cp-desc">Les faux documents plantés par Daven sont découverts dans les quartiers de la délégation lors de la session finale. Accusation d'espionnage, sortie sous escorte, guerre déclarée dans la semaine. Les quatre protagonistes sont dans ce bâtiment au même moment, pour des raisons différentes, avec des niveaux de compréhension radicalement différents de ce qui se passe.</p>
+    </div>
+    <div class="cp-povs">
+      <div class="cp-pov" style="--c:var(--aldric)"><p class="cp-who">Aldric</p><p class="cp-txt">Il escorte la délégation hors du palais. En croisant le regard de Seïra, il ne voit pas de la colère — de la certitude. Il rentre avec une honte qu'il ne comprend pas encore, pour quelque chose qu'il n'a pas fait mais qu'il a accompagné.</p></div>
+      <div class="cp-pov" style="--c:var(--seira)"><p class="cp-who">Seïra</p><p class="cp-txt">Ces documents sont faux — elle le sait dans ses os mais ne peut pas le prouver. Elle regarde Varek gagner la première manche par un mensonge qu'elle ne peut pas nommer. Elle décide, à cet instant, de ne plus jamais être dans une position où elle réagit.</p></div>
+      <div class="cp-pov" style="--c:var(--varek)"><p class="cp-who">Varek</p><p class="cp-txt">Dans ses journaux, ce soir-là, une ligne : <em>"La comédie est terminée. Que commence le travail sérieux."</em> Il dort bien. Il dort toujours bien.</p></div>
+      <div class="cp-pov" style="--c:var(--daven)"><p class="cp-who">Daven</p><p class="cp-txt">Il regarde depuis une fenêtre de service. Mission accomplie. Il s'attendait à être soulagé. Il pense à l'officier aux yeux honteux dans la cour en dessous. Il ne l'est pas.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACTE II ═══ -->
+<div class="act-section" id="acte2">
+  <div class="act-head">
+    <span class="act-tag">Acte II</span>
+    <span class="act-title">Le Feu</span>
+    <span class="act-hours">Heures 5 – 15</span>
+  </div>
+  <div class="act-cols">
+
+    <!-- ALDRIC A2 -->
+    <div class="act-col" style="--c:var(--aldric);--cbg:var(--aldric-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Aldric</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">Le Siège de Vel'Ardane</span><span class="sarr">+</span></button><div class="scene-body"><p>La ville tombe en 48 heures. Victoire totale, pertes minimales. Dans les rues dégagées, Aldric voit ce que "dégager les rues" signifie concrètement. Les rapports militaires ont un vocabulaire très précis pour des raisons très précises — il commence à comprendre lesquelles. Il rédige son propre rapport en choisissant les mêmes mots.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">La Mine (Première Visite)</span><span class="sarr">+</span></button><div class="scene-body"><p>Varek l'envoie inspecter le premier secteur sécurisé. Les cristaux d'Échorite ne sont pas froids comme de la pierre — ils sont presque tièdes au toucher. Dans le tunnel principal, il croise deux soldats affectés à la garde permanente. Leurs yeux le suivent sans que leurs têtes bougent. Il file son rapport et ne retourne pas. Il ne mentionné pas les yeux dans le rapport.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Caïn (Rencontre)</span><span class="sarr">+</span></button><div class="scene-body"><p>Il croise l'autre déserteur dans un camp de réfugiés en transit. Caïn est plus amer, plus cassé — il a fui six mois plus tôt et ça ne l'a pas rendu plus libre. Il dit à Aldric que la différence entre un héros et un traître c'est de quel côté tu te retrouves quand tu changes d'avis. Aldric n'a pas de réponse. Caïn regarde son silence et dit : "C'est bien. Les réponses trop rapides mentent."</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">L'Ordre de Vel'Shan</span><span class="sarr">+</span></button><div class="scene-body"><p>Le colonel lui transmet l'ordre par écrit : "Pacification du secteur Vel'Shan — neutralisation des filières rebelles locales." Son second comprend ce que ça veut dire avant lui. Aldric demande confirmation des règles d'engagement. La réponse : "Votre jugement est suffisant." C'est la pire réponse qu'il ait jamais reçue.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">05</span><span class="stitle">Après la Colline</span><span class="sarr">+</span></button><div class="scene-body"><p>Il refuse d'exécuter. Son second comprend l'ordre sans qu'on le répète. Aldric regarde depuis la colline. Il ne fait rien. Il ne peut pas prétendre après ça que son inaction était une forme de résistance — il le sait, et savoir ça est la chose qui finalement le fait bouger vers les lignes ennemies.</p><p class="scene-stakes"><b>Enjeu ·</b> la désertionest une conséquence directe du CP2 — elle se joue immédiatement après dans son arc.</p></div></div>
+      </div>
+    </div>
+
+    <!-- SEÏRA A2 -->
+    <div class="act-col" style="--c:var(--seira);--cbg:var(--seira-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Seïra</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">Le Bastion de l'Est</span><span class="sarr">+</span></button><div class="scene-body"><p>Le royaume recule. Dans les montagnes de l'Est, elle construit une forteresse à partir de routes commerciales abandonnées et de la mémoire collective des habitants. Elle n'a pas demandé la permission — elle a demandé aux gens si leur terrain avait une valeur et ce qu'ils en feraient si quelqu'un d'autre voulait le leur prendre.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">Lyria et les Carnets</span><span class="sarr">+</span></button><div class="scene-body"><p>La soigneuse arrive avec une malle de carnets médicaux sur des patients exposés à l'Échorite. Pas des rapports militaires — des observations cliniques sur des années. L'Échorite n'est pas un stimulant. C'est un amplificateur. Ce que tu es, en plus. Pour certains, "en plus" signifie dévaster.</p><p class="scene-stakes"><b>Révélation ·</b> première compréhension médicale de l'Échorite dans la rébellion. Seïra commence à se demander si elle peut l'utiliser — et à quel coût.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Mira et l'Histoire de la Mine</span><span class="sarr">+</span></button><div class="scene-body"><p>L'opératrice de renseignement apporte quelque chose que personne d'autre ne sait : la mine a été connue 300 ans avant la fondation des deux royaumes. Des archives déclassifiées montrent qu'un précédent roi d'Élindre avait interdit son exploitation après avoir vu ce qu'elle faisait à ses ouvriers. Tout le monde a oublié pourquoi.</p><p class="scene-stakes"><b>Révélation ·</b> la prohibition ancienne donne à Seïra un précédent — et une angoisse sur ce que Vareth extrait vraiment.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Kira (Le Dossier Fantôme)</span><span class="sarr">+</span></button><div class="scene-body"><p>Un dossier anonyme arrive via un canal qu'elle n'a pas établi elle-même — nom, localisation, capacités, et une note : "Cette personne a besoin d'être extraite avant que Vareth ne la trouve." Elle n'a aucun moyen de vérifier la source. Elle peut agir sur l'information ou l'ignorer. Si elle agit, Kira peut rejoindre la rébellion. Si elle n'agit pas, Kira disparaît.</p><p class="scene-stakes"><b>Décision ·</b> faire confiance à une information anonyme (coût de ressources et d'exposition) ou ignorer (Kira devient inaccessible).</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">05</span><span class="stitle">Brand et les Prisonniers</span><span class="sarr">+</span></button><div class="scene-body"><p>Après une bataille, 23 soldats de Vareth capturés. La question se pose sans être posée : qu'est-ce qu'on fait des prisonniers dans une rébellion qui n'a pas encore de pays ? Sa décision définit ce que la rébellion sera — ou commencera à ne pas être. Si elle choisit l'intégration humaine, Brand peut éventuellement rejoindre si Aldric l'épargne en combat.</p><p class="scene-stakes"><b>Décision ·</b> politique des prisonniers — impact sur l'accès à Brand et sur la réputation de la rébellion auprès des déserteurs potentiels de Vareth.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">06</span><span class="stitle">La Décision de Confiance</span><span class="sarr">+</span></button><div class="scene-body"><p>Trois preuves arrivent par des canaux distincts en 48 heures : un rapport de terrain qui ne peut venir que de quelqu'un avec un accès intérieur, un itinéraire de patrouille modifié qui a sauvé vingt de ses soldats, et la liste des défenses de Vel'Ardane — transmise avant le siège. La confiance n'est pas un sentiment. C'est une convergence. Elle va accueillir le déserteur elle-même.</p><p class="scene-stakes"><b>Enjeu ·</b> le moment clé du CP3 du point de vue de Seïra — préparé par cette scène.</p></div></div>
+      </div>
+    </div>
+
+    <!-- VAREK A2 -->
+    <div class="act-col" style="--c:var(--varek);--cbg:var(--varek-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Varek</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">La Résistance Organisée</span><span class="sarr">+</span></button><div class="scene-body"><p>Le front avance mais plus lentement que calculé. La rébellion est mieux organisée qu'attendu. Il convoque ses analystes et leur demande combien d'entre eux ont sous-estimé Seïra d'Élindre. Silence. "Voilà le problème." Ce n'est pas une critique — c'est une note de dossier. Il réajuste ses projections.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">Orveth et les Excès</span><span class="sarr">+</span></button><div class="scene-body"><p>Son général de choc agit au-delà de ses ordres — pas par sadisme, par enthousiasme. Les résultats tactiques sont bons. Les conséquences civiles, moins. Varek calcule : les excès d'Orveth coûtent-ils plus qu'ils ne rapportent en moral de troupes ? Pour l'instant : non. Il ne dit rien. Plus tard, il regrettera d'avoir optimisé à court terme.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Sehn Filtre les Rapports</span><span class="sarr">+</span></button><div class="scene-body"><p>Veyra envoie des observations inquiétantes sur les soldats du 7ème. Sehn, son conseiller, classe ces rapports "en attente de validation" plutôt que de les transmettre directement — il juge que Varek a assez de variables à gérer. Varek reçoit le résumé sanitaire : "performances améliorées, ajustements comportementaux mineurs." Il signe la poursuite du programme.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Vel'Shan — 30 Secondes</span><span class="sarr">+</span></button><div class="scene-body"><p>Rapport 7-43-B, secteur Vel'Shan : objectif — neutralisation des filières rebelles locales. Il le lit. Il pose deux questions sur le timing. Il signe. Rapport suivant. Les 30 secondes que ça lui a pris sont exactement les 30 secondes que ça méritait dans sa logique opérationnelle. C'est ça qui est difficile à regarder.</p></div></div>
+      </div>
+    </div>
+
+    <!-- DAVEN A2 -->
+    <div class="act-col" style="--c:var(--daven);--cbg:var(--daven-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Daven</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">Le Canal Anonyme</span><span class="sarr">+</span></button><div class="scene-body"><p>Il établit un canal de transmission unidirectionnel vers Seïra via trois intermédiaires qui ne se connaissent pas. Le premier message contient les coordonnées de Kira. Il ne sait pas encore si Seïra va agir dessus. C'est la première chose qu'il fait en sachant qu'il trahit Varek — pas en croyant qu'il sert quelque chose, juste en sachant ce qu'il fait.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">La Nuit Avant Vel'Shan</span><span class="sarr">+</span></button><div class="scene-body"><p>Son réseau l'a averti de "l'opération de pacification sectorielle" 36 heures à l'avance. Il a transmis l'information à Vareth pour confirmer sa crédibilité opérationnelle. Il aurait pu trouver un autre chemin. Il a calculé que le risque à sa couverture était trop élevé. Dans son journal cette nuit-là : "J'ai calculé."</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Lyria (Avertissement)</span><span class="sarr">+</span></button><div class="scene-body"><p>Il laisse un message anonyme chez la soigneuse : "Le prochain village sur la liste est à trois jours de marche au nord. Partez dans deux jours." Il ne signe pas. Elle ne demandera pas. Il recommence à calculer mais les calculs ne sont plus les mêmes — ils incluent désormais une variable qu'il avait retirée de ses équations depuis six ans.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Kira (Extraction)</span><span class="sarr">+</span></button><div class="scene-body"><p>Son ancien contact a découvert ce que Varek fait à la mine et a tenté de vendre l'information. Vareth l'a marquée pour élimination. Daven a deux jours pour l'extraire ou laisser faire. Il a passé quatre ans à ne pas avoir de dettes émotionnelles actives. Ce n'est plus un calcul — c'est une décision qui lui ressemble enfin.</p><p class="scene-stakes"><b>Conséquence ·</b> si Daven rate cette mission, Kira meurt et ne peut plus être recrutée par Seïra.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CP 2 -->
+<div class="cp">
+  <div class="cp-inner">
+    <div>
+      <p class="cp-badge">Point de Croisement 02</p>
+      <p class="cp-title">Le Massacre de Vel'Shan</p>
+      <p class="cp-loc">Village de Vel'Shan — Flanc ouest de la mine</p>
+      <p class="cp-desc">Le 3ème régiment de Vareth efface le village. 200 civils. La justification opérationnelle tient dans un rapport d'une page. C'est l'événement central de la guerre — pas militairement, mais moralement. Il fracture chaque personnage d'une façon différente, et chacun devra vivre avec sa propre part de responsabilité.</p>
+    </div>
+    <div class="cp-povs">
+      <div class="cp-pov" style="--c:var(--aldric)"><p class="cp-who">Aldric</p><p class="cp-txt">Il refuse d'exécuter l'ordre. Son second le fait à sa place. Il regarde depuis la colline et ne fait rien. Sa passivité a un nom qu'il ne se donnera pas avant d'être dans la forêt de Gael, les mains levées.</p></div>
+      <div class="cp-pov" style="--c:var(--seira)"><p class="cp-who">Seïra</p><p class="cp-txt">Le rapport arrive trois jours après. Elle pleure seule pendant vingt minutes, puis convoque ses conseillers. La question n'est pas si elle utilise ça — la question est comment, sans que ça devienne quelque chose qu'elle regrettera.</p></div>
+      <div class="cp-pov" style="--c:var(--varek)"><p class="cp-who">Varek</p><p class="cp-txt">Rapport 7-43-B. Objectif atteint. 200 civils. Rapport suivant. Les trente secondes que ça lui a pris sont exactement les trente secondes que ça méritait dans sa logique. C'est ça qui est difficile à regarder.</p></div>
+      <div class="cp-pov" style="--c:var(--daven)"><p class="cp-who">Daven</p><p class="cp-txt">Il est dans la rue principale quand les soldats passent. Il avait l'information la veille. Il reste immobile. Ce soir, dans le journal : <em>"C'est moi."</em> Deux mots. Pas d'autre phrase.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CP 3 -->
+<div class="cp">
+  <div class="cp-inner">
+    <div>
+      <p class="cp-badge">Point de Croisement 03</p>
+      <p class="cp-title">La Désertion d'Aldric</p>
+      <p class="cp-loc">Forêt de Gael — Ligne de front nord</p>
+      <p class="cp-desc">Aldric traverse les lignes seul, mains levées, sans armes. Des éclaireurs rebelles l'interceptent. Il demande à parler à la Princesse. La scène est jouée deux fois dans le jeu : dans l'histoire d'Aldric, puis dans celle de Seïra — les mêmes faits, des significations radicalement différentes.</p>
+    </div>
+    <div class="cp-povs">
+      <div class="cp-pov" style="--c:var(--aldric)"><p class="cp-who">Aldric</p><p class="cp-txt">Il marche vers l'inconnu. Il n'a pas de plan. La certitude qu'il ne peut plus être ce qu'il était valait bien le risque d'être abattu à vue par ceux qu'il a combattus.</p></div>
+      <div class="cp-pov" style="--c:var(--seira)"><p class="cp-who">Seïra</p><p class="cp-txt">Un Chevalier de première classe se rend. Piège évident. Elle y va elle-même — parce que si c'est un piège, elle veut voir comment Varek a choisi de la tuer. La confiance vient après, pas avant.</p></div>
+      <div class="cp-pov" style="--c:var(--varek)"><p class="cp-who">Varek</p><p class="cp-txt">Il apprend la désertion six heures après. À son conseiller : <em>"Il avait trop de conscience pour être utile à cette échelle. C'est dommage, il était efficace."</em> Pause. <em>"Doublez la surveillance des autres officiers de première classe."</em></p></div>
+      <div class="cp-pov" style="--c:var(--daven)"><p class="cp-who">Daven</p><p class="cp-txt">Il est l'éclaireur qui intercepte Aldric en premier. Il le reconnaît. Avant que les autres arrivent, il lui murmure : <em>"Bien. Maintenant parle-lui vrai."</em> Il s'écarte. Il ne se présentera pas.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACTE III ═══ -->
+<div class="act-section" id="acte3">
+  <div class="act-head">
+    <span class="act-tag">Acte III</span>
+    <span class="act-title">Le Dénouement</span>
+    <span class="act-hours">Heures 15 – 22</span>
+  </div>
+  <div class="act-cols">
+
+    <!-- ALDRIC A3 -->
+    <div class="act-col" style="--c:var(--aldric);--cbg:var(--aldric-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Aldric</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">Apprendre à Commander</span><span class="sarr">+</span></button><div class="scene-body"><p>La différence entre exécuter des ordres et en donner est plus grande qu'il ne le pensait. Seïra prend des décisions avec lesquelles il est tactiquement en désaccord. Pour la première fois de sa vie, il doit trouver comment dire "j'aurais fait autrement" à quelqu'un qui a autorité sur lui et qu'il respecte. Ce n'est pas confortable. C'est juste.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">Rael (Le Miroir)</span><span class="sarr">+</span></button><div class="scene-body"><p>Rael est devenu bon — trop bon. Son efficacité en combat est réelle mais il a arrêté de demander combien de prisonniers on fait. Il a commencé à demander si ça sert à quelque chose d'en faire. Aldric se reconnaît dans les questions que Rael ne pose plus — c'est lui, six mois en arrière, avant Vel'Shan. La différence, c'est qu'Aldric a vu Vel'Shan.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Les Hommes du 7ème</span><span class="sarr">+</span></button><div class="scene-body"><p>En capturant un avant-poste de Vareth, ils tombent sur des soldats du 7ème régiment. Ce ne sont plus tout à fait des gens — leurs mouvements sont efficaces mais leurs yeux ne cherchent pas à comprendre, ils cherchent à frapper. L'Échorite a amplifié quelque chose en eux jusqu'à effacer le reste. Aldric comprend ce que la mine produit vraiment — et pourquoi Varek continue.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Son Ancien Second</span><span class="sarr">+</span></button><div class="scene-body"><p>La confrontation avec l'officier qui a exécuté l'ordre à Vel'Shan. Il attendait de la honte. Ce qu'il trouve est pire : l'homme est convaincu d'avoir bien fait. "Tu m'aurais laissé seul avec cet ordre", dit-il. Ce n'est pas faux. Aldric n'a pas de réponse propre à ça — et l'absence de réponse propre est peut-être la seule honnête.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">05</span><span class="stitle">La Veille (si Brennan est vivant)</span><span class="sarr">+</span></button><div class="scene-body"><p>La nuit avant la mine. Brennan reste debout avec lui. Il dit qu'il a servi vingt ans pour de l'argent et que c'est la première fois qu'il se bat pour quelque chose sans savoir si ça vaut la peine. "Ça veut dire que ça vaut la peine", dit Aldric. Brennan regarde son verre. "Je sais pas. Mais c'est mieux que l'alternative." Si Brennan est mort avant, cette scène n'existe pas.</p></div></div>
+      </div>
+    </div>
+
+    <!-- SEÏRA A3 -->
+    <div class="act-col" style="--c:var(--seira);--cbg:var(--seira-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Seïra</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">La Coalition qui Vacille</span><span class="sarr">+</span></button><div class="scene-body"><p>Certains alliés recrutés en Acte 1 commencent à poser des conditions sur ce que "victoire" signifie pour leur territoire. Elle réalise qu'elle a construit une armée mais pas encore un projet politique — et que les deux ne sont pas la même chose. Chaque décision de l'Acte 2 a une facture en Acte 3.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">Les Alliés qui Partent (Variable)</span><span class="sarr">+</span></button><div class="scene-body"><p>Selon les décisions passées : Brennan peut partir si ses conditions financières ne sont plus remplies, Rael peut devenir incontrôlable si on ne le cadre pas, Thessa peut se retirer si une de ses inventions est utilisée d'une façon qu'elle n'avait pas autorisée. Chaque départ est une décision passée qui revient avec les intérêts.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">La Confrontation avec Daven</span><span class="sarr">+</span></button><div class="scene-body"><p>Elle le convoque quand elle comprend que son réseau d'information avait un point d'entrée qu'elle n'avait pas créé. Elle lui dit : "Vous m'avez manipulée." Il dit : "Oui." Elle dit : "À votre profit." Il dit : "Pas que." Elle dit : "Ça ne change pas ce que vous avez fait." Il ne répond pas. Elle a raison. Il ne cherche pas l'absolution.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Ce que la Victoire Signifie</span><span class="sarr">+</span></button><div class="scene-body"><p>Elle doit décider avant la mine : si Vareth capitule, qu'est-ce qu'elle construit ? Pas Élindre-comme-avant. Quelque chose de nouveau, avec des gens qui se sont battus pour des raisons très différentes et qui ont maintenant des dettes entre eux. C'est la décision la plus difficile de son arc — et le jeu ne lui donne pas la bonne réponse.</p></div></div>
+      </div>
+    </div>
+
+    <!-- VAREK A3 -->
+    <div class="act-col" style="--c:var(--varek);--cbg:var(--varek-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Varek</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">La Censure Découverte</span><span class="sarr">+</span></button><div class="scene-body"><p>Il découvre que Sehn filtrait les rapports de Veyra. Il lit tous les rapports originaux en une nuit. Ce qu'il y trouve ne le fait pas douter — ça le met en colère, mais contre Sehn, pas contre lui-même. Sehn a fait une erreur professionnelle grave : il a géré les informations de son Empereur à sa place. Varek ne tolère pas ça. Pour rien d'autre.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">Orveth Incontrôlable</span><span class="sarr">+</span></button><div class="scene-body"><p>Le général sur-Échorite prend des décisions de terrain sans consulter. Bonnes tactiquement — mais pas les siennes. Varek réalise qu'Orveth n'est plus dans sa chaîne de commandement : il est dans la sienne propre, amplifiée jusqu'à l'autonomie. La décision que ça crée est froide et sans hésitation. C'est la première fois depuis vingt ans qu'il prend une arme.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Lireth Refuse</span><span class="sarr">+</span></button><div class="scene-body"><p>Son général le plus ancien reçoit l'ordre d'éliminer le 7ème régiment — 800 soldats devenus incontrôlables. Il dit : "Je refuse." Varek répond : "Je sais." Un silence. "Qui le fera ?" "Moi." Lireth part sans un mot. C'est la première fois que quelqu'un lui dit non — et la première fois qu'il n'a pas de contre-argument, seulement une décision.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Veyra et les Salles des Soth</span><span class="sarr">+</span></button><div class="scene-body"><p>La scientifique lui montre ce qu'elle a trouvé dans les profondeurs : des salles taillées, intactes, avec des inscriptions qui ne sont ni en langue d'Élindre ni en vieille langue de Vareth. Des cartographies qui montrent que la mine était connue et exploitée il y a 1 200 ans. Et pourquoi les gens qui l'exploitaient ont arrêté. Il ne dit rien pendant longtemps. Puis : "Combien de temps j'ai ?"</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">05</span><span class="stitle">Le Départ pour la Mine</span><span class="sarr">+</span></button><div class="scene-body"><p>Il ne prend personne avec lui. Pas d'escorte. Une lanterne et ce qu'il a compris des rapports de Veyra. Il sait que les autres viendront — il les a calculés aussi. Ce qu'il fera quand ils arriveront est la dernière variable ouverte dans son modèle. Il n'a pas encore de réponse. C'est nouveau.</p></div></div>
+      </div>
+    </div>
+
+    <!-- DAVEN A3 -->
+    <div class="act-col" style="--c:var(--daven);--cbg:var(--daven-b)">
+      <div class="col-hed"><div class="col-dot"></div><span class="col-lbl">Daven</span></div>
+      <div class="scenes">
+        <div class="scene"><button class="scene-btn"><span class="snum">01</span><span class="stitle">L'Exposition (Variable)</span><span class="sarr">+</span></button><div class="scene-body"><p>Sa couverture est découverte. Par Vareth d'abord si Sehn a croisé ses transmissions, ou par Seïra si Mira a reconnu certaines tournures de phrase, ou les deux simultanément selon les décisions passées. La façon dont il est exposé dépend de comment il a joué — et définit par qui il sera traqué.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">02</span><span class="stitle">La Grange</span><span class="sarr">+</span></button><div class="scene-body"><p>Aldric le trouve seul dans une grange abandonnée à deux jours de la mine. Ils parlent toute la nuit. Aldric lui demande depuis quand il savait pour la mine. "Depuis le début." Aldric demande pourquoi il ne l'a pas dit. "L'information à la mauvaise personne au mauvais moment tue plus que le silence." Aldric demande si c'était lui, la mauvaise personne. Daven ne répond pas. Ce n'est pas un refus — c'est qu'il ne sait pas encore.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">03</span><span class="stitle">Ce que la Mine Contient</span><span class="sarr">+</span></button><div class="scene-body"><p>Il lui montre ce qu'il sait des Soth — la civilisation ancienne, les salles intactes, l'Échorite comme résidu de leur fin collective. La mine n'est pas un gisement. C'est un coffre-fort. Ce qui est au fond est d'un autre ordre que ce que Vareth extrait en surface. Et Varek sait maintenant.</p></div></div>
+        <div class="scene"><button class="scene-btn"><span class="snum">04</span><span class="stitle">Seïra (La Vraie Question)</span><span class="sarr">+</span></button><div class="scene-body"><p>Elle lui pose la question qu'Aldric n'a pas osé : "Si vous aviez dû choisir entre nous et Varek depuis le début — vraiment choisir, pas instrumentaliser — qu'est-ce que vous auriez fait ?" Il n'a pas de réponse propre. Elle ne cherche pas l'absolution non plus. Elle veut juste savoir si ce qu'il a fait comptait pour quelque chose au-delà de la tactique.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CP 4 -->
+<div class="cp">
+  <div class="cp-inner">
+    <div>
+      <p class="cp-badge">Point de Croisement 04</p>
+      <p class="cp-title">La Mine d'Échorite</p>
+      <p class="cp-loc">Complexe minier — Flanc nord-est de la Chaîne des Ossen</p>
+      <p class="cp-desc">Les quatre protagonistes convergent vers la mine pour des raisons différentes, par des routes différentes. Dans les profondeurs : les salles intactes des Soth, les cristallisations de leurs derniers moments. Ce n'est pas un gisement. C'est un tombeau qu'on a pillé pendant trois ans. La scène finale est jouée quatre fois — chaque version révèle quelque chose que les autres ne montrent pas.</p>
+    </div>
+    <div class="cp-povs">
+      <div class="cp-pov" style="--c:var(--aldric)"><p class="cp-who">Aldric</p><p class="cp-txt">Il mène l'assaut. En entrant dans les salles profondes, il comprend enfin pourquoi les soldats de Varek ne sont plus des hommes — et ce que lui-même aurait pu devenir si Vel'Shan avait été différent.</p></div>
+      <div class="cp-pov" style="--c:var(--seira)"><p class="cp-who">Seïra</p><p class="cp-txt">Elle arrive par un passage secret transmis par Daven. Elle voit les inscriptions Soth. Elle comprend ce que le précédent roi d'Élindre avait interdit — et pourquoi tout le monde avait oublié pourquoi. Sa vision de ce qu'elle veut construire change en quelques secondes.</p></div>
+      <div class="cp-pov" style="--c:var(--varek)"><p class="cp-who">Varek</p><p class="cp-txt">Il est déjà là, assis dans une des salles Soth avec sa lanterne. Il attendait. Ce qu'il fera quand les autres arriveront n'est pas encore résolu — détruire pour effacer, ou protéger parce qu'il a compris quelque chose que personne d'autre ne comprendra jamais. Les deux sont cohérents avec qui il est.</p></div>
+      <div class="cp-pov" style="--c:var(--daven)"><p class="cp-who">Daven</p><p class="cp-txt">Il arrive le dernier. Il a les réponses. Il a décidé, quelque part entre la grange et ici, que cette information appartient à tout le monde — sauf à Varek seul. Ce qu'il fait de cette décision dans les prochaines minutes définit qui il est. Il n'y a pas de version propre.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPAGNONS -->
+<div class="section" id="compagnons">
+  <p class="sec-label">Les compagnons d'Aldric — pool de 9, permadeath</p>
+  <div class="comp-grid">
+
+    <div class="comp-card" style="--c:var(--aldric);--cbg:var(--aldric-b)">
+      <div class="comp-head"><div class="comp-dot"></div><span class="comp-name">Brennan</span><span class="comp-arch">Protecteur</span><span class="comp-avail avail-ok">STANDARD</span><span class="comp-arr">+</span></div>
+      <div class="comp-body">
+        <p>Capitaine mercenaire, 40 ans. A servi les deux camps sans jamais choisir l'un ou l'autre — jusqu'à présent. Son cynisme est une armure, pas une conviction. Sous le feu, il protège naturellement ceux qui sont à côté de lui, par réflexe professionnel devenu habitude morale.</p>
+        <p class="comp-section">Disponibilité</p>
+        <ul><li>Seïra doit investir argent ET conviction (scène de recrutement Acte 1)</li><li>Si seulement argent : Brennan disponible mais part en Acte 3 si ressources se réduisent</li><li>Si argent + conviction : stable jusqu'à sa mort éventuelle</li></ul>
+        <p class="comp-section">Moments clés avec Aldric</p>
+        <ul><li>Acte 1 : la rencontre en taverne — "les lames sans mauvaises nuits"</li><li>Acte 2 : il comprend Vel'Shan avant qu'Aldric l'explique. Il ne dit rien.</li><li>Acte 3 : la veille de la mine. La seule conversation vraiment honnête de son arc.</li></ul>
+        <p class="comp-section">Sa mort</p>
+        <p>Meurt le plus souvent en protégeant Aldric à 0 PV. Si ça arrive, Seïra reçoit le rapport une semaine plus tard et se souvient de la négociation — ce qu'il avait finalement choisi. Daven, s'il est encore en contact avec le réseau, note juste : "Brennan, Acte 3."</p>
+      </div>
+    </div>
+
+    <div class="comp-card" style="--c:var(--seira);--cbg:var(--seira-b)">
+      <div class="comp-head"><div class="comp-dot"></div><span class="comp-name">Lyria</span><span class="comp-arch">Soigneuse</span><span class="comp-avail avail-ok">STANDARD</span><span class="comp-arr">+</span></div>
+      <div class="comp-body">
+        <p>Soigneuse, 31 ans, d'un village à deux jours de la mine. Elle a passé trois ans à observer les effets de l'Échorite sur les ouvriers de la mine et les soldats des garnisons proches. Ses carnets sont la première documentation médicale structurée sur l'amplification. Elle n'est pas là par conviction politique — elle est là parce qu'elle sait ce que la mine fait aux gens et que quelqu'un doit l'arrêter.</p>
+        <p class="comp-section">Disponibilité</p>
+        <ul><li>Seïra doit investir dans le réseau réfugiés (Acte 1, décision de ressources)</li><li>Daven doit l'avoir prévenue du village ciblé (Acte 2, sinon elle est dans le village au mauvais moment)</li><li>Double condition : si l'un des deux échoue, Lyria n'arrive jamais à Aldric</li></ul>
+        <p class="comp-section">Moments clés avec Aldric</p>
+        <ul><li>Premier contact : elle examine les soldats capturés du 7ème régiment et lui explique ce qu'elle voit</li><li>Acte 2 : elle soigne ses compagnons après chaque bataille. Ses observations sur les blessures changent selon l'ennemi.</li><li>Acte 3 : dans les salles Soth, elle reconnaît des symptômes décrits dans les inscriptions</li></ul>
+        <p class="comp-section">Sa mort</p>
+        <p>Elle est souvent ciblée spécifiquement parce que Vareth sait qu'elle a les carnets. Sa mort prive Aldric d'informations sur les soldats Échorite — les combats du 7ème régiment deviennent mécaniquement plus difficiles et narrativement plus brutaux.</p>
+      </div>
+    </div>
+
+    <div class="comp-card" style="--c:var(--daven);--cbg:var(--daven-b)">
+      <div class="comp-head"><div class="comp-dot"></div><span class="comp-name">Caïn</span><span class="comp-arch">Attaquant</span><span class="comp-avail avail-ok">STANDARD</span><span class="comp-arr">+</span></div>
+      <div class="comp-body">
+        <p>Déserteur de Vareth, 34 ans, six mois d'avance sur Aldric. Il est plus amer, plus cassé — il a fui sans cause et ça ne l'a pas libéré, juste déplacé. Il se bat bien parce qu'il a appris à ne rien avoir à perdre. Ce cynisme le rend efficace et dangereux : il ne recule pas parce qu'il n'a pas de raison de le faire.</p>
+        <p class="comp-section">Disponibilité</p>
+        <ul><li>Seïra doit le convaincre que la rébellion n'est pas un autre empire en formation</li><li>Si elle échoue : Caïn reste neutre, peut être trouvé par Aldric seul mais sans la confiance nécessaire pour intégrer l'équipe</li></ul>
+        <p class="comp-section">Moments clés avec Aldric</p>
+        <ul><li>Rencontre : il dit à Aldric que la différence entre héros et traître c'est de quel côté tu te retrouves. Pas de réponse attendue.</li><li>Acte 2 : il comprend les soldats du 7ème — il a vu les stades précoces à Vareth.</li><li>Acte 3 : il est le seul à traiter Rael comme un problème avant que ça devienne une crise.</li></ul>
+        <p class="comp-section">Sa mort</p>
+        <p>Il prend des risques que personne d'autre ne prend — pas parce qu'il est courageux, mais parce qu'il a fait la paix avec l'idée. Quand il meurt, Aldric perd le seul miroir honnête de son propre passé. Seïra apprend sa mort et note dans son rapport : "déserteur de Vareth, cause non déclarée, combattu jusqu'au bout."</p>
+      </div>
+    </div>
+
+    <div class="comp-card" style="--c:var(--accent);--cbg:var(--ag)">
+      <div class="comp-head"><div class="comp-dot"></div><span class="comp-name">Mira</span><span class="comp-arch">Utilitaire</span><span class="comp-avail avail-cond">CONDITIONNEL</span><span class="comp-arr">+</span></div>
+      <div class="comp-body">
+        <p>Ancienne opératrice de renseignement du feu roi d'Élindre, 45 ans. Elle a passé dix ans à documenter tout ce qui concernait la mine — pas pour des raisons politiques, mais parce que c'était dans son portefeuille d'analyse. Ce qu'elle sait sur l'histoire de l'Échorite est unique. Elle est précieuse et elle le sait.</p>
+        <p class="comp-section">Disponibilité — double condition</p>
+        <ul><li>Daven doit l'avoir protégée en Acte 1 (mission de protection)</li><li>Seïra doit avoir investi dans le réseau réfugiés pour la trouver</li><li>Si l'une des deux conditions échoue : Mira disparaît ou meurt avant de rejoindre</li></ul>
+        <p class="comp-section">Moments clés avec Aldric</p>
+        <ul><li>Elle lui explique l'histoire ancienne de la mine — le précédent roi, la prohibition oubliée</li><li>Acte 3 : elle reconnaît les inscriptions Soth dans les rapports de terrain</li><li>CP4 : elle peut déchiffrer partiellement les inscriptions dans les salles profondes</li></ul>
+        <p class="comp-section">Sa mort</p>
+        <p>Sa mort prive définitivement le joueur d'une partie de la révélation sur les Soth. Le CP4 est mécaniquement jouable mais narrativement incomplet — certaines inscriptions restent non traduites.</p>
+      </div>
+    </div>
+
+    <div class="comp-card" style="--c:var(--seira);--cbg:var(--seira-b)">
+      <div class="comp-head"><div class="comp-dot"></div><span class="comp-name">Rael</span><span class="comp-arch">Attaquant</span><span class="comp-avail avail-ok">STANDARD</span><span class="comp-arr">+</span></div>
+      <div class="comp-body">
+        <p>Jeune noble d'Élindre, 22 ans. Se présente à Seïra avec 200 hommes et un idéal intact. Son arc est le plus sombre de tous les compagnons : il commence noble et finit froid. Il ne devient pas mauvais — il devient efficace, ce qui dans ce contexte revient au même.</p>
+        <p class="comp-section">Disponibilité</p>
+        <ul><li>Se présente spontanément à Seïra en Acte 1</li><li>Toujours disponible initialement — la décision est de savoir si on le cadre ou pas</li><li>Sans cadrage : dangereux en Acte 3, peut devenir un problème politique</li></ul>
+        <p class="comp-section">Moments clés avec Aldric</p>
+        <ul><li>Acte 1-2 : loyal, efficace, pose encore des questions morales</li><li>Acte 3 : ne pose plus les questions. Aldric le regarde et voit ce qu'il aurait pu être si Vel'Shan n'avait pas existé.</li><li>Selon les décisions : peut refuser certains ordres d'Aldric au profit d'une efficacité qu'il juge supérieure</li></ul>
+        <p class="comp-section">Sa mort</p>
+        <p>Sa mort en Acte 3 est souvent ressentie comme un soulagement et une tristesse simultanés. Seïra reçoit le rapport et réalise que c'est elle qui l'a mis dans cette position en Acte 1 en choisissant ses 200 hommes plutôt que lui.</p>
+      </div>
+    </div>
+
+    <div class="comp-card" style="--c:var(--a2);--cbg:rgba(42,191,160,.06)">
+      <div class="comp-head"><div class="comp-dot"></div><span class="comp-name">Thessa</span><span class="comp-arch">Utilitaire</span><span class="comp-avail avail-ok">STANDARD</span><span class="comp-arr">+</span></div>
+      <div class="comp-body">
+        <p>Ingénieure, 38 ans. Ancienne ingénieure en chef du palais d'Élindre. Elle n'est pas une combattante — elle est sur le terrain parce que ses créations y sont, et qu'elle refuse de les laisser sans supervision. Elle construit les fortifications, les armes et les pièges de la rébellion.</p>
+        <p class="comp-section">Disponibilité</p>
+        <ul><li>Seïra la connaît personnellement — recrutement direct en Acte 1</li><li>Condition : Seïra doit lui montrer comment Vareth a utilisé ses propres créations contre le peuple d'Élindre</li><li>Si Seïra n'a pas accès à cette information : Thessa refuse et reste au palais (puis disparaît)</li></ul>
+        <p class="comp-section">Moments clés avec Aldric</p>
+        <ul><li>Elle améliore l'équipement d'Aldric entre les actes selon les ressources de Seïra</li><li>Acte 3 : si une de ses inventions est utilisée d'une façon qu'elle n'avait pas autorisée, elle confronte Seïra — et Aldric est entre eux</li></ul>
+        <p class="comp-section">Sa mort</p>
+        <p>Sa mort bloque l'accès aux améliorations d'équipement pour le reste du run. Narrativement, Seïra perd la seule personne qui lui posait des questions techniques — et morales — sur comment on utilise ce qu'on construit.</p>
+      </div>
+    </div>
+
+    <div class="comp-card" style="--c:var(--dim);--cbg:rgba(122,104,72,.06)">
+      <div class="comp-head"><div class="comp-dot"></div><span class="comp-name">Orwen</span><span class="comp-arch">Protecteur</span><span class="comp-avail avail-cond">CONDITIONNEL</span><span class="comp-arr">+</span></div>
+      <div class="comp-body">
+        <p>Vieux général à la retraite, 67 ans. A servi le père de Seïra pendant vingt ans. Il sait ce que la guerre coûte — pas dans les chiffres, dans les visages. Il est revenu parce que Seïra lui a parlé de ses morts, pas de sa cause. Il sera probablement le dernier à tomber et le premier à se mettre devant Aldric.</p>
+        <p class="comp-section">Disponibilité</p>
+        <ul><li>Seïra doit mener les trois semaines de persuasion (Acte 1, investissement de temps narratif)</li><li>Si elle abandonne après une ou deux visites : Orwen reste à la retraite</li></ul>
+        <p class="comp-section">Moments clés avec Aldric</p>
+        <ul><li>Acte 2 : il recadre Rael sans éclat — juste une conversation de vieux militaire à jeune idéaliste</li><li>Acte 3 : il dit à Aldric que revenir à la guerre une deuxième fois c'est plus difficile que la première parce qu'on sait ce qu'on perd</li><li>Sa mort en protégeant Aldric est la mort la plus lourde du jeu — parce qu'il savait que ça finirait comme ça</li></ul>
+        <p class="comp-section">Sa mort</p>
+        <p>Seïra, en apprenant sa mort, se souvient de la troisième semaine de persuasion. Daven, s'il a encore un canal actif, envoie juste ses coordonnées pour que le corps puisse être ramené.</p>
+      </div>
+    </div>
+
+    <div class="comp-card" style="--c:var(--daven);--cbg:var(--daven-b)">
+      <div class="comp-head"><div class="comp-dot"></div><span class="comp-name">Kira</span><span class="comp-arch">Utilitaire / Attaquante</span><span class="comp-avail avail-rare">RARE</span><span class="comp-arr">+</span></div>
+      <div class="comp-body">
+        <p>Ancien contact de Daven, 29 ans. Elle a découvert ce que Varek fait à la mine et a tenté de vendre l'information — erreur qui l'a mis dans le viseur de Vareth. Elle est la recrue la plus difficile à obtenir et la mieux informée sur la structure interne de Varek.</p>
+        <p class="comp-section">Disponibilité — triple condition</p>
+        <ul><li>Daven doit réussir sa mission d'extraction en Acte 2</li><li>Seïra doit avoir agi sur le dossier anonyme (Acte 2)</li><li>Aldric doit croiser Kira sur le terrain et choisir de la garder dans l'équipe plutôt que de la laisser opérer seule</li></ul>
+        <p class="comp-section">Moments clés avec Aldric</p>
+        <ul><li>Elle lui transmet des informations sur la structure des défenses de Vareth que personne d'autre n'aurait pu avoir</li><li>CP4 : elle reconnaît les salles Soth — elle en avait vu des croquis dans les archives que Vareth pensait avoir brûlées</li></ul>
+        <p class="comp-section">Sa mort</p>
+        <p>La mort la plus frustrante du jeu pour les joueurs qui ont réussi les trois conditions. Daven, dans son Acte 3, apprend sa mort si elle survient — et c'est l'une des rares choses qui le déséquilibre visiblement.</p>
+      </div>
+    </div>
+
+    <div class="comp-card" style="--c:var(--varek);--cbg:var(--varek-b)">
+      <div class="comp-head"><div class="comp-dot"></div><span class="comp-name">Brand</span><span class="comp-arch">Attaquant</span><span class="comp-avail avail-rare">CONDITIONNEL</span><span class="comp-arr">+</span></div>
+      <div class="comp-body">
+        <p>Soldat de Vareth, 27 ans. Le seul compagnon qui bypasse entièrement la chaîne Seïra. Il est dans l'armée de Varek parce qu'on lui a dit qu'Élindre menaçait Vareth — il a cru ça jusqu'au siège de Vel'Ardane. Depuis, il obéit et n'y pense plus, ce qui est une façon de penser.</p>
+        <p class="comp-section">Disponibilité — double condition</p>
+        <ul><li>Aldric doit l'épargner dans une bataille spécifique (Acte 2) plutôt que de le tuer</li><li>Seïra doit avoir établi une politique humaine sur les prisonniers (Acte 2)</li><li>Sans les deux : Brand meurt en combat ou est exécuté comme prisonnier</li></ul>
+        <p class="comp-section">Moments clés avec Aldric</p>
+        <ul><li>Il rejoint avec méfiance et met longtemps à parler — mais quand il parle, il dit des choses sur Vareth que personne d'autre ne sait</li><li>Confrontation inévitable avec Caïn si les deux sont vivants : même passé, conclusions différentes</li><li>Acte 3 : il est le seul à plaindre ouvertement les soldats du 7ème régiment — il les connaissait</li></ul>
+        <p class="comp-section">Sa mort</p>
+        <p>Sa mort touche différemment selon le contexte : si Caïn est encore vivant, les deux meurent rarement ensemble — l'un survit pour porter l'autre. Si Brand meurt avant Caïn, Caïn ne dit rien mais ne prend plus autant de risques.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p class="ft">CHRONIQUES DE L'ÉCHORITE · Bible Narrative v0.2 · Document vivant</p>
+  <p class="em">◈ Ce qu'amplifie l'Échorite, ce n'est pas toi — c'est ce que tu es déjà</p>
+</footer>
+
+<script>
+/* ── CRYSTAL HEADER ── */
+(function(){
+  var c=document.getElementById('hc'),ctx=c.getContext('2d');
+  function resize(){c.width=c.offsetWidth;c.height=c.offsetHeight;draw()}
+  function draw(){
+    var W=c.width,H=c.height;ctx.clearRect(0,0,W,H);
+    var sh=[{x:.08,y:.2,s:70,a:.38},{x:.18,y:.7,s:50,a:.26},{x:.35,y:.15,s:90,a:.18},{x:.52,y:.55,s:60,a:.16},{x:.65,y:.1,s:80,a:.2},{x:.78,y:.65,s:55,a:.28},{x:.88,y:.3,s:70,a:.18},{x:.95,y:.8,s:45,a:.23},{x:.42,y:.85,s:65,a:.14},{x:.72,y:.9,s:40,a:.19}];
+    var an=[.3,1.1,.7,1.8,.5,2.2,1.4,.9,1.6,2.5];
+    sh.forEach(function(s,i){
+      var px=s.x*W,py=s.y*H,sz=s.s;
+      ctx.save();ctx.translate(px,py);ctx.rotate(an[i]);
+      var g=ctx.createLinearGradient(0,-sz,0,sz);
+      g.addColorStop(0,'rgba(123,92,240,'+s.a+')');g.addColorStop(.5,'rgba(42,191,160,'+(s.a*.5)+')');g.addColorStop(1,'rgba(123,92,240,0)');
+      ctx.beginPath();ctx.moveTo(0,-sz);ctx.lineTo(sz*.28,-sz*.2);ctx.lineTo(sz*.18,sz);ctx.lineTo(0,sz*.4);ctx.lineTo(-sz*.18,sz);ctx.lineTo(-sz*.28,-sz*.2);ctx.closePath();
+      ctx.fillStyle=g;ctx.fill();ctx.restore();
+    });
+  }
+  window.addEventListener('resize',function(){resize()});resize();
+})();
+
+/* ── TIMELINE ── */
+(function(){
+  var c=document.getElementById('tc'),ctx=c.getContext('2d');
+  var colors={aldric:'#4A8DB8',seira:'#5AAB7F',varek:'#C44B4B',daven:'#C4952A',accent:'#7B5CF0',a2:'#2ABFA0',dim:'#3D3828',grid:'#24273A'};
+  var tracks=[{n:'ALDRIC',c:colors.aldric},{n:'SEÏRA',c:colors.seira},{n:'VAREK',c:colors.varek},{n:'DAVEN',c:colors.daven}];
+  var acts=[0,.28,.60,1.0];var actL=['','ACTE I','ACTE II','ACTE III'];
+  var cps=[{p:.28,l:'CP1'},{p:.58,l:'CP2'},{p:.62,l:'CP3'},{p:.92,l:'CP4'}];
+  function resize(){var d=window.devicePixelRatio||1;c.width=c.offsetWidth*d;c.height=c.offsetHeight*d;ctx.setTransform(1,0,0,1,0,0);ctx.scale(d,d);draw()}
+  function draw(){
+    var W=c.offsetWidth,H=c.offsetHeight;ctx.clearRect(0,0,W,H);
+    var PL=72,PR=16,PT=12,PB=28,tW=W-PL-PR,tH=(H-PT-PB)/tracks.length;
+    acts.forEach(function(p,i){if(!i)return;var x=PL+p*tW;ctx.strokeStyle=colors.grid;ctx.lineWidth=1;ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(x,PT);ctx.lineTo(x,H-PB);ctx.stroke();ctx.setLineDash([])});
+    for(var i=1;i<acts.length;i++){var x1=PL+acts[i-1]*tW,x2=PL+acts[i]*tW;ctx.fillStyle=colors.dim;ctx.font="9px 'Courier New'";ctx.textAlign='center';ctx.fillText(actL[i],(x1+x2)/2,H-PB+14)}
+    tracks.forEach(function(t,i){
+      var y=PT+(i+.5)*tH;
+      ctx.fillStyle=t.c;ctx.font="bold 9px 'Courier New'";ctx.textAlign='right';ctx.globalAlpha=.65;ctx.fillText(t.n,PL-8,y+3);ctx.globalAlpha=1;
+      var g=ctx.createLinearGradient(PL,0,PL+tW,0);g.addColorStop(0,t.c+'30');g.addColorStop(.1,t.c+'70');g.addColorStop(.5,t.c+'A0');g.addColorStop(.9,t.c+'80');g.addColorStop(1,t.c+'40');
+      ctx.strokeStyle=g;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(PL,y);ctx.lineTo(PL+tW,y);ctx.stroke();
+    });
+    cps.forEach(function(cp){
+      var x=PL+cp.p*tW;
+      var vg=ctx.createLinearGradient(0,PT,0,H-PB);vg.addColorStop(0,colors.accent+'00');vg.addColorStop(.2,colors.accent+'60');vg.addColorStop(.5,colors.a2+'80');vg.addColorStop(.8,colors.accent+'60');vg.addColorStop(1,colors.accent+'00');
+      ctx.strokeStyle=vg;ctx.lineWidth=1;ctx.setLineDash([2,3]);ctx.beginPath();ctx.moveTo(x,PT+4);ctx.lineTo(x,H-PB-4);ctx.stroke();ctx.setLineDash([]);
+      tracks.forEach(function(t,i){
+        var y=PT+(i+.5)*tH;
+        ctx.beginPath();ctx.arc(x,y,5.5,0,Math.PI*2);ctx.fillStyle=t.c+'25';ctx.fill();
+        ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fillStyle=t.c;ctx.fill();
+      });
+      ctx.fillStyle=colors.accent;ctx.font="8px 'Courier New'";ctx.textAlign='center';ctx.globalAlpha=.7;ctx.fillText(cp.l,x,H-PB+14);ctx.globalAlpha=1;
+    });
+  }
+  window.addEventListener('resize',function(){resize()});resize();
+})();
+
+/* ── ACCORDIONS ── */
+document.querySelectorAll('.scene-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var sc=btn.closest('.scene');sc.classList.toggle('open');
+  });
+});
+document.querySelectorAll('.comp-head').forEach(function(h){
+  h.addEventListener('click',function(){
+    var card=h.closest('.comp-card');card.classList.toggle('open');
+    var arr=h.querySelector('.comp-arr');if(arr)arr.textContent=card.classList.contains('open')?'×':'+';
+  });
+});
+</script>
+</body>
+</html>

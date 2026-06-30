@@ -1,0 +1,82 @@
+{
+  "id": "lyria",
+  "name": { "fr": "Lyria" },
+  "role": { "fr": "Chercheuse indépendante, spécialiste de l'Échorite" },
+  "description": {
+    "fr": "Elle documente les effets de l'Échorite depuis trois ans sans financement officiel. Ses carnets de terrain sont la seule source de données honnêtes sur les effets cognitifs. Seïra découvre ses travaux dans les archives de la bibliothèque abandonnée."
+  },
+
+  "recruitment": {
+    "character": "seira",
+    "act": 2,
+    "condition": { "flag": 0 },
+    "cost": { "intel": 20, "gold": 10 },
+    "scene_id": "seira_a2_s2_lyria_carnets",
+    "note": "Lyria ne rejoint pas sur pression. Elle rejoint si Seïra lui prouve qu'elle a lu ses carnets — pas juste entendu parler d'eux. Coût en intel = Seïra partage ses propres données de réseau en échange."
+  },
+
+  "stats": {
+    "atk": 3,
+    "def": 5,
+    "hp": 35,
+    "special": "analyse_terrain"
+  },
+
+  "special_ability": {
+    "id": "analyse_terrain",
+    "name": { "fr": "Analyse de terrain" },
+    "description": { "fr": "Révèle les zones à haute exposition Échorite sur la carte (rayon 3 tiles). Permet de fabriquer antidote_echorite si équipement de base disponible." },
+    "active": true,
+    "cooldown_scenes": 2
+  },
+
+  "crafting": {
+    "antidote_echorite": {
+      "requires": { "lyria_recruited": true },
+      "ingredients": { "herbes_soin": 2, "minerai_brut": 1 },
+      "output_quantity": 1
+    },
+    "potion_soin_grand": {
+      "requires": { "lyria_recruited": true },
+      "ingredients": { "herbes_soin": 4 },
+      "output_quantity": 1
+    }
+  },
+
+  "carnets": {
+    "acte2": {
+      "name": { "fr": "Carnets de Lyria — Tome I" },
+      "key_finding": { "fr": "Réduction de 40% des contestations d'ordres après 6 semaines d'exposition. Corrélation documentée, causalité probable." }
+    },
+    "acte3": {
+      "name": { "fr": "Carnets de Lyria — Tome II (terrain)" },
+      "key_finding": { "fr": "Exposition prolongée modifie le traitement de la dissonance cognitive. Ce n'est pas une addiction — c'est une réécriture." }
+    }
+  },
+
+  "echorite_exposure": {
+    "initial": 5,
+    "rate_per_mine_visit": 8,
+    "note": "Lyria porte un masque de protection partielle. Exposition basse mais réelle."
+  },
+
+  "key_dialogues": [
+    {
+      "scene": "seira_a2_s2_lyria_carnets",
+      "node": "lyria_condition_recrutement",
+      "text": { "fr": "— Vous avez lu mes carnets ou vous avez lu à leur sujet ? Parce que l'un vaut quelque chose et l'autre, c'est de la politesse." }
+    },
+    {
+      "scene": "seira_a3_cp4_mine",
+      "node": "lyria_dans_mine",
+      "text": { "fr": "— Les murs ont une texture qui ressemble à de la peau. J'ai noté ça dans mon premier carnet. J'ai cru que c'était une métaphore." },
+      "condition": { "flag": 41 }
+    }
+  ],
+
+  "narrative_arc": {
+    "act2": "Découverte des carnets, recrutement conditionnel. Daven la prévient anonymement (flag 31).",
+    "act3": "Alerte Seïra sur les effets de la mine. La seule à comprendre vraiment ce qui se passe.",
+    "mine": "Analyse le cristal central. Sa description oriente le choix final de la mine."
+  }
+}

@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aldric — Arc Narratif Complet · Bible du Jeu</title>
+<style>
+  /* ── TOKENS ───────────────────────────────────────────────── */
+  :root {
+    --ground:        #0E0F14;
+    --ground-2:      #13151E;
+    --ground-3:      #1A1D2A;
+    --text:          #C8CAD4;
+    --text-dim:      #7A7D8C;
+    --text-faint:    #3E4155;
+    --accent:        #3DBFB8;
+    --accent-dim:    #1F6E6A;
+    --accent-glow:   rgba(61,191,184,0.12);
+    --accent-2:      #C4762A;
+    --accent-2-dim:  #7A4519;
+    --accent-2-glow: rgba(196,118,42,0.10);
+    --border:        rgba(200,202,212,0.07);
+    --border-strong: rgba(200,202,212,0.14);
+
+    /* Act accent colors */
+    --act1:  #3A7DB5;   /* steel blue — loyalty, duty */
+    --act2:  #B54A3A;   /* ember red  — massacre, fracture */
+    --act3:  #7A6EA0;   /* ash violet — aftermath, the mine */
+
+    /* Type scale */
+    --scale-xs:   0.72rem;
+    --scale-sm:   0.85rem;
+    --scale-base: 1rem;
+    --scale-md:   1.15rem;
+    --scale-lg:   1.4rem;
+    --scale-xl:   1.9rem;
+    --scale-2xl:  2.6rem;
+    --scale-3xl:  3.8rem;
+
+    --leading-tight:  1.25;
+    --leading-prose:  1.75;
+    --leading-display:1.1;
+
+    --rail-w: 220px;
+    --content-max: 800px;
+  }
+
+  /* ── RESET ────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ground);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
+    font-size: 17px;
+    line-height: var(--leading-prose);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── FONTS (Google Fonts inline fallback approach) ─────────── */
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  /* ── LAYOUT ───────────────────────────────────────────────── */
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── RAIL ─────────────────────────────────────────────────── */
+  .rail {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--rail-w);
+    height: 100vh;
+    background: var(--ground-2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 2rem 0 4rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-faint) transparent;
+  }
+  .rail::-webkit-scrollbar { width: 4px; }
+  .rail::-webkit-scrollbar-thumb { background: var(--text-faint); border-radius: 2px; }
+
+  .rail-logo {
+    font-family: 'Cinzel', serif;
+    font-size: var(--scale-xs);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+  }
+  .rail-logo span {
+    display: block;
+    color: var(--accent);
+    font-size: 0.85em;
+    margin-top: 0.2em;
+  }
+
+  .rail-section {
+    margin-bottom: 0.25rem;
+  }
+  .rail-act {
+    font-family: 'Cinzel', serif;
+    font-size: var(--scale-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.5rem 0.3rem;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .rail-act::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 2px;
+    border-radius: 1px;
+  }
+  .rail-act.act1::before { background: var(--act1); }
+  .rail-act.act2::before { background: var(--act2); }
+  .rail-act.act3::before { background: var(--act3); }
+
+  .rail-link {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.3rem 1.5rem 0.3rem 2.2rem;
+    transition: color 0.15s, background 0.15s;
+    line-height: 1.5;
+  }
+  .rail-link:hover, .rail-link:focus {
+    color: var(--text);
+    background: rgba(200,202,212,0.04);
+    outline: none;
+  }
+  .rail-link.cp {
+    color: var(--accent-dim);
+    padding-left: 1.5rem;
+    margin-top: 0.1rem;
+  }
+  .rail-link.cp:hover { color: var(--accent); }
+
+  .rail-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1rem 1.5rem;
+  }
+
+  /* ── MAIN ─────────────────────────────────────────────────── */
+  .main {
+    margin-left: var(--rail-w);
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ── HERO ─────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    height: 340px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 3rem;
+  }
+  #crystal-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0.55;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: var(--content-max);
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: var(--scale-3xl);
+    font-weight: 900;
+    line-height: var(--leading-display);
+    color: #ECEEF6;
+    letter-spacing: -0.01em;
+  }
+  .hero-title em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--scale-md);
+    font-style: italic;
+    color: var(--text-dim);
+    margin-top: 0.75rem;
+    line-height: 1.5;
+  }
+  .hero-meta {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+  .hero-stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-lg);
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-family: 'Cinzel', serif;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to top, var(--ground), transparent);
+    z-index: 1;
+  }
+
+  /* ── CONTENT BODY ─────────────────────────────────────────── */
+  .content {
+    max-width: calc(var(--content-max) + 6rem);
+    padding: 0 3rem 6rem;
+  }
+
+  /* ── ACT HEADER ───────────────────────────────────────────── */
+  .act-header {
+    padding: 3.5rem 0 2rem;
+    border-top: 1px solid var(--border-strong);
+    margin-top: 3rem;
+  }
+  .act-header:first-child { margin-top: 0; border-top: none; }
+
+  .act-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .act-number::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    max-width: 120px;
+  }
+  .act-number.act1 { color: var(--act1); }
+  .act-number.act2 { color: var(--act2); }
+  .act-number.act3 { color: var(--act3); }
+  .act-number.act1::after { background: var(--act1); }
+  .act-number.act2::after { background: var(--act2); }
+  .act-number.act3::after { background: var(--act3); }
+
+  .act-title {
+    font-family: 'Cinzel', serif;
+    font-size: var(--scale-2xl);
+    font-weight: 700;
+    line-height: var(--leading-display);
+    color: #ECEEF6;
+    margin-bottom: 0.75rem;
+  }
+  .act-tagline {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: var(--scale-lg);
+    color: var(--text-dim);
+    margin-bottom: 1.25rem;
+  }
+  .act-tone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    padding: 0.35rem 0.85rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .act-tone.act1 { background: rgba(58,125,181,0.12); color: var(--act1); border: 1px solid rgba(58,125,181,0.25); }
+  .act-tone.act2 { background: rgba(181,74,58,0.12); color: var(--act2); border: 1px solid rgba(181,74,58,0.25); }
+  .act-tone.act3 { background: rgba(122,110,160,0.12); color: var(--act3); border: 1px solid rgba(122,110,160,0.25); }
+
+  .act-intro {
+    font-size: var(--scale-md);
+    line-height: var(--leading-prose);
+    color: var(--text);
+    border-left: 2px solid var(--border-strong);
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+  }
+
+  /* ── SCENE ────────────────────────────────────────────────── */
+  .scene {
+    margin-top: 2.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .scene::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.5rem; bottom: 0;
+    width: 2px;
+  }
+  .scene.act1::before { background: linear-gradient(to bottom, var(--act1), transparent); }
+  .scene.act2::before { background: linear-gradient(to bottom, var(--act2), transparent); }
+  .scene.act3::before { background: linear-gradient(to bottom, var(--act3), transparent); }
+
+  .scene-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .scene-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    flex-shrink: 0;
+  }
+  .scene-title {
+    font-family: 'Cinzel', serif;
+    font-size: var(--scale-lg);
+    font-weight: 600;
+    color: #D8DAE6;
+    line-height: 1.3;
+  }
+
+  .scene-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    border: 1px solid var(--border-strong);
+    color: var(--text-dim);
+  }
+  .tag.echorite { border-color: rgba(61,191,184,0.3); color: var(--accent); }
+  .tag.death    { border-color: rgba(181,74,58,0.3); color: var(--act2); }
+  .tag.choice   { border-color: rgba(196,118,42,0.35); color: var(--accent-2); }
+  .tag.cp       { border-color: rgba(122,110,160,0.35); color: var(--act3); background: rgba(122,110,160,0.06); }
+
+  .scene p {
+    font-size: var(--scale-base);
+    line-height: var(--leading-prose);
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .scene p:last-child { margin-bottom: 0; }
+
+  /* ── DIALOGUE PULL ────────────────────────────────────────── */
+  .dialogue {
+    margin: 1.25rem 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--ground-3);
+    border-left: 3px solid var(--accent-dim);
+    position: relative;
+  }
+  .dialogue-speaker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+  .dialogue p {
+    font-style: italic;
+    color: #A8AAB8;
+    margin-bottom: 0;
+  }
+
+  /* ── DECISION BLOCK ───────────────────────────────────────── */
+  .decision {
+    margin: 1.5rem 0;
+    border: 1px solid rgba(196,118,42,0.2);
+    background: rgba(196,118,42,0.04);
+    padding: 1.25rem 1.5rem;
+    border-radius: 2px;
+  }
+  .decision-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .decision-label::before {
+    content: '◈';
+    font-size: 0.8em;
+  }
+  .decision-options {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .decision-options li {
+    font-size: var(--scale-sm);
+    color: var(--text);
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .decision-options li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-2-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .decision-options li strong {
+    color: var(--accent-2);
+    font-style: normal;
+  }
+
+  /* ── ECHORITE ASIDE ───────────────────────────────────────── */
+  .echorite-note {
+    margin: 1.25rem 0;
+    padding: 1rem 1.25rem;
+    background: var(--accent-glow);
+    border: 1px solid rgba(61,191,184,0.15);
+    border-radius: 2px;
+  }
+  .echorite-note-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+  .echorite-note p {
+    font-size: var(--scale-sm);
+    color: var(--text-dim);
+    margin-bottom: 0;
+    line-height: 1.65;
+  }
+
+  /* ── DEATH SCENE ──────────────────────────────────────────── */
+  .companion-death {
+    margin: 1.5rem 0;
+    border: 1px solid rgba(181,74,58,0.25);
+    background: rgba(181,74,58,0.05);
+    padding: 1.25rem 1.5rem;
+    border-radius: 2px;
+  }
+  .companion-death-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--act2);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .companion-death-label::before { content: '✦'; font-size: 0.75em; }
+  .companion-death p {
+    font-size: var(--scale-sm);
+    color: #A8AAB8;
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+
+  /* ── SECTION HEADER (companions, CP) ──────────────────────── */
+  .section-break {
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border-strong);
+  }
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: var(--scale-xl);
+    font-weight: 700;
+    color: #ECEEF6;
+    margin-bottom: 1rem;
+    line-height: var(--leading-tight);
+  }
+
+  /* ── COMPANION CARD ───────────────────────────────────────── */
+  .companion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .companion-card {
+    background: var(--ground-2);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 2px;
+    transition: border-color 0.2s;
+  }
+  .companion-card:hover { border-color: var(--border-strong); }
+  .companion-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .companion-name {
+    font-family: 'Cinzel', serif;
+    font-size: var(--scale-md);
+    font-weight: 600;
+    color: #D8DAE6;
+  }
+  .companion-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    background: var(--ground-3);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    align-self: center;
+  }
+  .companion-moments {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+  .companion-moments li {
+    font-size: var(--scale-sm);
+    color: var(--text-dim);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.55;
+  }
+  .companion-moments li::before {
+    content: '·';
+    position: absolute;
+    left: 0.2rem;
+    color: var(--text-faint);
+  }
+  .companion-card .death-line {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: var(--scale-sm);
+    color: rgba(181,74,58,0.7);
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+    line-height: 1.6;
+  }
+
+  /* ── CROSSPOINT ───────────────────────────────────────────── */
+  .cp-block {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: var(--ground-2);
+    border: 1px solid rgba(122,110,160,0.2);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cp-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--act3), transparent);
+  }
+  .cp-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .cp-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--act3);
+    flex-shrink: 0;
+  }
+  .cp-title {
+    font-family: 'Cinzel', serif;
+    font-size: var(--scale-lg);
+    font-weight: 600;
+    color: #D8DAE6;
+    line-height: 1.3;
+  }
+  .cp-location {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    color: var(--text-dim);
+    background: var(--ground-3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+  .cp-perspective-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+  .cp-block p {
+    font-size: var(--scale-base);
+    color: var(--text);
+    line-height: var(--leading-prose);
+    margin-bottom: 1rem;
+  }
+  .cp-block p:last-child { margin-bottom: 0; }
+
+  /* ── FOOTER ───────────────────────────────────────────────── */
+  .doc-footer {
+    margin-top: 5rem;
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .doc-footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--scale-xs);
+    color: var(--text-faint);
+  }
+
+  /* ── UTILITY ──────────────────────────────────────────────── */
+  strong { font-weight: 600; color: #D8DAE6; }
+  em { font-style: italic; }
+
+  /* ── RESPONSIVE ───────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    :root { --rail-w: 0px; }
+    .rail { display: none; }
+    .main { margin-left: 0; }
+    .hero { padding: 2rem; height: auto; min-height: 280px; }
+    .hero-title { font-size: var(--scale-2xl); }
+    .content { padding: 0 1.5rem 4rem; }
+    .companion-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .hero-meta { gap: 1.25rem; }
+    .act-title { font-size: var(--scale-xl); }
+  }
+
+  /* ── REDUCED MOTION ───────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    #crystal-canvas { display: none; }
+    .hero { background: linear-gradient(135deg, #0E1020, #121825); }
+  }
+
+  /* ── SCROLLBAR ────────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--ground); }
+  ::-webkit-scrollbar-thumb { background: var(--text-faint); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ═══ RAIL ═══════════════════════════════════════════════ -->
+  <nav class="rail" aria-label="Navigation du document">
+    <div class="rail-logo">
+      Bible Narrative<span>Aldric — Arc Complet</span>
+    </div>
+
+    <div class="rail-section">
+      <div class="rail-act act1">Acte I</div>
+      <a href="#a1s1" class="rail-link">1.1 La Délégation</a>
+      <a href="#a1s2" class="rail-link">1.2 La Route de Nira</a>
+      <a href="#a1s3" class="rail-link">1.3 Le Poste Frontière</a>
+      <a href="#a1s4" class="rail-link">1.4 Le Palais d'Élindre</a>
+      <a href="#a1s5" class="rail-link">1.5 La Nuit avant</a>
+      <a href="#cp1" class="rail-link cp">⊕ CP1 — Délégation Brisée</a>
+    </div>
+
+    <div class="rail-section">
+      <div class="rail-act act2">Acte II</div>
+      <a href="#a2s1" class="rail-link">2.1 Retour en Grâce</a>
+      <a href="#a2s2" class="rail-link">2.2 Rapports de Terrain</a>
+      <a href="#a2s3" class="rail-link">2.3 La Mine</a>
+      <a href="#a2s4" class="rail-link">2.4 Vel'Shan</a>
+      <a href="#cp2" class="rail-link cp">⊕ CP2 — Massacre de Vel'Shan</a>
+      <a href="#a2s5" class="rail-link">2.5 La Forêt de Gael</a>
+      <a href="#a2s6" class="rail-link">2.6 L'Impossible Ordre</a>
+      <a href="#cp3" class="rail-link cp">⊕ CP3 — La Désertion</a>
+    </div>
+
+    <div class="rail-section">
+      <div class="rail-act act3">Acte III</div>
+      <a href="#a3s1" class="rail-link">3.1 La Rébellion</a>
+      <a href="#a3s2" class="rail-link">3.2 Le Commandement</a>
+      <a href="#a3s3" class="rail-link">3.3 Cicatrices de Rael</a>
+      <a href="#a3s4" class="rail-link">3.4 La Percée</a>
+      <a href="#a3s5" class="rail-link">3.5 Le Cœur de la Mine</a>
+      <a href="#cp4" class="rail-link cp">⊕ CP4 — La Mine d'Échorite</a>
+      <a href="#a3s6" class="rail-link">3.6 Après</a>
+    </div>
+
+    <div class="rail-divider"></div>
+
+    <div class="rail-section">
+      <div class="rail-act" style="color:var(--text-faint)">Compagnons</div>
+      <a href="#companions" class="rail-link">Les 9 Compagnons</a>
+      <a href="#death-scene" class="rail-link">Scène de mort type</a>
+    </div>
+  </nav>
+
+  <!-- ═══ MAIN ════════════════════════════════════════════════ -->
+  <main class="main">
+
+    <!-- HERO -->
+    <header class="hero">
+      <canvas id="crystal-canvas" aria-hidden="true"></canvas>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Arc Narratif · Personnage Jouable</p>
+        <h1 class="hero-title"><em>Aldric</em></h1>
+        <p class="hero-sub">Du service à la trahison — de la trahison au commandement.</p>
+        <div class="hero-meta">
+          <div class="hero-stat">
+            <span class="hero-stat-val">3</span>
+            <span class="hero-stat-label">Actes</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-val">18</span>
+            <span class="hero-stat-label">Scènes</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-val">4</span>
+            <span class="hero-stat-label">Croisements</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-val">9</span>
+            <span class="hero-stat-label">Compagnons</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ══════════════════════════════════════════════════════
+           ACTE I — L'UNIFORME
+      ══════════════════════════════════════════════════════════ -->
+      <section id="acte1">
+        <div class="act-header">
+          <p class="act-number act1">Acte I · ~5 heures</p>
+          <h2 class="act-title">L'Uniforme</h2>
+          <p class="act-tagline">« Ce que tu portes finit par te porter. »</p>
+          <span class="act-tone act1">Ton : Tension contenue · Loyauté fissurée · Doute sans encore de nom</span>
+          <p class="act-intro">Aldric est encore chevalier de Vareth. Il croit en l'ordre, en la hiérarchie, en l'idée qu'un soldat n'a pas à peser les ordres — seulement à les exécuter proprement. L'Acte I installe cette armure intérieure, puis commence à la craquer, non par une révélation brutale, mais par l'accumulation de petits détails qui ne collent pas : une bourgade trop silencieuse, des soldats aux yeux trop fixes, un sourire impérial qui ne monte pas jusqu'aux yeux. Le joueur incarne un homme qui ne veut pas encore voir.</p>
+        </div>
+
+        <!-- Scène 1.1 -->
+        <article id="a1s1" class="scene act1">
+          <div class="scene-header">
+            <span class="scene-num">1.1</span>
+            <h3 class="scene-title">La Délégation — Formation en Marche</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag">Ouverture</span>
+            <span class="tag">Vareth</span>
+          </div>
+          <p>La caméra descend sur une colonne militaire qui avance sur une route de pierre grise. Bannières de Vareth. Chevaux de guerre. Aldric chevauche en tête, visière relevée, regard droit. C'est sa mission la plus prestigieuse : escorter la délégation diplomatique de l'Empereur Varek jusqu'au palais d'Élindre pour négocier un traité de capitulation partielle. Il n'y a pas de guerre déclarée — pas encore. Juste une pression douce, méthodique, et Aldric en est l'instrument poli.</p>
+          <p>Le tutoriel s'installe ici : déplacements en carte, gestion de l'équipe, premier combat contre des bandits de route (ni Varéthiens ni Élindriens — juste du chaos ordinaire). Aldric commande avec efficacité et sans cruauté inutile. Les bandits qui se rendent sont ligotés et laissés vivants. C'est un détail que le joueur peut rater, mais qui compte : Aldric n'est pas sadique. Il est discipliné.</p>
+          <p>Dans le camp du soir, <strong>Brennan</strong> — mercenaire embauché par la délégation pour l'escorte — fait ses premières armes narratives. Il connaît les deux camps, il surveille Aldric avec un intérêt mesuré.</p>
+          <div class="dialogue">
+            <p class="dialogue-speaker">Brennan</p>
+            <p>« Un chevalier de Vareth qui laisse les prisonniers en vie. C'est nouveau. »<br>
+            <br>
+            Aldric, sans se retourner : « Les morts ne mangent pas. Les prisonniers, si. C'est une question de logistique. »<br>
+            <br>
+            Brennan sourit. Il n'est pas convaincu que c'est vraiment de la logistique.</p>
+          </div>
+        </article>
+
+        <!-- Scène 1.2 -->
+        <article id="a1s2" class="scene act1">
+          <div class="scene-header">
+            <span class="scene-num">1.2</span>
+            <h3 class="scene-title">La Route de Nira — Le Village Muet</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag echorite">Échorite</span>
+            <span class="tag">Territoire occupé</span>
+          </div>
+          <p>La colonne longe Nira, un village élindrién sous occupation varéthienne depuis six mois. Officiellement, c'est une zone pacifiée. En pratique : les habitants évitent les regards, les enfants ne jouent pas, et la garnison locale a les yeux étranges — trop brillants, trop stables, comme des billes de verre dans des visages humains.</p>
+          <div class="echorite-note">
+            <p class="echorite-note-label">Échorite · Effet sur les soldats</p>
+            <p>La garnison de Nira reçoit des rations de combat additionnées de poudre d'Échorite — officiellement un « stimulant énergétique approuvé par l'Alchimiste Impérial ». À faibles doses, l'effet est subtil : vigilance accrue, douleur diminuée, seuil de fatigue repoussé. Mais sur plusieurs mois, quelque chose de plus profond s'installe. Ce que l'Échorite amplifie en eux, c'est le conditionnement militaire lui-même — l'obéissance comme instinct, l'indifférence à la souffrance civile comme réflexe. Ils ne sont pas fous. Ils sont parfaitement obéissants. C'est plus inquiétant.</p>
+          </div>
+          <p>Aldric note les yeux. Il ne les commente pas. Un sous-officier lui explique que c'est normal après plusieurs semaines de « supplément de campagne ». Aldric acquiesce. Mais quelque chose se loge dans un recoin qu'il ne nomme pas encore.</p>
+          <p>Le joueur peut interagir avec un enfant du village — une petite fille qui tend une fleur à la colonne avant d'être rapidement tirée en arrière par sa mère. Ce n'est pas un choix mécanique. C'est juste un moment. L'image reste.</p>
+        </article>
+
+        <!-- Scène 1.3 -->
+        <article id="a1s3" class="scene act1">
+          <div class="scene-header">
+            <span class="scene-num">1.3</span>
+            <h3 class="scene-title">Le Poste Frontière de Keth — L'Interrogatoire</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag choice">Décision</span>
+            <span class="tag">Ligne de front</span>
+          </div>
+          <p>Au poste frontière de Keth, un Élindrién a été arrêté porteur de documents : des relevés de terrain qui semblent indiquer l'emplacement d'accès à quelque chose — les tracés sont partiels, illisibles sans contexte. Le commandant local veut qu'Aldric préside l'interrogatoire, en tant qu'officier de rang supérieur en transit. C'est une formalité, dit-il.</p>
+          <p>L'homme arrêté s'appelle Solen. Il est âgé, cartographe civil, tremblant. Derrière lui, dans la cellule adjacente, on entend les techniques utilisées par les hommes du poste sur un autre prisonnier.</p>
+          <div class="decision">
+            <p class="decision-label">Décision du joueur</p>
+            <ul class="decision-options">
+              <li><strong>Interroger Solen soi-même</strong> — Aldric prend en main, pose des questions fermes mais sans violence. Solen parle peu. Les documents restent opaques. Le commandant est agacé. Aldric dit que l'homme n'a rien d'utile. Il ment peut-être — il ne sait pas encore si c'est vrai.</li>
+              <li><strong>Déléguer au commandant local</strong> — Aldric sort. On entend ce qu'on entend. Quand il revient, le vieillard n'a rien dit d'utile non plus, mais il ne regardera plus personne dans les yeux. Aldric range le rapport. La scène pèse différemment.</li>
+              <li><strong>Libérer Solen sous prétexte diplomatique</strong> — Aldric invoque la délicatesse des négociations imminentes : tout incident civil maintenant serait inopportun. Le commandant obéit à contrecœur. C'est techniquement une manipulation. Aldric n'est pas sûr de la raison pour laquelle il l'a fait.</li>
+            </ul>
+          </div>
+          <p>Quel que soit le choix : les documents de Solen contiennent les premières mentions chiffrées de « l'extraction au gisement ancien ». Le joueur ne peut pas encore déchiffrer le contexte. Mais le mot <em>ancien</em> reste dans le carnet de bord.</p>
+        </article>
+
+        <!-- Scène 1.4 -->
+        <article id="a1s4" class="scene act1">
+          <div class="scene-header">
+            <span class="scene-num">1.4</span>
+            <h3 class="scene-title">Le Palais d'Élindre — Arrivée en Territoire Ennemi</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag">Politique</span>
+            <span class="tag">Rencontres</span>
+          </div>
+          <p>Le palais d'Élindre est plus beau qu'Aldric ne l'attendait. Il n'a été formé qu'à la guerre — la magnificence de la paix l'surprend presque. La délégation est reçue avec une courtoisie méticuleuse qui masque à peine la terreur. Élindre sait qu'elle ne peut pas gagner une guerre ouverte contre Vareth. La question est à quel prix elle survit.</p>
+          <p>Aldric rencontre pour la première fois la Princesse Seïra — non pas en audience formelle, mais dans un couloir, par accident, alors qu'elle donne des instructions discrètes à un domestique. Elle le voit, il la voit. Ni l'un ni l'autre ne dit rien. Mais elle ne baisse pas les yeux. Il en prend acte.</p>
+          <p>Il rencontre aussi <strong>Orwen</strong>, vieux général élindrién que Seïra a convoqué de sa retraite. Orwen est là pour évaluer la délégation — et Aldric en particulier. Les deux soldats se reconnaissent immédiatement pour ce qu'ils sont : des hommes qui ont vu des choses et qui ont continué malgré elles. Ce n'est pas de la sympathie, pas encore. C'est de la reconnaissance.</p>
+          <div class="dialogue">
+            <p class="dialogue-speaker">Orwen</p>
+            <p>« J'ai servi quarante ans. J'ai fait des erreurs dont je n'ai jamais trouvé le fond. Je pense que vous aussi, jeune homme, même si vous ne le savez pas encore. »</p>
+          </div>
+          <p><strong>Mira</strong>, l'ancienne opératrice de renseignement, est présente dans l'ombre de la délégation élindrienne — travaillant pour Seïra sous une fausse identité. Elle observe Aldric sans que lui la remarque. Elle note qu'il a les mains propres et que ça ne durera pas.</p>
+        </article>
+
+        <!-- Scène 1.5 -->
+        <article id="a1s5" class="scene act1">
+          <div class="scene-header">
+            <span class="scene-num">1.5</span>
+            <h3 class="scene-title">La Nuit avant les Négociations — Conversation avec Brennan</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag">Camp</span>
+            <span class="tag">Brennan</span>
+          </div>
+          <p>La veille des négociations formelles, Aldric et Brennan partagent un repas dans les quartiers de la garde. C'est la première vraie conversation entre les deux hommes — Brennan a travaillé pour les deux camps, il connaît des choses que la chaîne de commandement n'officialise jamais.</p>
+          <div class="dialogue">
+            <p class="dialogue-speaker">Brennan</p>
+            <p>« La mine d'Échorite — tu sais ce que l'Empereur en tire, vraiment ? Pas dans les rapports officiels. Ce que ça fait aux hommes après des mois de contact direct. »</p>
+          </div>
+          <div class="dialogue">
+            <p class="dialogue-speaker">Aldric</p>
+            <p>« Les soldats sont plus efficaces. C'est documenté. »<br><br>
+            « Plus efficaces. » Brennan répète les mots comme s'il les soupesait. « Une lame est efficace. Une lame n'a pas de mauvaises nuits. »</p>
+          </div>
+          <p>Aldric ne répond pas. Il reste avec cette image — la lame sans mauvaises nuits — jusqu'au matin. Ce n'est pas encore un doute. C'est une fissure.</p>
+        </article>
+
+        <!-- CP1 -->
+        <div id="cp1" class="cp-block">
+          <div class="cp-header">
+            <span class="cp-id">⊕ CP1</span>
+            <h3 class="cp-title">La Délégation Brisée</h3>
+            <span class="cp-location">Palais d'Élindre · Fin Acte I</span>
+          </div>
+          <p class="cp-perspective-label">Perspective d'Aldric</p>
+          <p>Les négociations s'effondrent — non pas dans le fracas, mais dans le silence. Un courrier impérial arrive au milieu de la seconde session. Aldric le voit déchiffré par l'émissaire de Varek, et quelque chose dans le visage de l'homme change. Les termes présentés à Élindre ne sont plus une capitulation partielle. Ce sont des conditions de soumission totale, y compris la cession de la région minière du nord — la région où se trouve l'ancienne mine.</p>
+          <p>Aldric est dans la salle quand Seïra se lève de sa chaise. Elle ne crie pas. Elle dit : « Ces termes ne sont pas négociables. Ni les nôtres. » Et elle sort. L'émissaire de Varek commence à parler de « mesures correctives ». Aldric regarde ses propres mains. Il pense au vieillard du poste frontière. Il pense aux yeux de verre des soldats de Nira. Il pense à Brennan et à sa lame sans mauvaises nuits.</p>
+          <p>La salle se vide dans le désordre. Aldric reste un moment seul avec les cartes diplomatiques étalées sur la table — des lignes tracées sur des terres qui n'ont pas demandé à être marchandées. C'est là que Daven le croise pour la première fois, quittant une pièce adjacente par une porte dérobée — leurs regards se croisent une fraction de seconde. Ni l'un ni l'autre ne dit rien. Mais Aldric note le visage.</p>
+          <p>Il reçoit l'ordre de ramener la délégation à Vareth. Il obéit. Pour l'instant.</p>
+        </div>
+      </section>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           ACTE II — LA FRACTURE
+      ══════════════════════════════════════════════════════════ -->
+      <section id="acte2">
+        <div class="act-header">
+          <p class="act-number act2">Acte II · ~10 heures</p>
+          <h2 class="act-title">La Fracture</h2>
+          <p class="act-tagline">« Tu peux ignorer ta conscience longtemps. Elle attend. »</p>
+          <span class="act-tone act2">Ton : Escalade · Horreur ordinaire · Point de rupture irréversible</span>
+          <p class="act-intro">La guerre est déclarée. Aldric reçoit un commandement de terrain — une compagnie de cent hommes, secteur nord, objectif : sécuriser la zone autour de la mine d'Échorite pour faciliter l'extraction renforcée. C'est un poste d'honneur. L'Acte II installe la machine de guerre, puis la laisse tourner dans le vide jusqu'à ce qu'elle broie quelque chose qu'Aldric ne peut plus reconstituer. L'échorite devient physiquement présente — pas juste dans les rapports, mais dans le sol, dans les corps, dans l'air. Et Vel'Shan brûle.</p>
+        </div>
+
+        <!-- Scène 2.1 -->
+        <article id="a2s1" class="scene act2">
+          <div class="scene-header">
+            <span class="scene-num">2.1</span>
+            <h3 class="scene-title">Retour en Grâce — Le Commandement</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag">Vareth</span>
+            <span class="tag">Guerre déclarée</span>
+          </div>
+          <p>Retour à Vareth. La délégation est rentrée. Les négociations ont échoué. L'Empereur Varek reçoit Aldric en audience privée — ce qui est en lui-même inhabituel. Varek est calme, presque affable. Il ne parle pas de punition pour l'échec diplomatique. Il parle d'opportunité. « Élindre nous a donné la raison dont nous avions besoin, » dit-il. Il confie à Aldric le commandement d'une compagnie d'élite pour le secteur nord.</p>
+          <p>C'est la première fois qu'Aldric voit l'Empereur de près. Varek est plus vieux qu'on ne le représente sur les portraits officiels, et ses yeux ont cette même qualité de verre que les soldats de Nira — mais avec quelque chose de supplémentaire dessous, quelque chose qui ressemble à de la certitude absolue. Aldric sort de l'audience avec une promotion et un malaise qu'il met sur le compte de la fatigue du voyage.</p>
+          <p><strong>Caïn</strong> est dans sa nouvelle compagnie — un déserteur de Vareth qui a refait surface sous une fausse identité après avoir fui avant même la guerre déclarée. Aldric l'identifie immédiatement comme quelqu'un qui a vu quelque chose. Caïn lui dit qu'il est revenu parce qu'il ne pouvait pas abandonner des gens qu'il connaissait encore dans les rangs. C'est vrai et c'est faux en même temps.</p>
+        </article>
+
+        <!-- Scène 2.2 -->
+        <article id="a2s2" class="scene act2">
+          <div class="scene-header">
+            <span class="scene-num">2.2</span>
+            <h3 class="scene-title">Rapports de Terrain — Ce que les Chiffres Cachent</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag echorite">Échorite</span>
+            <span class="tag">Terrain</span>
+          </div>
+          <p>Les premières semaines de campagne. La compagnie avance, sécurise des villages, établit des lignes d'approvisionnement. C'est de la guerre de position — longue, épuisante, pas encore horrifiante. Aldric est un bon commandant : il écoute ses sous-officiers, il ne sacrifie pas des hommes pour des objectifs symboliques, il tient ses lignes sans brutalité inutile.</p>
+          <p>Mais les rapports sur l'extraction minière lui parviennent chaque semaine. Les chiffres augmentent. L'Échorite est extrait en quantités massives, bien au-delà de ce que les usages militaires documentés justifient. Aldric demande à un officier de logistique ce que ça sert. L'officier dit que c'est « pour les traitements de performance de l'armée ». Aldric demande à voir les protocoles médicaux. On lui dit que c'est classifié.</p>
+          <div class="echorite-note">
+            <p class="echorite-note-label">Échorite · Ce qu'Aldric commence à observer</p>
+            <p>Certains des soldats qui ont été en contact prolongé avec les sites d'extraction montrent des changements. Pas spectaculaires — pas encore. Une agressivité légèrement accrue en dehors du combat. Des cauchemars mentionnés puis niés. Une tendance à l'hypervigilance qui ressemble à une psychose douce mais stable. Et, dans un cas documenté dans les registres médicaux qu'Aldric obtient par Mira (si elle a été recrutée), une transformation physique partielle : une plaque de peau durcie sur l'avant-bras d'un soldat, translucide, avec des reflets bleu-vert. Le médecin a noté « réaction allergique cutanée » et classé le dossier.</p>
+          </div>
+        </article>
+
+        <!-- Scène 2.3 -->
+        <article id="a2s3" class="scene act2">
+          <div class="scene-header">
+            <span class="scene-num">2.3</span>
+            <h3 class="scene-title">La Mine — Descente</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag echorite">Échorite</span>
+            <span class="tag choice">Décision</span>
+            <span class="tag">Civilisation disparue</span>
+          </div>
+          <p>Aldric reçoit l'ordre d'inspecter le site minier pour évaluer les besoins de sécurité renforcée. C'est la première fois qu'il descend dans la mine elle-même. Ce qu'il y trouve le déroute.</p>
+          <p>La mine n'est pas une mine. Pas structurellement. Les galeries « naturelles » ont des angles trop précis, des parois qui portent encore des traces d'outillage qui n'existe nulle part dans le répertoire connu. Et l'Échorite ne gît pas dans des veines minérales ordinaires — il est disposé en formations qui ressemblent à des réservoirs, comme si quelque chose les avait agencées. Comme si l'endroit avait été construit pour contenir le cristal, pas pour l'extraire.</p>
+          <p>Les alchimistes de Varek sont déjà sur place, indifférents à ce qu'Aldric observe. L'un d'eux — un homme qui porte des gants doubles et des lunettes de verre épais — lui explique que c'est sans importance. Ce qui compte, c'est le rendement.</p>
+          <div class="decision">
+            <p class="decision-label">Décision du joueur</p>
+            <ul class="decision-options">
+              <li><strong>Rédiger un rapport complet et honnête</strong> — incluant les observations sur la structure non naturelle de la mine. Le rapport remonte la chaîne. Il ne revient jamais. Mais quelqu'un l'a lu.</li>
+              <li><strong>Rédiger le rapport minimal requis</strong> — besoins de sécurité, rien d'autre. Aldric range ses observations dans un coin mental dont il commence à savoir qu'il ne reviendra pas.</li>
+              <li><strong>Tenter de prélever un échantillon de cristal</strong> — il en garde un fragment, petit, froid au toucher, qui pulse à peine quand il le tient. Il le met dans sa bourse. Il ne sait pas encore ce qu'il en fera.</li>
+            </ul>
+          </div>
+          <p>Dans tous les cas : Aldric ressort de la mine avec quelque chose de changé dans son regard. Caïn l'attend à l'entrée. Il voit le regard. Il dit : « Maintenant tu sais. »</p>
+          <div class="dialogue">
+            <p class="dialogue-speaker">Aldric</p>
+            <p>« Qu'est-ce que je sais ? »</p>
+          </div>
+          <div class="dialogue">
+            <p class="dialogue-speaker">Caïn</p>
+            <p>« Que ça ne ressemble à rien d'autre. Et que ça n'aurait jamais dû être ouvert. »</p>
+          </div>
+        </article>
+
+        <!-- Scène 2.4 -->
+        <article id="a2s4" class="scene act2">
+          <div class="scene-header">
+            <span class="scene-num">2.4</span>
+            <h3 class="scene-title">Vel'Shan — La Nuit Avant</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag death">Massacre imminent</span>
+            <span class="tag">Vel'Shan</span>
+          </div>
+          <p>Vel'Shan est un village élindrién à trois kilomètres de la mine. Il est en zone de conflit mais pas en zone de combat actif — des civils y vivent encore, dont <strong>Lyria</strong>, soigneuse locale dont le village entier a été exposé pendant des mois à la poussière d'Échorite qui se diffuse depuis le site d'extraction. Elle soigne des malaises qu'elle n'arrive pas à nommer, une toux cristalline, des insomnies, des rêves trop vifs.</p>
+          <p>Aldric arrive à Vel'Shan avec sa compagnie pour y établir un point de liaison. Le village les reçoit avec la méfiance épuisée des gens qui ont déjà vécu deux occupations. Lyria est la seule à parler directement à Aldric — pas par courage particulier, mais parce qu'elle a trop de malades et pas assez de ressources, et qu'un officier a peut-être des médicaments.</p>
+          <div class="dialogue">
+            <p class="dialogue-speaker">Lyria</p>
+            <p>« Les enfants toussent depuis que la mine a commencé à fonctionner à plein régime. C'est la poussière. Ça brille dans leurs poumons. J'ai besoin de charbon actif, de tisanes anti-inflammatoires, de bandages. »</p>
+          </div>
+          <p>Aldric lui donne ce qu'il peut sortir des réserves médicales de la compagnie sans que ce soit trop visible. C'est un geste petit. Il ne sait pas encore que c'est un geste qui compte.</p>
+          <p>Le soir, un courrier lui apporte un ordre direct de l'état-major : demain à l'aube, une unité spéciale de la Garde Impériale arrive pour « pacification renforcée » de la zone. Vel'Shan est identifié comme nœud de résistance potentielle. Aldric lit l'ordre. Il relit le mot « pacification ». Il sait ce que ça veut dire.</p>
+        </article>
+
+        <!-- CP2 -->
+        <div id="cp2" class="cp-block">
+          <div class="cp-header">
+            <span class="cp-id">⊕ CP2</span>
+            <h3 class="cp-title">Le Massacre de Vel'Shan</h3>
+            <span class="cp-location">Village de Vel'Shan · Milieu Acte II</span>
+          </div>
+          <p class="cp-perspective-label">Perspective d'Aldric</p>
+          <p>L'aube. La Garde Impériale arrive. Aldric les voit entrer dans le village avec une efficacité qui ne ressemble à rien de ce qu'il a commandé lui-même — c'est de l'ordre pur, mécanique, sans hésitation ni reconnaissance de ce qu'il y a devant eux. Il reconnaît dans leurs yeux ce qu'il a vu à Nira et dans la mine : l'Échorite a fait son travail. Ces hommes ne font pas ce qu'on leur demande. Ils font ce qu'ils sont devenus.</p>
+          <p>Aldric est en retrait avec sa compagnie, officiellement en soutien. Il a un ordre qui l'y maintient. Il regarde. Ce qu'il voit dure vingt minutes. Vel'Shan n'est pas un nœud de résistance. C'est un village de malades et de vieux. La « pacification » est un terme propre pour une chose qui ne l'est pas.</p>
+          <p>Lyria survit parce qu'elle était à l'extérieur du village à ce moment-là, soignant quelqu'un dans une ferme isolée. Elle revient pour trouver ce qu'il reste. Elle voit Aldric. Aldric voit Lyria. Il ne peut pas lui expliquer pourquoi il est encore en uniforme.</p>
+          <p>Caïn, à côté de lui, dit tout bas : « C'est pour ça que je suis parti. » Ce n'est pas un reproche. C'est une constatation. Aldric tient son fragment d'Échorite dans sa poche fermée, et il sent le cristal tiède — parce que quelque chose en lui vient de monter d'un cran.</p>
+          <p>Il donne un ordre à sa compagnie : aider les survivants. Cet ordre n'est pas dans son briefing. Il s'en fiche.</p>
+        </div>
+
+        <!-- Scène 2.5 -->
+        <article id="a2s5" class="scene act2">
+          <div class="scene-header">
+            <span class="scene-num">2.5</span>
+            <h3 class="scene-title">La Forêt de Gael — Avant la Ligne</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag">Gael</span>
+            <span class="tag">Désintégration</span>
+          </div>
+          <p>Les jours après Vel'Shan. Aldric replié dans la forêt de Gael avec sa compagnie réduite — des pertes dans des engagements, mais aussi des désertions silencieuses de soldats qui ne trouvent plus de sens. La forêt est un no man's land boisé, zone tampon entre les deux armées. Ce n'est pas confortable. C'est le seul endroit où Aldric peut penser.</p>
+          <p>Lyria l'a suivi — pas officiellement, pas avec sa permission, mais elle est là, soignant les blessés de la compagnie et ne demandant rien en échange. Caïn est là. Brennan est là. La compagnie survivante se structure en quelque chose d'autre, quelque chose qui n'est plus tout à fait l'armée de Vareth.</p>
+          <p>Aldric reçoit des messages de l'état-major. Il y répond de manière de plus en plus économique. Il arrête de remonter certaines informations. Ce n'est pas encore de la rébellion. C'est de l'omission. La différence s'amincit.</p>
+          <p><strong>Rael</strong>, jeune noble élindrién qui a rejoint la rébellion par idéalisme, tente de contacter Aldric par l'intermédiaire d'un messager. Il veut des informations sur les mouvements de troupes de Vareth. Aldric refuse. Puis, une nuit après, il change d'avis. Il n'envoie pas des informations militaires — il envoie une carte des positions de la Garde Impériale. Juste ça. C'est suffisant.</p>
+        </article>
+
+        <!-- Scène 2.6 -->
+        <article id="a2s6" class="scene act2">
+          <div class="scene-header">
+            <span class="scene-num">2.6</span>
+            <h3 class="scene-title">L'Ordre Impossible</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag choice">Décision finale</span>
+            <span class="tag death">Point de non-retour</span>
+          </div>
+          <p>L'ordre arrive. Aldric doit conduire sa compagnie dans une opération de « nettoyage » d'un campement de réfugiés identifié comme point de ralliement de la résistance. Les coordonnées correspondent à un lieu qu'Aldric connaît : c'est là où les survivants de Vel'Shan se sont regroupés, dont certains soignés par Lyria. Ce n'est pas un camp militaire. Il le sait.</p>
+          <p>Il a vingt-quatre heures pour exécuter ou signaler un empêchement tactique. C'est le dernier moment où l'uniforme peut encore tenir.</p>
+          <div class="decision">
+            <p class="decision-label">Décision du joueur — Point de non-retour</p>
+            <ul class="decision-options">
+              <li><strong>Signaler un empêchement tactique inventé</strong> — Aldric achète du temps. Quelques jours. L'état-major envoie un autre officier. Aldric ne peut pas regarder cet officier dans les yeux quand il repart. La désertion vient de là — lente, comme une infection.</li>
+              <li><strong>Ne pas exécuter l'ordre et ne rien signaler</strong> — Le silence d'Aldric est lui-même un acte. L'état-major déclare sa compagnie en désertion collective. C'est plus propre moralement et plus dangereux pratiquement.</li>
+              <li><strong>Alerter les réfugiés directement</strong> — Aldric envoie un courrier aux survivants pour qu'ils évacuent. Il signe de son nom. C'est irréversible. Quand l'ordre arrive vide, tout le monde sait d'où vient la fuite.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- CP3 -->
+        <div id="cp3" class="cp-block">
+          <div class="cp-header">
+            <span class="cp-id">⊕ CP3</span>
+            <h3 class="cp-title">La Désertion d'Aldric</h3>
+            <span class="cp-location">Forêt de Gael · Fin Acte II</span>
+          </div>
+          <p class="cp-perspective-label">Perspective d'Aldric</p>
+          <p>Nuit. La forêt de Gael. Aldric est assis sur un tronc mort, son manteau d'officier sur les genoux. Il ne l'a pas encore enlevé, mais il ne l'a plus sur le dos. Brennan est là. Lyria est là. Caïn est là — depuis le début de la nuit, il n'a pas dit un mot, ce qui pour Caïn est une forme d'approbation.</p>
+          <p>Aldric dit à voix haute ce qu'il a décidé — non pas comme une annonce, mais comme si ça l'aidait à y croire : « Je ne remets pas cet uniforme. » Personne ne célèbre. C'est trop grave pour ça. Brennan dit : « Alors où est-ce qu'on va ? » et c'est la première fois qu'il dit « on ».</p>
+          <p>Dans la forêt, à ce moment précis, Daven les observe depuis les arbres — il travaillait sur quelque chose d'autre dans ce secteur, mais il a dévié pour être là. Il ne s'identifie pas encore. Il repart dans l'ombre avec une information : Aldric a choisi.</p>
+          <p>Aldric pose le manteau sur le tronc. La caméra le montre de dos dans la nuit, sans insigne. Pour la première fois depuis l'ouverture du jeu, il n'est plus rien de défini. C'est terreur et soulagement simultanés — le jeu laisse le joueur dans cet espace sans résoudre la tension.</p>
+        </div>
+      </section>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           ACTE III — LE COMMANDEMENT
+      ══════════════════════════════════════════════════════════ -->
+      <section id="acte3">
+        <div class="act-header">
+          <p class="act-number act3">Acte III · ~7 heures</p>
+          <h2 class="act-title">Le Commandement</h2>
+          <p class="act-tagline">« La différence entre un chef et un commandant : le chef sait ce qu'il demande vraiment. »</p>
+          <span class="act-tone act3">Ton : Gravité acquise · Deuil actif · Responsabilité sans rédemption facile</span>
+          <p class="act-intro">Aldric est maintenant commandant de terrain de la rébellion. Ce n'est pas un triomphe — c'est un poids qu'il a accepté parce que personne d'autre ne savait comment le tenir. L'Acte III est le plus exigeant moralement : il doit envoyer des gens mourir, prendre des décisions qui coûtent des vies, et regarder ce que Rael est devenu pendant ce temps. La mine d'Échorite attend au bout. Et ce qu'on y découvre est plus grand et plus sombre que n'importe quelle guerre politique.</p>
+        </div>
+
+        <!-- Scène 3.1 -->
+        <article id="a3s1" class="scene act3">
+          <div class="scene-header">
+            <span class="scene-num">3.1</span>
+            <h3 class="scene-title">La Rébellion — Apprendre à Commander Sans Uniforme</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag">Rébellion</span>
+            <span class="tag">Nouveau rôle</span>
+          </div>
+          <p>Le camp de la rébellion est à l'opposé de tout ce qu'Aldric connaît. Ce n'est pas une armée — c'est une convergence de gens qui ont des raisons différentes, certaines compatibles, certaines non. Seïra lui confie le commandement terrain non pas parce qu'elle lui fait entièrement confiance, mais parce que personne d'autre n'a son expérience. C'est un arrangement pragmatique entre deux personnes qui se respectent sans s'appartenir.</p>
+          <p>La première semaine est un désastre organisationnel. Aldric essaie d'appliquer des structures militaires varéthiennes à des gens qui ont fui les structures militaires varéthiennes. Ça ne fonctionne pas. Brennan lui dit, très calmement, que commander par autorité ne marchera pas ici — que ces gens suivent par conviction, pas par peur. Aldric doit apprendre à donner des ordres auxquels il croit lui-même.</p>
+          <p>C'est un apprentissage que le jeu laisse au joueur : les missions de l'Acte III échouent mécaniquement si Aldric ordonne des sacrifices inutiles, des attaques frontales aveugles, ou des décisions qui privilégient l'efficacité sur la vie de ses hommes. Le jeu ne l'explique pas — il le montre par les conséquences.</p>
+        </article>
+
+        <!-- Scène 3.2 -->
+        <article id="a3s2" class="scene act3">
+          <div class="scene-header">
+            <span class="scene-num">3.2</span>
+            <h3 class="scene-title">Le Prix du Commandement — Choisir qui va en avant</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag choice">Décision</span>
+            <span class="tag death">Sacrifice possible</span>
+          </div>
+          <p>La rébellion doit prendre un pont stratégique pour ouvrir un couloir vers la mine. Deux approches possibles — aucune n'est propre. Aldric doit choisir quelle équipe prend le risque le plus élevé.</p>
+          <div class="decision">
+            <p class="decision-label">Décision stratégique — avec conséquences de survie réelles</p>
+            <ul class="decision-options">
+              <li><strong>Attaque frontale avec l'équipe Brennan</strong> — puissance de feu maximale, pertes probables. Si Brennan est dans l'équipe active, il peut mourir ici en couvrant la retraite si le joueur a été trop agressif dans les combats précédents.</li>
+              <li><strong>Infiltration nocturne avec l'équipe Mira</strong> — moins de risques en théorie, mais si Mira a déjà été exposée ou si son identité a été compromise, l'infiltration tourne mal.</li>
+              <li><strong>Diversion avec Thessa</strong> — Thessa crée une explosion diversionnaire. Elle n'est pas une combattante. Si le joueur l'envoie en diversion sans soutien suffisant, elle peut être capturée — pas tuée, ce qui est sa forme de mort narrative : elle ne revient pas.</li>
+            </ul>
+          </div>
+          <p>Quelle que soit la décision, Aldric assume le résultat. Il n'a pas le luxe de la surprise. Il savait que quelqu'un paierait. Ce qu'il ne savait pas, c'est comment ça pèse quand c'est lui qui a choisi qui.</p>
+        </article>
+
+        <!-- Scène 3.3 -->
+        <article id="a3s3" class="scene act3">
+          <div class="scene-header">
+            <span class="scene-num">3.3</span>
+            <h3 class="scene-title">Rael — Ce que l'Idéalisme devient</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag">Rael</span>
+            <span class="tag">Miroir moral</span>
+          </div>
+          <p>Aldric et Rael ont une confrontation qui n'est pas encore une rupture, mais qui en a le goût. Rael a changé depuis le début de la rébellion — le jeune noble enthousiaste est devenu quelqu'un de froid, de précis, et de dangereux d'une manière qui inquiète Aldric précisément parce qu'il la reconnaît.</p>
+          <p>Rael propose d'exécuter des prisonniers varéthiens capturés pour « envoyer un message ». Il argue que c'est de la stratégie. Aldric argüe que ce n'est pas de la stratégie — c'est de la vengeance habillée en stratégie. Rael dit qu'Aldric n'a pas le droit moral de parler de vengeance illégitime après avoir servi Vareth.</p>
+          <div class="dialogue">
+            <p class="dialogue-speaker">Rael</p>
+            <p>« Tu as porté cet uniforme. Tu as exécuté des ordres. La différence entre toi et moi, c'est que moi j'ai des raisons personnelles que j'assume. Toi tu avais des raisons institutionnelles que tu niais. »</p>
+          </div>
+          <div class="dialogue">
+            <p class="dialogue-speaker">Aldric</p>
+            <p>Silence. Puis : « Les prisonniers ne sont pas exécutés. »</p>
+          </div>
+          <p>C'est une question d'autorité — Aldric gagne parce qu'il est le commandant. Mais il sait que Rael a mis quelque chose dans la pièce qui ne repartira pas. Et il sait aussi — c'est ce qui est vraiment difficile — que Rael n'a pas complètement tort.</p>
+          <div class="decision">
+            <p class="decision-label">Décision sur Brand</p>
+            <ul class="decision-options">
+              <li><strong>Épargner Brand</strong> — l'un des prisonniers varéthiens est un soldat nommé Brand, jeune, visiblement pas enthousiaste à l'idée d'être là. Aldric peut choisir de le garder plutôt que de l'échanger. C'est la condition d'accès à Brand comme compagnon.</li>
+              <li><strong>Faire le choix logistique</strong> — l'échanger contre des ressources. Brand ne revient pas. L'opportunité est close.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Scène 3.4 -->
+        <article id="a3s4" class="scene act3">
+          <div class="scene-header">
+            <span class="scene-num">3.4</span>
+            <h3 class="scene-title">La Percée — Vers la Mine</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag echorite">Échorite</span>
+            <span class="tag death">Combat final avant CP4</span>
+          </div>
+          <p>L'offensive finale vers la mine. Aldric conduit la rébellion dans un assaut coordonné sur les positions varéthiennes qui gardent les accès. C'est le combat le plus dur du jeu — pas parce que les ennemis sont plus nombreux, mais parce qu'ils sont transformés. Les soldats de la Garde Impériale en contact long avec l'Échorite ne se comportent plus comme des humains sous pression. Ils ne se replient pas. Ils ne se rendent pas. Ils absorbent des blessures qui devraient les arrêter et continuent. Ce ne sont pas des monstres — ils sont encore reconnaissables — mais quelque chose a cédé dans le mécanisme qui lie la douleur à la survie.</p>
+          <div class="echorite-note">
+            <p class="echorite-note-label">Échorite · Transformation avancée</p>
+            <p>À ce stade, les soldats de la Garde exposés depuis le début de la guerre montrent des transformations physiques visibles : des plaques de cristal bleu-vert sous la peau, une réduction de la mobilité compensée par une force brute augmentée, et une communication qui ressemble à du langage mais dont la syntaxe s'est appauvrie vers des impératifs purs. Ils obéissent à Varek non plus par loyauté mais parce que l'obéissance est la seule structure cognitive qui leur reste. C'est ce que l'Échorite amplifie en eux : le conditionnement jusqu'à ce qu'il n'y ait plus rien d'autre.</p>
+          </div>
+          <p>C'est dans cette bataille que la mort d'un compagnon est la plus probable mécaniquement — et la plus lourde narrativement. La percée coûte quelque chose à Aldric, quelle que soit la composition de son équipe.</p>
+        </article>
+
+        <!-- Scène 3.5 -->
+        <article id="a3s5" class="scene act3">
+          <div class="scene-header">
+            <span class="scene-num">3.5</span>
+            <h3 class="scene-title">Le Cœur de la Mine — Ce qu'on Trouve</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag echorite">Échorite</span>
+            <span class="tag">Révélation</span>
+          </div>
+          <p>Aldric entre dans les profondeurs que même les alchimistes de Varek n'ont pas encore atteintes. Daven l'attend — ils convergent ici, venant de directions différentes. Ce qu'ils trouvent dans la chambre centrale n'est pas un gisement minéral.</p>
+          <p>C'est une structure. Ancienne, parfaite, intacte malgré les siècles. Des colonnes de cristal pur qui montent jusqu'à un plafond naturel, et au centre : un mécanisme — pas une machine au sens industriel, mais quelque chose qui ressemble à un organe, à un cœur, à quelque chose qui était vivant ou qui simule la vie avec une précision troublante. L'Échorite n'est pas un minéral. C'est quelque chose qu'une civilisation disparue a cultivé, soigné, utilisé selon des règles qu'on n'a plus. Ce que Varek fait depuis des années, c'est prélever des organes sans savoir ce qu'il opère.</p>
+          <p>Le fragment qu'Aldric a dans sa poche — si le joueur a fait ce choix en Acte II — pulse fortement ici. Aldric comprend que tout ce temps, il portait quelque chose de vivant sur lui. Ce n'est pas une révélation confortable.</p>
+        </article>
+
+        <!-- CP4 -->
+        <div id="cp4" class="cp-block">
+          <div class="cp-header">
+            <span class="cp-id">⊕ CP4</span>
+            <h3 class="cp-title">La Mine d'Échorite</h3>
+            <span class="cp-location">Cœur de la mine · Fin Acte III · Convergence</span>
+          </div>
+          <p class="cp-perspective-label">Perspective d'Aldric</p>
+          <p>Les quatre personnages jouables se trouvent ici en même temps pour la première fois. Varek est là — pas en fuite, pas en dernière défense, mais présent comme si c'était sa place. Et peut-être que c'est le cas : il connaît cet endroit mieux que quiconque, il y a consacré des années, et ce qu'on lit dans sa posture n'est pas de la folie. C'est de la conviction. Il croit que ce qu'il a fait était nécessaire. Il a peut-être des raisons.</p>
+          <p>Aldric voit Varek pour la deuxième fois depuis l'audience du début de l'Acte II. L'Empereur est différent — les yeux de verre ont gagné quelque chose, une couche de cristal translucide aux commissures. Il s'est exposé lui-même, longtemps, délibérément. L'Échorite l'a amplifié comme il amplifie tout le monde — ce qu'il était déjà, plus grand, plus net, plus impossible à arrêter.</p>
+          <p>Aldric n'a pas de discours préparé. Il n'est pas venu pour les mots. Ce qu'il a à dire, il l'a dit à Vel'Shan en aidant les survivants, en forêt de Gael en posant l'uniforme sur un tronc mort. Ici, dans la mine, il n'est plus en train de choisir — il est le résultat de ses choix. Ce que le joueur a fait pendant vingt heures est là, visible, dans la composition de l'équipe, dans qui est mort, dans ce qu'Aldric porte encore ou a laissé tomber.</p>
+          <p>La confrontation avec Varek n'est pas résolvable par le seul Aldric. C'est là que les quatre arcs se fondent — chacun a quelque chose que les autres n'ont pas. Aldric a la légitimité militaire, la connaissance de la mine pour y avoir été, et les compagnons qui restent. Ce qu'il apporte, c'est une armée de gens qui ont choisi d'être là.</p>
+          <p>Ce que l'issue laisse ouvert : la structure centrale de la mine, une fois Varek neutralisé, continue de pulser. Elle ne dépend pas de lui. Elle existait avant lui. Elle existera après. Ce que la civilisation disparue avait commencé n'est pas fini. Ce n'est pas résolu. C'est arrêté — pour l'instant.</p>
+        </div>
+
+        <!-- Scène 3.6 -->
+        <article id="a3s6" class="scene act3">
+          <div class="scene-header">
+            <span class="scene-num">3.6</span>
+            <h3 class="scene-title">Après — Ce qui reste</h3>
+          </div>
+          <div class="scene-tags">
+            <span class="tag">Épilogue</span>
+          </div>
+          <p>L'épilogue d'Aldric n'est pas triomphal. La guerre se termine — pas avec une fanfare, mais avec l'épuisement de quelque chose qui a duré trop longtemps. Aldric n'a pas de titre, pas de retour possible à Vareth, pas de place dans la nouvelle structure d'Élindre (ce n'est pas son royaume). Il est commandant d'une armée qui s'est battue pour quelque chose et qui n'existe plus maintenant que ce quelque chose est accompli.</p>
+          <p>Ce que l'épilogue montre dépend entièrement de qui est encore en vie. Si Brennan survit, Aldric a quelqu'un avec qui parler sans avoir à justifier ses choix. Si Lyria survit, il y a de la reconstruction — pas romantique, mais réelle, de personnes qui soignent ce qui peut encore l'être. Si personne ne survit parmi ses proches : Aldric seul sur la route, l'uniforme de la rébellion qu'on lui a donné déjà usé, marchant sans direction fixe pour la première fois depuis qu'il sait marcher.</p>
+          <p>La dernière image du jeu, dans la perspective d'Aldric, montre le fragment d'Échorite — si le joueur l'a gardé — posé sur le sol de la mine avant qu'il reparte. Il l'y laisse. Ce n'est pas le sien. Ça ne l'a jamais été.</p>
+        </article>
+      </section>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           LES COMPAGNONS
+      ══════════════════════════════════════════════════════════ -->
+      <section id="companions">
+        <div class="section-break">
+          <p class="section-eyebrow">Compagnons · Arc dans l'histoire d'Aldric</p>
+          <h2 class="section-title">Les Neuf</h2>
+        </div>
+        <p style="color:var(--text-dim);font-size:var(--scale-sm);margin-bottom:1.5rem;line-height:1.7;">Chaque compagnon a des moments clés dans l'arc d'Aldric — des conversations de camp, des scènes de combat, des confrontations narratives. Leur mort éventuelle n'est jamais une simple stat : c'est une perte qui laisse quelque chose d'inachevé dans l'histoire.</p>
+
+        <div class="companion-grid">
+
+          <div class="companion-card">
+            <div class="companion-card-header">
+              <span class="companion-name">Brennan</span>
+              <span class="companion-role">Protecteur · Tank</span>
+            </div>
+            <ul class="companion-moments">
+              <li><strong>Camp Acte I :</strong> Brennan teste Aldric avec la phrase sur la lame sans mauvaises nuits. C'est une question déguisée : est-ce qu'Aldric est encore un homme ou déjà un outil ?</li>
+              <li><strong>Forêt de Gael :</strong> Quand Aldric pose l'uniforme, Brennan dit « on » pour la première fois. C'est la chose la plus simple et la plus lourde qu'il puisse dire.</li>
+              <li><strong>Acte III :</strong> Si Brennan survit jusqu'à la mine, il reste en arrière pour tenir une position pendant qu'Aldric descend. C'est son poste naturel — tenir ce que les autres traversent.</li>
+            </ul>
+            <p class="death-line">S'il meurt en couvrant Aldric lors de la percée de l'Acte III : il ne tombe pas d'un seul coup. Il tient encore quelques secondes après que le coup est fatal, juste assez longtemps pour être sûr que la ligne est tenue. Aldric le voit faire ça. Il n'oubliera pas.</p>
+          </div>
+
+          <div class="companion-card">
+            <div class="companion-card-header">
+              <span class="companion-name">Lyria</span>
+              <span class="companion-role">Soigneuse</span>
+            </div>
+            <ul class="companion-moments">
+              <li><strong>Vel'Shan Acte II :</strong> Elle demande des médicaments à un officier ennemi. Elle ne lui demande pas s'il est bon ou mauvais. Elle lui demande si ses enfants toussent.</li>
+              <li><strong>Camp Acte III :</strong> Lyria soigne des blessures causées par des soldats Échorite-transformés. Elle dit qu'elle ne peut pas haïr des gens qui ne sont plus tout à fait eux-mêmes. Aldric lui demande si elle peut quand même les arrêter. Elle dit : « Oui. »</li>
+              <li><strong>Cœur de la mine :</strong> Lyria reconnaît dans la structure centrale quelque chose qui ressemble aux symptômes de ses patients — ce que la mine « respire » ressemble à ce qu'elle a vu dans les poumons des enfants. C'est elle qui comprend le premier.</li>
+            </ul>
+            <p class="death-line">Si elle meurt en protégeant Aldric : elle interpose son corps devant une attaque qu'Aldric n'a pas vue venir. Elle avait dit une fois qu'elle était soigneuse, pas soldat. La dernière chose qu'elle dit n'est pas pour Aldric — c'est pour elle-même.</p>
+          </div>
+
+          <div class="companion-card">
+            <div class="companion-card-header">
+              <span class="companion-name">Caïn</span>
+              <span class="companion-role">Attaquant · Déserteur</span>
+            </div>
+            <ul class="companion-moments">
+              <li><strong>Mine Acte II :</strong> « Maintenant tu sais. » C'est la seule chose qu'il dit. Il n'explique pas. Il attend qu'Aldric arrive lui-même à la conclusion.</li>
+              <li><strong>Gael Acte II :</strong> Caïn ne célèbre pas la désertion d'Aldric. Il lui dit : « Ça ne te rend pas meilleur que ce que tu étais. Ça te rend libre de le devenir. » Aldric n'est pas sûr d'apprécier la distinction.</li>
+              <li><strong>Acte III :</strong> Caïn et Aldric ont une conversation nocturne sur ce qu'on fait du reste — après la guerre, si on survit. Caïn dit qu'il ne sait pas. Pour la première fois, il n'a pas l'air amer à ce sujet.</li>
+            </ul>
+            <p class="death-line">Si Caïn meurt : il le fait sans drame, d'une manière qui ressemble à Caïn — sans discours, sans geste théâtral. Il s'assoit, il dit le nom d'Aldric, et il s'arrête. L'amertume qu'il portait partout disparaît avant le reste.</p>
+          </div>
+
+          <div class="companion-card">
+            <div class="companion-card-header">
+              <span class="companion-name">Mira</span>
+              <span class="companion-role">Utilitaire · Renseignement</span>
+            </div>
+            <ul class="companion-moments">
+              <li><strong>Palais Acte I :</strong> Elle l'observe sans être vue. Si elle rejoint l'équipe en Acte II : il apprend qu'elle était là depuis le début. Il n'est pas sûr de savoir comment traiter ça.</li>
+              <li><strong>Acte II :</strong> Mira lui donne le dossier médical du soldat avec la plaque de peau cristalline. Elle ne dit pas comment elle l'a obtenu. Elle dit : « L'Alchimiste Impérial a classé ça comme anodin. Il ne l'a pas cru lui-même. »</li>
+              <li><strong>Acte III :</strong> Mira révèle ce qu'elle sait sur la mine — la civilisation disparue, les traces documentaires dans les archives du feu roi. Ce n'est pas tout, mais c'est assez pour orienter.</li>
+            </ul>
+            <p class="death-line">Si Mira meurt : c'est souvent par exposition — elle a couru un risque d'infiltration de trop. Elle meurt seule, quelque part où Aldric ne peut pas être. On lui rapporte. C'est cette solitude dans sa mort qui est difficile à porter.</p>
+          </div>
+
+          <div class="companion-card">
+            <div class="companion-card-header">
+              <span class="companion-name">Rael</span>
+              <span class="companion-role">Attaquant · Noble déchu</span>
+            </div>
+            <ul class="companion-moments">
+              <li><strong>Contact Acte II :</strong> Il demande des informations. Aldric refuse, puis envoie la carte de position. Ce premier geste d'Aldric vers la trahison de Vareth passe par Rael.</li>
+              <li><strong>Confrontation Acte III :</strong> La scène sur les prisonniers. Rael dit ce qu'il pense et il n'a pas tort sur tout. C'est ce qui le rend difficile à gérer.</li>
+              <li><strong>Combat final :</strong> Rael se bat avec une précision qui fait peur — pas parce qu'il est cruel, mais parce qu'il ne recule plus. L'idéaliste est devenu quelqu'un qui a décidé de ce qu'il valait la peine de briser.</li>
+            </ul>
+            <p class="death-line">Si Rael meurt : c'est en avant-garde, là où il a toujours voulu être. Aldric lui avait dit que l'avant-garde coûte cher. Rael avait répondu qu'il le savait. Il savait.</p>
+          </div>
+
+          <div class="companion-card">
+            <div class="companion-card-header">
+              <span class="companion-name">Thessa</span>
+              <span class="companion-role">Utilitaire · Ingénieure</span>
+            </div>
+            <ul class="companion-moments">
+              <li><strong>Acte III :</strong> Thessa construit les défenses du camp. Elle explique à Aldric la physique des explosions comme si c'était une conversation normale. Il écoute. Il apprend que la compétence n'a pas besoin d'être martiale pour être indispensable.</li>
+              <li><strong>Pont Acte III :</strong> Si Aldric l'envoie en diversion, c'est sa décision. Elle y va parce qu'il le lui demande. Elle ne dit pas que c'est dangereux — elle le sait déjà.</li>
+              <li><strong>Mine :</strong> Thessa identifie le mécanisme central comme une structure d'ingénierie — « quelqu'un l'a construit. » Pour elle, ça change tout.</li>
+            </ul>
+            <p class="death-line">Si Thessa est capturée : elle n'est pas tuée sur le terrain mais n'est jamais retrouvée. C'est une mort incertaine, la pire sorte — Aldric ne sait pas ce qui lui est arrivé. Il vit avec ça.</p>
+          </div>
+
+          <div class="companion-card">
+            <div class="companion-card-header">
+              <span class="companion-name">Orwen</span>
+              <span class="companion-role">Protecteur · Général retraité</span>
+            </div>
+            <ul class="companion-moments">
+              <li><strong>Palais Acte I :</strong> La reconnaissance entre deux soldats. Orwen plante la graine : « des erreurs dont je n'ai jamais trouvé le fond. »</li>
+              <li><strong>Rébellion Acte III :</strong> Orwen est le seul qui ne juge pas Aldric pour avoir servi Vareth. Il comprend comment on en arrive là. Il lui explique la différence entre la culpabilité productive et la culpabilité qui paralyse.</li>
+              <li><strong>Avant la percée :</strong> Orwen lui dit qu'il a vu des guerres finir. « Elles finissent toutes mal pour quelqu'un. Le mieux qu'on puisse faire, c'est choisir pour qui. »</li>
+            </ul>
+            <p class="death-line">Si Orwen meurt : il le fait en sachant que c'est probable — il est le plus âgé, pas le plus rapide, et il le sait. Il protège Aldric une dernière fois comme il l'a fait depuis le début : avec de la compréhension plutôt que de la force.</p>
+          </div>
+
+          <div class="companion-card">
+            <div class="companion-card-header">
+              <span class="companion-name">Kira</span>
+              <span class="companion-role">Utilitaire/Attaquante · Ancienne contact de Daven</span>
+            </div>
+            <ul class="companion-moments">
+              <li><strong>Recrutement conditionnel :</strong> Kira n'apparaît que si Daven a réussi à la protéger. Elle arrive dans l'équipe d'Aldric avec une méfiance spécifique envers les anciens soldats varéthiens — une méfiance qu'Aldric doit gagner.</li>
+              <li><strong>Acte III :</strong> Kira a accès à des informations sur les mouvements de la Garde Impériale que personne d'autre n'a. Elle les partage, mais à ses conditions.</li>
+              <li><strong>Mine :</strong> Elle est la plus à l'aise dans les environnements souterrains — elle a travaillé sous couverture dans les tunnels. C'est elle qui guide dans les profondeurs.</li>
+            </ul>
+            <p class="death-line">Si Kira meurt : c'est souvent dans les tunnels — un éboulement, une trappe, quelque chose d'imprévisible. Elle a survécu à trop de choses contrôlées pour mourir d'autre chose que du hasard pur. Aldric trouve difficile de ne pas en rire amèrement.</p>
+          </div>
+
+          <div class="companion-card">
+            <div class="companion-card-header">
+              <span class="companion-name">Brand</span>
+              <span class="companion-role">Recrue conditionnelle · Ancien soldat de Varek</span>
+            </div>
+            <ul class="companion-moments">
+              <li><strong>Scène d'épargne Acte III :</strong> Brand est le seul compagnon dont le recrutement passe par un choix explicite de clémence. Il ne comprend pas tout de suite pourquoi Aldric l'a épargné.</li>
+              <li><strong>Intégration :</strong> Brand est maladroit dans la rébellion — il parle le langage militaire de Vareth, il a les réflexes de Vareth. Caïn est particulièrement dur avec lui. Aldric doit décider jusqu'où il laisse ça aller.</li>
+              <li><strong>Mine :</strong> Brand, qui connaît les protocoles de la Garde Impériale, peut identifier des failles dans les défenses qu'Aldric n'aurait pas vues. C'est sa justification dans l'équipe — pas la force, mais la connaissance du système d'en face.</li>
+            </ul>
+            <p class="death-line">Si Brand meurt : il meurt en faisant quelque chose qu'on n'attendait pas de lui — une protection instinctive, un geste vers quelqu'un qu'il ne connaissait pas bien. L'ancien soldat de Varek a choisi quelqu'un d'autre que Varek. C'est tout.</p>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ══════════════════════════════════════════════════════
+           SCÈNE DE MORT TYPE
+      ══════════════════════════════════════════════════════════ -->
+      <section id="death-scene">
+        <div class="section-break">
+          <p class="section-eyebrow">Traitement narratif · Exemple développé</p>
+          <h2 class="section-title">La Mort de Brennan — Scène Développée</h2>
+        </div>
+        <p style="color:var(--text-dim);font-size:var(--scale-sm);margin-bottom:1.5rem;line-height:1.7;">Cette scène illustre le traitement type de la mort d'un compagnon dans le gameplay d'Aldric — comment la mécanique de protection se fond dans la narration.</p>
+
+        <div class="companion-death">
+          <p class="companion-death-label">Mort en combat — Protection d'Aldric</p>
+          <p>La percée vers la mine, troisième acte. L'équipe progresse dans un couloir étroit de la forteresse extérieure. Un soldat de la Garde Impériale — transformé, plaques de cristal sur la mâchoire et l'épaule gauche, ne ressentant plus la douleur des blessures reçues — charge Aldric par le flanc aveugle. Aldric est en train de donner un ordre à Kira, dos partiellement tourné.</p>
+          <p>La mécanique de survie s'active : Brennan interpose son bouclier, prend le choc. La Garde Impériale ne s'arrête pas — elle continue avec sa lame de la main libre. Ce coup-là passe le bouclier. Brennan tient. Il repousse l'assaillant. Kira et Lyria finissent l'engagement. Aldric se retourne et voit Brennan en train de s'agenouiller, pas de façon spectaculaire — juste parce que ses jambes ne portent plus.</p>
+          <p>Le jeu ne coupe pas à une cinématique. La scène reste en gameplay — le joueur contrôle encore Aldric, mais il n'y a plus rien à combattre. Juste Brennan sur un genou, Aldric devant lui. Brennan dit quelque chose, mais pas ce qu'on attendrait. Il dit :</p>
+        </div>
+
+        <div class="dialogue">
+          <p class="dialogue-speaker">Brennan</p>
+          <p>« J'ai toujours su que tu laisserais les gens en vie. Dès le premier soir. Les bandits ligotés sur la route. »<br><br>
+          Pause. Sa respiration est trop courte.<br><br>
+          « C'est pour ça que j'ai dit 'on'. Je me disais — un homme qui laisse les gens en vie quand il peut choisir autrement, c'est quelqu'un pour qui ça vaut quelque chose. »<br><br>
+          Il n'attend pas de réponse. Il s'allonge sur sa décision comme il a fait tout le reste — de son propre chef.</p>
+        </div>
+
+        <div class="companion-death">
+          <p class="companion-death-label">Traitement post-mort</p>
+          <p>Le jeu n'annonce pas « Brennan est mort » avec une fenêtre de notification. Son portrait dans l'interface de groupe s'assombrit en fondu lent — un noir progressif qui laisse les traits visibles longtemps avant qu'ils disparaissent complètement. Le camp suivant, sa couchette est vide. Les autres compagnons n'en parlent pas immédiatement — il faut que le joueur engage la conversation. Caïn, si présent, dit une seule chose : « Il a fait ce qu'il faisait. » Ce n'est pas de la consolation. C'est de la reconnaissance.</p>
+          <p>Aldric ne prononce pas d'oraison. Il n'a pas les mots pour les gens qui méritent vraiment quelque chose. Il range dans sa mémoire ce que Brennan a dit sur les bandits ligotés, et la prochaine fois qu'il donne un ordre qui épargne quelqu'un, il le fait avec un poids supplémentaire — le poids de quelqu'un qui avait remarqué et qui ne peut plus remarquer.</p>
+        </div>
+      </section>
+
+    </div><!-- /content -->
+
+    <footer class="doc-footer">
+      <p>Bible Narrative · Arc Aldric · Version de travail</p>
+      <p>Vareth × Élindre · Jeu de rôle à la japonaise</p>
+    </footer>
+
+  </main><!-- /main -->
+</div><!-- /layout -->
+
+<!-- ══════════════════════════════════════════════════════════
+     CRYSTAL CANVAS — Echorite growth animation
+══════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  const canvas = document.getElementById('crystal-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let W, H, animId;
+  const branches = [];
+  const MAX_BRANCHES = 280;
+  const BRANCH_SPEED = 0.9;
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function randomAngle(base, spread) {
+    return base + (Math.random() - 0.5) * spread;
+  }
+
+  function spawnBranch(x, y, angle, gen, length) {
+    branches.push({
+      x, y, angle,
+      gen: gen || 0,
+      maxLen: length || (80 + Math.random() * 120),
+      len: 0,
+      done: false,
+      children: false,
+      // color tier
+      hue: 175 + Math.random() * 30,
+      sat: 55 + Math.random() * 25,
+      lum: 35 + Math.random() * 25,
+      alpha: 0.6 + Math.random() * 0.35,
+      width: Math.max(0.4, 1.8 - gen * 0.45)
+    });
+  }
+
+  function init() {
+    branches.length = 0;
+    ctx.clearRect(0, 0, W, H);
+    // seed points along bottom-left region
+    const seeds = 4 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < seeds; i++) {
+      spawnBranch(
+        W * 0.05 + Math.random() * W * 0.5,
+        H * 0.6 + Math.random() * H * 0.35,
+        -Math.PI / 2 + (Math.random() - 0.5) * 1.2,
+        0,
+        90 + Math.random() * 80
+      );
+    }
+  }
+
+  function step() {
+    for (let i = 0; i < branches.length; i++) {
+      const b = branches[i];
+      if (b.done) continue;
+
+      const growStep = BRANCH_SPEED + Math.random() * 0.6;
+      const nx = b.x + Math.cos(b.angle) * growStep;
+      const ny = b.y + Math.sin(b.angle) * growStep;
+
+      ctx.beginPath();
+      ctx.moveTo(b.x, b.y);
+      ctx.lineTo(nx, ny);
+      ctx.strokeStyle = `hsla(${b.hue}, ${b.sat}%, ${b.lum}%, ${b.alpha})`;
+      ctx.lineWidth = b.width;
+      ctx.stroke();
+
+      b.x = nx; b.y = ny;
+      b.len += growStep;
+
+      // slight drift
+      b.angle += (Math.random() - 0.5) * 0.08;
+
+      if (b.len >= b.maxLen) {
+        b.done = true;
+      } else if (!b.children && b.len > b.maxLen * 0.4 && Math.random() < 0.025) {
+        // branch off
+        if (b.gen < 4 && branches.length < MAX_BRANCHES) {
+          const spread = 0.6 + b.gen * 0.15;
+          spawnBranch(b.x, b.y, randomAngle(b.angle - Math.PI / 5, spread), b.gen + 1, b.maxLen * (0.45 + Math.random() * 0.35));
+          if (Math.random() < 0.4) {
+            spawnBranch(b.x, b.y, randomAngle(b.angle + Math.PI / 5, spread), b.gen + 1, b.maxLen * (0.4 + Math.random() * 0.3));
+          }
+          b.children = true;
+        }
+      }
+    }
+
+    // occasionally add new seeds while there's room
+    const active = branches.filter(b => !b.done).length;
+    if (active < 8 && branches.length < MAX_BRANCHES) {
+      spawnBranch(
+        W * 0.1 + Math.random() * W * 0.6,
+        H * 0.5 + Math.random() * H * 0.45,
+        -Math.PI / 2 + (Math.random() - 0.5) * 1.4,
+        0,
+        70 + Math.random() * 100
+      );
+    }
+
+    const allDone = branches.every(b => b.done);
+    if (!allDone) {
+      animId = requestAnimationFrame(step);
+    }
+  }
+
+  function start() {
+    if (animId) cancelAnimationFrame(animId);
+    resize();
+    init();
+    // dark gradient background for canvas
+    const grad = ctx.createLinearGradient(0, 0, W, H);
+    grad.addColorStop(0, '#080A12');
+    grad.addColorStop(1, '#0D1020');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+    step();
+  }
+
+  window.addEventListener('resize', () => { start(); });
+  start();
+})();
+</script>
+
+</body>
+</html>

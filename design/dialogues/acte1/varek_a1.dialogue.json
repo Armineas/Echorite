@@ -1,0 +1,316 @@
+{
+  "_comment": "Acte 1 — Varek. Mode 4X. 4 scènes + CP1.",
+  "_design": "Varek ne doute jamais. Ses dialogues montrent une logique interne parfaite. Le joueur peut être d'accord avec lui.",
+
+  "scenes": {
+
+    "varek_a1_s1_rapport": {
+      "id": "varek_a1_s1_rapport",
+      "character": "varek",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Cabinet de travail. 6h du matin. Varek lit les rapports de la nuit."},
+          "next": "sehn_entre"
+        },
+
+        "sehn_entre": {
+          "type": "line",
+          "speaker": "Sehn",
+          "text": {"fr": "Les rapports de nuit, Sire. Rien d'urgent."},
+          "next": "varek_lit"
+        },
+
+        "varek_lit": {
+          "type": "description",
+          "text": {"fr": "Varek lit chaque page. Il ne saute rien."},
+          "next": "varek_note_rapport"
+        },
+
+        "varek_note_rapport": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Le village de Vel'Shan. Deuxième signalement d'activité rebelle ce mois-ci. Vérifiez si le rapport précédent a été transmis au troisième régiment."},
+          "next": "sehn_repond"
+        },
+
+        "sehn_repond": {
+          "type": "line",
+          "speaker": "Sehn",
+          "text": {"fr": "Je vérifie immédiatement, Sire."},
+          "next": "varek_repose"
+        },
+
+        "varek_repose": {
+          "type": "description",
+          "text": {"fr": "Varek pose le rapport face contre table. Prend le suivant."},
+          "next": "fin_rapport_auto"
+        },
+
+        "fin_rapport_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 1, "scene_id": "varek_a1_s1_rapport"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a1_s2_protocole": {
+      "id": "varek_a1_s2_protocole",
+      "character": "varek",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Cabinet privé. Orveth présente le Protocole d'Amplification du 7ème Régiment."},
+          "next": "orveth_presente"
+        },
+
+        "orveth_presente": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Les résultats sur les unités volontaires sont sans ambiguïté. Endurance triplée. Temps de réaction divisé par deux. Aucune défaillance structurelle sur trente jours."},
+          "next": "varek_questionne"
+        },
+
+        "varek_questionne": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Les défaillances à soixante jours ?"},
+          "next": "orveth_esquive"
+        },
+
+        "orveth_esquive": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Données insuffisantes à ce stade. La fenêtre opérationnelle justifie le déploiement."},
+          "next": "varek_decide"
+        },
+
+        "varek_decide": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Trente jours suffisent pour la campagne de printemps. On signe."},
+              "next": "varek_signe",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Les données à soixante jours d'abord. La victoire lente vaut mieux que l'effondrement rapide."},
+              "next": "varek_refuse_signe",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_signe": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Et si les données à soixante jours montrent une dégradation, on arrête. Sans exception."},
+          "next": "fin_signe_auto"
+        },
+
+        "fin_signe_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 14, "value": true},
+            {"type": "complete_scene", "character": "varek", "act": 1, "scene_id": "varek_a1_s2_protocole"}
+          ],
+          "next": "end"
+        },
+
+        "varek_refuse_signe": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Revenez avec les données complètes. Je ne déploie pas sur des lacunes."},
+          "next": "fin_refuse_auto"
+        },
+
+        "fin_refuse_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 1, "scene_id": "varek_a1_s2_protocole"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a1_s3_delegation_prep": {
+      "id": "varek_a1_s3_delegation_prep",
+      "character": "varek",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Salle de préparation. Les documents de la délégation sont sur la table. Varek les lit une dernière fois."},
+          "next": "varek_lit_docs"
+        },
+
+        "varek_lit_docs": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Les clauses secondaires sont lisibles si on sait où chercher. Ils ne sauront pas où chercher."},
+          "next": "lireth_entre"
+        },
+
+        "lireth_entre": {
+          "type": "line",
+          "speaker": "Lireth",
+          "text": {"fr": "Les représentants de Lyreveth sont prêts, Sire."},
+          "next": "varek_signe_docs"
+        },
+
+        "varek_signe_docs": {
+          "type": "description",
+          "text": {"fr": "Varek signe les documents sans hésiter. Une signature propre, rapide."},
+          "next": "varek_commentaire"
+        },
+
+        "varek_commentaire": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Six mois. C'est le temps qu'il leur faudra pour comprendre. Ça nous suffit."},
+          "next": "fin_delegation_prep"
+        },
+
+        "fin_delegation_prep": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 1, "scene_id": "varek_a1_s3_delegation_prep"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a1_s4_usage_prive": {
+      "id": "varek_a1_s4_usage_prive",
+      "character": "varek",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Appartements privés. Nuit. Un coffret en bois sombre sur le bureau."},
+          "next": "varek_seul"
+        },
+
+        "varek_seul": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Si je déploie quelque chose sur mes soldats, il est raisonnable que je comprenne ce que c'est."},
+          "next": "varek_ouvre"
+        },
+
+        "varek_ouvre": {
+          "type": "description",
+          "text": {"fr": "Il ouvre le coffret. Un cristal violet sombre, de la taille d'un pouce. Il l'observe un long moment."},
+          "next": "varek_choix_usage"
+        },
+
+        "varek_choix_usage": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Fermer le coffret. Ce n'est pas le bon moment."},
+              "next": "varek_repose_coffret",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Continuer. Comprendre par l'expérience."},
+              "next": "varek_utilise",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_repose_coffret": {
+          "type": "description",
+          "text": {"fr": "Il referme le coffret. Le range dans le tiroir du haut. Prend le rapport suivant."},
+          "next": "fin_usage_prive"
+        },
+
+        "varek_utilise": {
+          "type": "description",
+          "text": {"fr": "Ce qui se passe ensuite n'est pas visible de l'extérieur. Varek reste seul deux heures. Quand Sehn entre avec le rapport du matin, il est à son bureau, comme toujours."},
+          "next": "varek_apres"
+        },
+
+        "varek_apres": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Donc voilà ce que c'est. Intéressant."},
+          "next": "fin_usage_prive"
+        },
+
+        "fin_usage_prive": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 1, "scene_id": "varek_a1_s4_usage_prive"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a1_cp1": {
+      "id": "varek_a1_cp1",
+      "character": "varek",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "line",
+          "speaker": "Sehn",
+          "text": {"fr": "La délégation de Lyreveth a accepté les termes, Sire. Les documents ont été remis."},
+          "next": "varek_repond_sehn"
+        },
+
+        "varek_repond_sehn": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "La comédie est terminée."},
+          "next": "sehn_cp1_2"
+        },
+
+        "sehn_cp1_2": {
+          "type": "line",
+          "speaker": "Sehn",
+          "text": {"fr": "Et s'ils découvrent avant six mois ?"},
+          "next": "varek_repond_sehn_2"
+        },
+
+        "varek_repond_sehn_2": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "S'ils découvrent, c'est que j'ai mal calibré les clauses. Dans ce cas : mon erreur, pas la leur."},
+          "next": "varek_pose_rapport"
+        },
+
+        "varek_pose_rapport": {
+          "type": "description",
+          "text": {"fr": "Il pose le rapport face contre table. Prend le suivant."},
+          "next": "fin_cp1_varek"
+        },
+
+        "fin_cp1_varek": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 1, "scene_id": "cp1_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

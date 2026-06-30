@@ -1,0 +1,394 @@
+{
+  "_comment": "Acte 1 — Aldric. Mode RPG. 4 scènes + CP1.",
+  "_format": "text est un dict {lang: string}. internal:true = monologue intérieur. type:description = intertitle sans locuteur.",
+
+  "scenes": {
+
+    "aldric_a1_s1_frontiere": {
+      "id": "aldric_a1_s1_frontiere",
+      "character": "aldric",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La Frontière du Vareth. Poste avancé de la Première Division. Aube."},
+          "next": "soldat_questionne"
+        },
+
+        "soldat_questionne": {
+          "type": "line",
+          "speaker": "Jeune soldat",
+          "text": {"fr": "Lieutenant. Vous avez déjà été de l'autre côté ?"},
+          "next": "aldric_repond_frontiere"
+        },
+
+        "aldric_repond_frontiere": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Non."},
+              "next": "soldat_frontiere_2",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Qu'est-ce que ça changerait ?"},
+              "next": "soldat_frontiere_2",
+              "effects": []
+            }
+          ]
+        },
+
+        "soldat_frontiere_2": {
+          "type": "line",
+          "speaker": "Jeune soldat",
+          "text": {"fr": "Je me demandais si ça ressemble à ici."},
+          "next": "aldric_regarde"
+        },
+
+        "aldric_regarde": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Ça ressemble exactement à ici. C'est ça le problème."},
+          "next": "fin_frontiere_auto"
+        },
+
+        "fin_frontiere_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 1, "scene_id": "aldric_a1_s1_frontiere"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a1_s2_nira": {
+      "id": "aldric_a1_s2_nira",
+      "character": "aldric",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Quartier de transit. Aldric cherche un contact. Une femme l'arrête."},
+          "next": "nira_accoste"
+        },
+
+        "nira_accoste": {
+          "type": "line",
+          "speaker": "Nira",
+          "text": {"fr": "Vous. Vous avez un uniforme propre. Ça veut dire que vous ne venez pas du front."},
+          "next": "aldric_repond_nira"
+        },
+
+        "aldric_repond_nira": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Je viens du front depuis trois ans."},
+              "next": "nira_regarde",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Qu'est-ce que vous voulez ?"},
+              "next": "nira_directe",
+              "effects": []
+            }
+          ]
+        },
+
+        "nira_regarde": {
+          "type": "line",
+          "speaker": "Nira",
+          "text": {"fr": "Alors vous savez. Mon fils est quelque part entre Vel'Shan et ici. Aucun rapport depuis quarante jours."},
+          "next": "aldric_nira_choix"
+        },
+
+        "nira_directe": {
+          "type": "line",
+          "speaker": "Nira",
+          "text": {"fr": "Mon fils. Quarante jours sans nouvelles. Vous avez accès aux listes de prisonniers ?"},
+          "next": "aldric_nira_choix"
+        },
+
+        "aldric_nira_choix": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Je peux vérifier. Donnez-moi son nom."},
+              "next": "aldric_note_nira",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Je n'ai pas accès à ces listes."},
+              "next": "nira_comprend",
+              "effects": []
+            }
+          ]
+        },
+
+        "aldric_note_nira": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Je n'ai pas accès à ces listes. Je le vérifierai quand même."},
+          "next": "fin_nira_promet"
+        },
+
+        "nira_comprend": {
+          "type": "line",
+          "speaker": "Nira",
+          "text": {"fr": "Personne n'a accès à ces listes."},
+          "next": "fin_nira_part"
+        },
+
+        "fin_nira_promet": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 1, "scene_id": "aldric_a1_s2_nira"}
+          ],
+          "next": "end"
+        },
+
+        "fin_nira_part": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 1, "scene_id": "aldric_a1_s2_nira"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a1_s3_reception": {
+      "id": "aldric_a1_s3_reception",
+      "character": "aldric",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Réception officielle. Quartier général impérial. Aldric en tenue de cérémonie."},
+          "next": "colonel_parle"
+        },
+
+        "colonel_parle": {
+          "type": "line",
+          "speaker": "Colonel Veth",
+          "text": {"fr": "La délégation de Lyreveth arrive demain. Vous escorterez le transfert des documents. Discrétion absolue."},
+          "next": "aldric_ecoute"
+        },
+
+        "aldric_ecoute": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Discrétion. Ce mot-là, dans cette bouche, ne signifie jamais rien de simple."},
+          "next": "conversation_couloir"
+        },
+
+        "conversation_couloir": {
+          "type": "description",
+          "text": {"fr": "Dans le couloir, deux officiers s'arrêtent de parler à l'approche d'Aldric."},
+          "next": "aldric_reagit_couloir"
+        },
+
+        "aldric_reagit_couloir": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Continuer sans s'arrêter."},
+              "next": "fin_reception_passe",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Ralentir pour essayer d'entendre."},
+              "next": "aldric_entend_fragment",
+              "effects": []
+            }
+          ]
+        },
+
+        "aldric_entend_fragment": {
+          "type": "line",
+          "speaker": "Officier",
+          "text": {"fr": "— Il entend seulement : «...les clauses secondaires ne seront visibles que...» — puis le silence."},
+          "next": "aldric_marche"
+        },
+
+        "aldric_marche": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Clauses secondaires. Il continue de marcher."},
+          "next": "fin_reception_passe"
+        },
+
+        "fin_reception_passe": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 1, "scene_id": "aldric_a1_s3_reception"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a1_s4_brennan": {
+      "id": "aldric_a1_s4_brennan",
+      "character": "aldric",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "L'auberge de Varethgard. Fin de service. Les autres officiers jouent aux cartes."},
+          "next": "brennan_entre"
+        },
+
+        "brennan_entre": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Je m'assieds là ou c'est réservé à la culpabilité ?"},
+          "next": "aldric_repond_1"
+        },
+
+        "aldric_repond_1": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Asseyez-vous. La culpabilité prend peu de place ce soir."},
+              "next": "brennan_repond_ouvert",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Je ne vous connais pas."},
+              "next": "brennan_repond_ferme",
+              "effects": []
+            },
+            {
+              "text": {"fr": "C'est justement pour ça qu'elle est grande."},
+              "next": "brennan_repond_ouvert",
+              "effects": []
+            }
+          ]
+        },
+
+        "brennan_repond_ouvert": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Les lames qui n'ont pas eu de mauvaises nuits ne savent pas ce qu'elles coupent. Je m'appelle Brennan."},
+          "next": "aldric_repond_2"
+        },
+
+        "brennan_repond_ferme": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Brennan. Ex-garde de la sixième. Deux ans de front. Je vous connais un peu, moi."},
+          "next": "aldric_repond_2"
+        },
+
+        "aldric_repond_2": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Aldric. J'ai eu des mauvaises nuits."},
+              "next": "brennan_ecoute",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Vous cherchez du travail ?"},
+              "next": "brennan_direct",
+              "effects": []
+            }
+          ]
+        },
+
+        "brennan_ecoute": {
+          "type": "description",
+          "text": {"fr": "Brennan l'écoute sans commenter. Finit sa bière. Part sans répondre."},
+          "next": "fin_brennan_sobre"
+        },
+
+        "brennan_direct": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Du travail propre. Rien qui m'oblige à oublier mon nom le matin."},
+          "next": "aldric_repond_3"
+        },
+
+        "aldric_repond_3": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Je ne promets pas le propre. Je promets l'honnête."},
+              "next": "brennan_repond_honnete",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Je ne cherche pas de mercenaires pour l'instant."},
+              "next": "fin_brennan_sobre",
+              "effects": []
+            }
+          ]
+        },
+
+        "brennan_repond_honnete": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "C'est déjà mieux que la plupart."},
+          "next": "fin_brennan_sobre"
+        },
+
+        "fin_brennan_sobre": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 1, "scene_id": "aldric_a1_s4_brennan"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a1_cp1": {
+      "id": "aldric_a1_cp1",
+      "character": "aldric",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La délégation de Lyreveth traverse Varethgard. Aldric escorte."},
+          "next": "aldric_marche_cp1"
+        },
+
+        "aldric_marche_cp1": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Les chariots. Les documents. Le colonel Veth, trente pas devant, qui ne se retourne pas."},
+          "next": "aldric_ressent"
+        },
+
+        "aldric_ressent": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il ne sait pas ce qui ne va pas. Tout était normal. Trop normal, peut-être."},
+          "next": "fin_cp1_aldric"
+        },
+
+        "fin_cp1_aldric": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 1, "value": true},
+            {"type": "complete_scene", "character": "aldric", "act": 1, "scene_id": "cp1_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

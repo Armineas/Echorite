@@ -1,0 +1,398 @@
+{
+  "_comment": "Acte 2 — Daven. Mode Furtivité. 4 scènes + CP2.",
+  "_design": "L'acte 2 de Daven est celui où ses calculs acquièrent un poids humain qu'il ne peut plus ignorer. Il calcule encore. Mais il note maintenant ce que ça coûte.",
+
+  "scenes": {
+
+    "daven_a2_s1_canal_anonyme": {
+      "id": "daven_a2_s1_canal_anonyme",
+      "character": "daven",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Salle de transit, sous-sol. Daven établit le canal de transmission vers Seïra. Trois intermédiaires qui ne se connaissent pas entre eux."},
+          "next": "daven_construit_canal"
+        },
+
+        "daven_construit_canal": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Si l'un d'eux parle, il ne peut nommer que le suivant. La chaîne ne se referme pas sur lui. En théorie."},
+          "next": "daven_prepare_message"
+        },
+
+        "daven_prepare_message": {
+          "type": "description",
+          "text": {"fr": "Il prépare le premier message. Coordonnées de Kira. Lieu de travail. Fenêtre d'accessibilité : deux semaines."},
+          "next": "daven_pense_kira"
+        },
+
+        "daven_pense_kira": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "C'est la première chose qu'il fait en sachant qu'il trahit Varek. Il ne sait pas encore si Seïra agira dessus."},
+          "next": "choix_premier_envoi"
+        },
+
+        "choix_premier_envoi": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Envoyer le message tel quel. Elle décidera ce qu'elle en fait."},
+              "next": "daven_envoie_message",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Ajouter une ligne d'avertissement sur les risques pour Kira. Elle doit comprendre l'urgence."},
+              "next": "daven_ajoute_urgence",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_envoie_message": {
+          "type": "description",
+          "text": {"fr": "Le message part. Trois relais. Il ne saura pas quand il arrive."},
+          "next": "fin_canal_auto"
+        },
+
+        "daven_ajoute_urgence": {
+          "type": "description",
+          "text": {"fr": "Il ajoute : 'Vareth a son nom. Elle a deux semaines.' Il envoie."},
+          "next": "daven_note_urgence"
+        },
+
+        "daven_note_urgence": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "C'est la première fois qu'il signe un message avec de l'urgence dedans. Les messages sans urgence ne révèlent pas ce qu'on pense."},
+          "next": "fin_canal_auto"
+        },
+
+        "fin_canal_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 30, "value": true},
+            {"type": "complete_scene", "character": "daven", "act": 2, "scene_id": "daven_a2_s1_canal_anonyme"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a2_s2_nuit_avant_velshan": {
+      "id": "daven_a2_s2_nuit_avant_velshan",
+      "character": "daven",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Chambre d'hôtel. 36 heures avant l'opération de Vel'Shan. Daven a l'information depuis ce matin."},
+          "next": "daven_a_linfo"
+        },
+
+        "daven_a_linfo": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Opération de pacification sectiorielle. Vel'Shan. Date, heure, unité assignée. Il peut transmettre cette information à la résistance. Il peut aussi la transmettre à Vareth pour confirmer sa crédibilité opérationnelle."},
+          "next": "daven_calcule"
+        },
+
+        "daven_calcule": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Si Vel'Shan est avertie, l'opération est annulée ou retardée. Sa couverture est compromise dans les deux cas. Sa valeur d'agent diminue de façon irréversible."},
+          "next": "choix_velshan_info"
+        },
+
+        "choix_velshan_info": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Transmettre à Vareth. Confirmer la couverture. Le village ne peut pas être sauvé par lui seul."},
+              "next": "daven_transmet_vareth",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Trouver un moyen d'avertir Vel'Shan sans se trahir. Une voie indirecte."},
+              "next": "daven_cherche_voie",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Ne rien faire. Ni l'un ni l'autre. Laisser le temps décider."},
+              "next": "daven_immobile",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_transmet_vareth": {
+          "type": "description",
+          "text": {"fr": "Il encode le message, l'envoie à Vareth. Confirmation de crédibilité opérationnelle réussie. Dans son journal, cette nuit : 'J'ai calculé'."},
+          "next": "fin_nuit_vareth"
+        },
+
+        "fin_nuit_vareth": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 2, "scene_id": "daven_a2_s2_nuit_avant_velshan"}
+          ],
+          "next": "end"
+        },
+
+        "daven_cherche_voie": {
+          "type": "description",
+          "text": {"fr": "Il passe deux heures à cartographier les intermédiaires possibles. Trop lent. Trop risqué. Trop visible. La voie indirecte n'existe pas dans ce délai."},
+          "next": "daven_finit_par_rien"
+        },
+
+        "daven_finit_par_rien": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il n'a pas de bonne option. Il n'en choisit aucune. Dans son journal : 'J'ai calculé'."},
+          "next": "fin_nuit_inaction"
+        },
+
+        "fin_nuit_inaction": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 2, "scene_id": "daven_a2_s2_nuit_avant_velshan"}
+          ],
+          "next": "end"
+        },
+
+        "daven_immobile": {
+          "type": "description",
+          "text": {"fr": "Il s'endort. Ou quelque chose qui ressemble à du sommeil. Dans son journal, le matin : 'J'ai calculé'."},
+          "next": "fin_nuit_sommeil"
+        },
+
+        "fin_nuit_sommeil": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 2, "scene_id": "daven_a2_s2_nuit_avant_velshan"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a2_s3_lyria_avertissement": {
+      "id": "daven_a2_s3_lyria_avertissement",
+      "character": "daven",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Trois jours après Vel'Shan. Daven est dans un camp de réfugiés en périphérie. Il cherche l'infirmière aux carnets — Lyria."},
+          "next": "daven_trouve_clinique"
+        },
+
+        "daven_trouve_clinique": {
+          "type": "description",
+          "text": {"fr": "La tente médicale. Elle soigne un enfant. Elle ne le regarde pas entrer."},
+          "next": "daven_observe_lyria"
+        },
+
+        "daven_observe_lyria": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Elle a les mains qui ne tremblent pas. Elle a les yeux qui ne cherchent pas à voir moins. Ce genre de gens est rare et périssable."},
+          "next": "daven_fait_choix_lyria"
+        },
+
+        "daven_fait_choix_lyria": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il cesse de calculer. Ce n'est pas une décision. C'est juste ce qui se passe quand on arrête de calculer."},
+          "next": "daven_laisse_message"
+        },
+
+        "daven_laisse_message": {
+          "type": "description",
+          "text": {"fr": "Il pose un billet plié sous le pied de la table de soins. Puis il part sans s'arrêter."},
+          "next": "daven_sait_message"
+        },
+
+        "daven_sait_message": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Le billet dit : 'Le prochain village sur la liste est à trois jours de marche vers le nord. Partez dans deux jours.' Il ne signe pas. Elle ne demandera pas."},
+          "next": "fin_lyria_auto"
+        },
+
+        "fin_lyria_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 31, "value": true},
+            {"type": "complete_scene", "character": "daven", "act": 2, "scene_id": "daven_a2_s3_lyria_avertissement"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a2_s4_kira_extraction": {
+      "id": "daven_a2_s4_kira_extraction",
+      "character": "daven",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Archives centrales, entrée est. Daven a 48 heures. Vareth a marqué Kira pour élimination. Elle ne le sait pas encore."},
+          "next": "daven_situation_kira"
+        },
+
+        "daven_situation_kira": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il a passé quatre ans sans dettes actives. Kira n'est pas un actif. Elle est une personne qui va mourir dans deux jours si personne n'agit. Cette distinction importe plus qu'il ne le pensait."},
+          "next": "daven_approche_kira"
+        },
+
+        "daven_approche_kira": {
+          "type": "description",
+          "text": {"fr": "Elle lève les yeux quand il entre. Elle sait qui il est. Sa couverture ne la trompe plus depuis six mois."},
+          "next": "kira_attend"
+        },
+
+        "kira_attend": {
+          "type": "line",
+          "speaker": "Kira",
+          "text": {"fr": "Vous êtes là pour l'extraction ou pour l'élimination ?"},
+          "next": "choix_kira_approche"
+        },
+
+        "choix_kira_approche": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "L'extraction. Vous avez deux jours. Prenez ce que vous ne pouvez pas laisser."},
+              "next": "daven_extraction_directe",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Je suis là parce que vous avez vu quelque chose sur la mine. Je dois savoir quoi."},
+              "next": "daven_info_mine_d_abord",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_extraction_directe": {
+          "type": "description",
+          "text": {"fr": "Elle prend deux livres. Rien d'autre. Ils partent par la sortie nord avant la ronde du soir."},
+          "next": "fin_kira_succes"
+        },
+
+        "fin_kira_succes": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 32, "value": true},
+            {"type": "complete_scene", "character": "daven", "act": 2, "scene_id": "daven_a2_s4_kira_extraction"}
+          ],
+          "next": "end"
+        },
+
+        "daven_info_mine_d_abord": {
+          "type": "line",
+          "speaker": "Kira",
+          "text": {"fr": "Les croquis. Les salles profondes. Elles ressemblent à des anatomies — comme si le cristal avait été cultivé, pas extrait."},
+          "next": "daven_comprend_mine"
+        },
+
+        "daven_comprend_mine": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Cultivé. Pas extrait. Son grand-père avait dit quelque chose de semblable. Il avait neuf ans. Il n'avait pas compris."},
+          "next": "daven_extraction_apres"
+        },
+
+        "daven_extraction_apres": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "On part maintenant. Vous me dites tout en chemin."},
+          "next": "fin_kira_succes_avec_info"
+        },
+
+        "fin_kira_succes_avec_info": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 32, "value": true},
+            {"type": "set_flag", "flag": 33, "value": true},
+            {"type": "complete_scene", "character": "daven", "act": 2, "scene_id": "daven_a2_s4_kira_extraction"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a2_cp2": {
+      "id": "daven_a2_cp2",
+      "character": "daven",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La rue principale de Vel'Shan. Les soldats passent avec cette efficacité mécanique qui n'est pas tout à fait du commandement militaire."},
+          "next": "daven_voit_yeux"
+        },
+
+        "daven_voit_yeux": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Les yeux des soldats. Il les reconnaît. Il les a vus à la mine, dans les rapports de Kira, dans les couloirs administratifs depuis six mois."},
+          "next": "daven_avait_info"
+        },
+
+        "daven_avait_info": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il avait l'information. La veille. Il avait d'autres chemins. Il a calculé que le risque pour sa couverture était trop élevé."},
+          "next": "daven_dit_cest_lui"
+        },
+
+        "daven_dit_cest_lui": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "C'est moi."},
+          "next": "daven_reste_immobile"
+        },
+
+        "daven_reste_immobile": {
+          "type": "description",
+          "text": {"fr": "Il ne bouge pas. Ce n'est pas de la neutralité. C'est de l'absence de geste là où un geste aurait dû exister."},
+          "next": "fin_cp2_daven"
+        },
+
+        "fin_cp2_daven": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 2, "scene_id": "cp2_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

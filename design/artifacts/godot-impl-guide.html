@@ -1,0 +1,1399 @@
+
+<title>Guide d'implémentation Godot — Chroniques de l'Échorite</title>
+<style>
+  :root {
+    --bg:           #0d1117;
+    --surface:      #161b22;
+    --surface-hi:   #21262d;
+    --border:       #30363d;
+    --accent:       #58a6ff;
+    --accent-dim:   #1f3a6e;
+    --text:         #c9d1d9;
+    --text-muted:   #8b949e;
+    --text-bright:  #f0f6fc;
+    --p0:           #f85149;
+    --p0-bg:        #2a0f0e;
+    --p1:           #e3b341;
+    --p1-bg:        #2b1d08;
+    --p2:           #58a6ff;
+    --p2-bg:        #0c1f4a;
+    --p3:           #3fb950;
+    --p3-bg:        #0a2212;
+    --code-bg:      #010409;
+    --code-text:    #e6edf3;
+    --kw:           #ff7b72;
+    --str:          #a5d6ff;
+    --fn:           #d2a8ff;
+    --type:         #79c0ff;
+    --cmt:          #8b949e;
+    --num:          #79c0ff;
+    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 28px 0 40px;
+  }
+
+  .sidebar-logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .sidebar-logo .game-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .sidebar-logo .doc-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .nav-group {
+    margin-bottom: 4px;
+  }
+
+  .nav-group-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 20px 4px;
+    display: block;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 20px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .nav-link:hover {
+    color: var(--text-bright);
+    background: var(--surface-hi);
+  }
+
+  .nav-link .prio {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .prio-0 { background: var(--p0-bg); color: var(--p0); border-left: 2px solid var(--p0); }
+  .prio-1 { background: var(--p1-bg); color: var(--p1); border-left: 2px solid var(--p1); }
+  .prio-2 { background: var(--p2-bg); color: var(--p2); border-left: 2px solid var(--p2); }
+  .prio-3 { background: var(--p3-bg); color: var(--p3); border-left: 2px solid var(--p3); }
+
+  /* ── MAIN ── */
+  .main {
+    flex: 1;
+    min-width: 0;
+    max-width: 820px;
+    padding: 0 40px 80px;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .page-header::before {
+    content: '$ godot --editor res://project.godot';
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    opacity: 0.7;
+  }
+
+  .page-header h1 {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin: 0 0 8px;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .page-header .subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .page-header .meta-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .meta-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--surface-hi);
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 72px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .section-header h2 {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin: 0 0 4px;
+    text-wrap: balance;
+  }
+
+  .unlocks {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .unlocks strong {
+    color: var(--accent);
+    font-weight: normal;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h3 {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 28px 0 10px;
+    padding-left: 10px;
+    border-left: 3px solid var(--accent);
+  }
+
+  p {
+    margin: 0 0 14px;
+    color: var(--text);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  strong { color: var(--text-bright); }
+
+  /* ── STEPS ── */
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+  }
+
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 12px 16px 12px 52px;
+    margin-bottom: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-dim);
+    width: 22px;
+    height: 22px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .steps li code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--surface-hi);
+    color: var(--str);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── NODE TREE ── */
+  .node-tree {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 0 0 20px;
+    overflow-x: auto;
+    line-height: 1.8;
+  }
+
+  .node-tree .nt-root { color: #e3b341; }
+  .node-tree .nt-child { color: #d2a8ff; }
+  .node-tree .nt-leaf { color: #c9d1d9; }
+  .node-tree .nt-type { color: var(--text-muted); font-style: italic; }
+  .node-tree .nt-prop { color: #3fb950; }
+  .node-tree .nt-line { color: var(--border); }
+  .node-tree .nt-comment { color: var(--cmt); }
+
+  /* ── CODE BLOCKS ── */
+  pre {
+    margin: 0 0 20px;
+    overflow-x: auto;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  pre code {
+    display: block;
+    padding: 20px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    background: var(--code-bg);
+    color: var(--code-text);
+    white-space: pre;
+  }
+
+  .kw  { color: #ff7b72; }
+  .str { color: #a5d6ff; }
+  .fn  { color: #d2a8ff; }
+  .tp  { color: #79c0ff; }
+  .cm  { color: #8b949e; font-style: italic; }
+  .nm  { color: #79c0ff; }
+  .sy  { color: #e3b341; }   /* signal/annotation @ */
+  .op  { color: #c9d1d9; }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    border-left: 3px solid;
+    padding: 12px 16px;
+    margin: 0 0 20px;
+    border-radius: 0 4px 4px 0;
+    font-size: 13.5px;
+  }
+
+  .callout.info {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .callout.warn {
+    border-color: var(--p1);
+    background: var(--p1-bg);
+  }
+
+  .callout.test {
+    border-color: var(--p3);
+    background: var(--p3-bg);
+  }
+
+  .callout strong {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .callout p { margin: 0; color: inherit; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; margin: 0 0 20px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  th {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface); }
+
+  td code, th code {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    background: var(--surface-hi);
+    padding: 1px 5px;
+    border-radius: 2px;
+    color: var(--str);
+  }
+
+  /* ── PATH LABEL ── */
+  .file-path {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--surface-hi);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 3px;
+    margin: 0 0 12px;
+  }
+
+  .file-path::before {
+    content: '📄';
+    font-size: 11px;
+  }
+
+  /* ── DIVIDER ── */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+
+  /* ── CHARACTER CHIPS ── */
+  .char-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 0 0 16px;
+  }
+
+  .char-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+  }
+
+  .chip-aldric { background: #1e1209; color: #e3a040; border-left: 3px solid #e3a040; }
+  .chip-seira  { background: #0c1a2e; color: #58a6ff; border-left: 3px solid #58a6ff; }
+  .chip-varek  { background: #1a1007; color: #d4a017; border-left: 3px solid #d4a017; }
+  .chip-daven  { background: #0d1218; color: #7c8fa1; border-left: 3px solid #7c8fa1; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { padding: 0 20px 60px; }
+    .page-header { padding: 32px 0 24px; }
+  }
+
+  /* ── SCROLLBAR ── */
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+
+<div class="layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <nav class="sidebar" aria-label="Table des matières">
+    <div class="sidebar-logo">
+      <span class="game-name">Chroniques de l'Échorite</span>
+      <span class="doc-name">Guide Godot</span>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-group-label">Fondations</span>
+      <a class="nav-link" href="#project-setup">
+        <span class="prio prio-0">P0</span> Configuration projet
+      </a>
+      <a class="nav-link" href="#dialogue-ui">
+        <span class="prio prio-0">P0</span> DialogueUI
+      </a>
+      <a class="nav-link" href="#timeline-view">
+        <span class="prio prio-0">P0</span> TimelineView
+      </a>
+      <a class="nav-link" href="#main-menu">
+        <span class="prio prio-0">P0</span> MainMenu
+      </a>
+      <a class="nav-link" href="#first-test">
+        <span class="prio prio-0">P0</span> Premier test bout-en-bout
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-group-label">Acte 1 jouable</span>
+      <a class="nav-link" href="#aldric-world">
+        <span class="prio prio-1">P1</span> AldricWorld
+      </a>
+      <a class="nav-link" href="#seira-command">
+        <span class="prio prio-1">P1</span> SeiraCommand
+      </a>
+      <a class="nav-link" href="#varek-empire">
+        <span class="prio prio-1">P1</span> VarekEmpire
+      </a>
+      <a class="nav-link" href="#daven-stealth">
+        <span class="prio prio-1">P1</span> DavenStealth
+      </a>
+      <a class="nav-link" href="#crossing-point">
+        <span class="prio prio-1">P1</span> CrossingPoint (CP1)
+      </a>
+      <a class="nav-link" href="#visual-identity">
+        <span class="prio prio-1">P1</span> Identité visuelle par perso
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-group-label">Polish</span>
+      <a class="nav-link" href="#transitions">
+        <span class="prio prio-2">P2</span> Transitions & fondus
+      </a>
+      <a class="nav-link" href="#save-ui">
+        <span class="prio prio-2">P2</span> Interface Save/Load
+      </a>
+      <a class="nav-link" href="#timeline-polish">
+        <span class="prio prio-2">P2</span> TimelineView enrichie
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-group-label">Systèmes de jeu</span>
+      <a class="nav-link" href="#combat">
+        <span class="prio prio-3">P3</span> Combat (Aldric)
+      </a>
+      <a class="nav-link" href="#strategy">
+        <span class="prio prio-3">P3</span> Stratégie (Seïra)
+      </a>
+      <a class="nav-link" href="#empire">
+        <span class="prio prio-3">P3</span> Empire 4X (Varek)
+      </a>
+      <a class="nav-link" href="#infiltration">
+        <span class="prio prio-3">P3</span> Infiltration (Daven)
+      </a>
+    </div>
+  </nav>
+
+  <!-- ══ MAIN ══ -->
+  <main class="main">
+
+    <header class="page-header">
+      <h1>Guide d'implémentation Godot 4</h1>
+      <p class="subtitle">Tout ce qui doit être fait dans l'éditeur, dans l'ordre de priorité.</p>
+      <div class="meta-row">
+        <span class="meta-chip">Godot 4.3+</span>
+        <span class="meta-chip">GDScript</span>
+        <span class="meta-chip">22 scènes Acte 1</span>
+        <span class="meta-chip">6 autoloads déjà écrits</span>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════
+         P0 — CONFIGURATION PROJET
+    ══════════════════════════════════════════ -->
+    <section class="section" id="project-setup">
+      <div class="section-header">
+        <span class="section-badge prio-0">P0</span>
+        <div>
+          <h2>Configuration du projet</h2>
+          <p class="unlocks">Prérequis absolu. Sans ça, rien ne compile.</p>
+        </div>
+      </div>
+
+      <h3>1 — Vérifier les Autoloads</h3>
+      <p><strong>Project &rsaquo; Project Settings &rsaquo; Globals &rsaquo; Autoload</strong>. Les 6 entrées suivantes doivent être présentes et dans cet ordre exact (l'ordre détermine les dépendances) :</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nom</th><th>Chemin</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><code>GSM</code></td><td><code>res://src/autoload/GameStateManager.gd</code></td><td>Source de vérité de l'état de jeu</td></tr>
+            <tr><td><code>SaveSystem</code></td><td><code>res://src/autoload/SaveSystem.gd</code></td><td>Persistence sur disque</td></tr>
+            <tr><td><code>SceneSequencer</code></td><td><code>res://src/autoload/SceneSequencer.gd</code></td><td>Ordre chronologique des scènes</td></tr>
+            <tr><td><code>SceneRouter</code></td><td><code>res://src/autoload/SceneRouter.gd</code></td><td>Navigation entre scènes</td></tr>
+            <tr><td><code>DialogueEngine</code></td><td><code>res://src/core/dialogue/DialogueEngine.gd</code></td><td>Moteur de dialogue</td></tr>
+            <tr><td><code>CompanionRegistry</code></td><td><code>res://src/core/companions/CompanionRegistry.gd</code></td><td>Données des compagnons</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warn">
+        <strong>Ordre critique</strong>
+        <p>SceneSequencer doit être <em>avant</em> SceneRouter dans la liste. SceneRouter appelle <code>SceneSequencer.get_next()</code> dans son <code>advance_scene()</code>. Si l'ordre est inversé, SceneSequencer sera null lors de l'appel.</p>
+      </div>
+
+      <h3>2 — Scène principale</h3>
+      <ol class="steps">
+        <li><strong>Project &rsaquo; Project Settings &rsaquo; Application &rsaquo; Run &rsaquo; Main Scene</strong> → pointer vers <code>res://src/ui/MainMenu.tscn</code> (à créer en P0).</li>
+      </ol>
+
+      <h3>3 — Input Map</h3>
+      <p><strong>Project &rsaquo; Project Settings &rsaquo; Input Map</strong>. Ajouter ces actions :</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Action</th><th>Touches</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><code>dialogue_advance</code></td><td>Space, Enter, Left Click</td><td>Avancer dans le dialogue</td></tr>
+            <tr><td><code>dialogue_skip</code></td><td>Ctrl + Space</td><td>Passer le texte en cours (à implémenter)</td></tr>
+            <tr><td><code>ui_cancel</code></td><td>Escape</td><td>Pause menu (existant par défaut)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4 — Paramètres d'affichage</h3>
+      <ol class="steps">
+        <li><strong>Project Settings &rsaquo; Display &rsaquo; Window</strong> : <code>Width = 1280</code>, <code>Height = 720</code>.</li>
+        <li><strong>Stretch Mode</strong> = <code>canvas_items</code>, <strong>Aspect</strong> = <code>keep</code>. Cela permet au jeu de s'adapter aux résolutions sans déformer.</li>
+        <li><strong>Test Width / Test Height</strong> = <code>1280 × 720</code> pour le dev.</li>
+      </ol>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         P0 — DIALOGUE UI
+    ══════════════════════════════════════════ -->
+    <section class="section" id="dialogue-ui">
+      <div class="section-header">
+        <span class="section-badge prio-0">P0</span>
+        <div>
+          <h2>DialogueUI.tscn</h2>
+          <p class="unlocks">Débloque : <strong>afficher n'importe quel dialogue, description, ou choix</strong>. Composant central instancié dans chaque scène personnage.</p>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <strong>Principe</strong>
+        <p>DialogueUI se connecte aux signaux de <code>DialogueEngine</code> et affiche le bon container selon le type de nœud (line / description / choice). C'est une scène autonome instanciée comme enfant de chaque scène personnage.</p>
+      </div>
+
+      <h3>Structure de nœuds</h3>
+      <div class="node-tree">
+<span class="nt-root">DialogueUI</span> <span class="nt-type">Control — Anchor : Full Rect</span>
+<span class="nt-line">│</span>
+<span class="nt-line">├──</span> <span class="nt-child">DescriptionBox</span> <span class="nt-type">PanelContainer — ancré haut, centré</span>
+<span class="nt-line">│    └──</span> <span class="nt-leaf">MarginContainer</span>
+<span class="nt-line">│         └──</span> <span class="nt-leaf">description_text</span> <span class="nt-type">RichTextLabel</span>  <span class="nt-prop">bbcode_enabled=true, fit_content=true</span>
+<span class="nt-line">│</span>
+<span class="nt-line">├──</span> <span class="nt-child">DialogueBox</span> <span class="nt-type">PanelContainer — ancré bas, pleine largeur</span>
+<span class="nt-line">│    └──</span> <span class="nt-leaf">HBoxContainer</span>
+<span class="nt-line">│         ├──</span> <span class="nt-leaf">portrait</span> <span class="nt-type">TextureRect</span>  <span class="nt-prop">custom_minimum_size=(80,80), stretch_mode=keep_aspect_centered</span>
+<span class="nt-line">│         └──</span> <span class="nt-leaf">VBoxContainer</span>
+<span class="nt-line">│              ├──</span> <span class="nt-leaf">speaker_name</span> <span class="nt-type">Label</span>  <span class="nt-prop">theme_override_font_size=13</span>
+<span class="nt-line">│              └──</span> <span class="nt-leaf">dialogue_text</span> <span class="nt-type">RichTextLabel</span>  <span class="nt-prop">bbcode_enabled=true, scroll_active=false, fit_content=true</span>
+<span class="nt-line">│</span>
+<span class="nt-line">├──</span> <span class="nt-child">ChoiceContainer</span> <span class="nt-type">VBoxContainer — ancré bas-droite</span>
+<span class="nt-line">│    <span class="nt-comment">└── (boutons ajoutés dynamiquement via GDScript)</span></span>
+<span class="nt-line">│</span>
+<span class="nt-line">└──</span> <span class="nt-child">ContinueHint</span> <span class="nt-type">Label</span>  <span class="nt-prop">text="[ Espace ]", anchors bas-droit</span>
+      </div>
+
+      <h3>DialogueUI.gd</h3>
+      <div class="file-path">res://src/ui/dialogue/DialogueUI.gd</div>
+      <pre><code><span class="kw">extends</span> <span class="tp">Control</span>
+
+<span class="cm">## DialogueUI — Composant d'affichage du dialogue.
+## À instancier comme enfant de chaque scène personnage.
+## Se connecte aux signaux de DialogueEngine au _ready().</span>
+
+<span class="sy">@onready</span> <span class="kw">var</span> description_box: <span class="tp">PanelContainer</span> = <span class="sy">$</span>DescriptionBox
+<span class="sy">@onready</span> <span class="kw">var</span> description_text: <span class="tp">RichTextLabel</span> = <span class="sy">$</span>DescriptionBox/MarginContainer/description_text
+<span class="sy">@onready</span> <span class="kw">var</span> dialogue_box: <span class="tp">PanelContainer</span> = <span class="sy">$</span>DialogueBox
+<span class="sy">@onready</span> <span class="kw">var</span> portrait: <span class="tp">TextureRect</span> = <span class="sy">$</span>DialogueBox/HBoxContainer/portrait
+<span class="sy">@onready</span> <span class="kw">var</span> speaker_name: <span class="tp">Label</span> = <span class="sy">$</span>DialogueBox/HBoxContainer/VBoxContainer/speaker_name
+<span class="sy">@onready</span> <span class="kw">var</span> dialogue_text: <span class="tp">RichTextLabel</span> = <span class="sy">$</span>DialogueBox/HBoxContainer/VBoxContainer/dialogue_text
+<span class="sy">@onready</span> <span class="kw">var</span> choice_container: <span class="tp">VBoxContainer</span> = <span class="sy">$</span>ChoiceContainer
+<span class="sy">@onready</span> <span class="kw">var</span> continue_hint: <span class="tp">Label</span> = <span class="sy">$</span>ContinueHint
+
+<span class="cm"># Portraits par personnage (à remplir quand les assets sont prêts)</span>
+<span class="kw">const</span> PORTRAITS: <span class="tp">Dictionary</span> = {
+    <span class="str">"Aldric"</span>: <span class="kw">null</span>,
+    <span class="str">"Seïra"</span>: <span class="kw">null</span>,
+    <span class="str">"Varek"</span>: <span class="kw">null</span>,
+    <span class="str">"Daven"</span>: <span class="kw">null</span>,
+}
+
+<span class="kw">func</span> <span class="fn">_ready</span>() -> <span class="tp">void</span>:
+    DialogueEngine.line_displayed.connect(<span class="fn">_on_line_displayed</span>)
+    DialogueEngine.description_displayed.connect(<span class="fn">_on_description_displayed</span>)
+    DialogueEngine.choice_presented.connect(<span class="fn">_on_choice_presented</span>)
+    DialogueEngine.dialogue_ended.connect(<span class="fn">_on_dialogue_ended</span>)
+    hide()
+
+<span class="kw">func</span> <span class="fn">_input</span>(event: <span class="tp">InputEvent</span>) -> <span class="tp">void</span>:
+    <span class="kw">if not</span> DialogueEngine.<span class="fn">is_running</span>():
+        <span class="kw">return</span>
+    <span class="kw">if</span> event.<span class="fn">is_action_pressed</span>(<span class="str">"dialogue_advance"</span>):
+        DialogueEngine.<span class="fn">advance</span>()
+        get_viewport().<span class="fn">set_input_as_handled</span>()
+
+<span class="kw">func</span> <span class="fn">_on_line_displayed</span>(speaker: <span class="tp">String</span>, text: <span class="tp">String</span>, is_internal: <span class="tp">bool</span>) -> <span class="tp">void</span>:
+    <span class="fn">_hide_all</span>()
+    show()
+    dialogue_box.show()
+    speaker_name.text = speaker
+    <span class="kw">if</span> is_internal:
+        <span class="cm"># Monologue intérieur : italique, teinte froide</span>
+        dialogue_text.text = <span class="str">"[i][color=#a8bfd4]"</span> + text + <span class="str">"[/color][/i]"</span>
+        speaker_name.add_theme_color_override(<span class="str">"font_color"</span>, <span class="tp">Color</span>(<span class="num">0.6</span>, <span class="num">0.75</span>, <span class="num">0.9</span>))
+    <span class="kw">else</span>:
+        dialogue_text.text = text
+        speaker_name.<span class="fn">remove_theme_color_override</span>(<span class="str">"font_color"</span>)
+    <span class="cm"># Portrait</span>
+    <span class="kw">var</span> tex: <span class="tp">Texture2D</span> = PORTRAITS.get(speaker, <span class="kw">null</span>)
+    portrait.texture = tex
+    portrait.visible = tex <span class="kw">!=</span> <span class="kw">null</span>
+    continue_hint.show()
+
+<span class="kw">func</span> <span class="fn">_on_description_displayed</span>(text: <span class="tp">String</span>) -> <span class="tp">void</span>:
+    <span class="fn">_hide_all</span>()
+    show()
+    description_box.show()
+    <span class="cm"># Intertitle centré, italique — comme un carton de film</span>
+    description_text.text = <span class="str">"[center][i]"</span> + text + <span class="str">"[/i][/center]"</span>
+    <span class="cm"># Avance automatiquement sur input (pas de choix à faire)</span>
+    continue_hint.show()
+
+<span class="kw">func</span> <span class="fn">_on_choice_presented</span>(choices: <span class="tp">Array</span>) -> <span class="tp">void</span>:
+    <span class="fn">_hide_all</span>()
+    show()
+    choice_container.show()
+    <span class="cm"># Nettoyer les anciens boutons</span>
+    <span class="kw">for</span> child <span class="kw">in</span> choice_container.<span class="fn">get_children</span>():
+        child.<span class="fn">queue_free</span>()
+    <span class="cm"># Créer un bouton par choix visible</span>
+    <span class="kw">for</span> i <span class="kw">in</span> choices.size():
+        <span class="kw">var</span> btn := <span class="tp">Button</span>.new()
+        btn.text = choices[i][<span class="str">"text"</span>]
+        btn.focus_mode = <span class="tp">Control</span>.FOCUS_ALL
+        <span class="kw">var</span> idx: <span class="tp">int</span> = choices[i][<span class="str">"index"</span>]
+        btn.pressed.connect(<span class="kw">func</span>(): DialogueEngine.<span class="fn">select_choice</span>(idx))
+        choice_container.<span class="fn">add_child</span>(btn)
+    <span class="cm"># Focus automatique sur le premier choix (accessibilité clavier)</span>
+    <span class="kw">await</span> get_tree().process_frame
+    <span class="kw">if</span> choice_container.<span class="fn">get_child_count</span>() > <span class="nm">0</span>:
+        choice_container.<span class="fn">get_child</span>(<span class="nm">0</span>).<span class="fn">grab_focus</span>()
+
+<span class="kw">func</span> <span class="fn">_on_dialogue_ended</span>(_id: <span class="tp">String</span>) -> <span class="tp">void</span>:
+    hide()
+    <span class="cm"># SceneRouter avance vers la prochaine scène de la timeline</span>
+    SceneRouter.<span class="fn">advance_scene</span>()
+
+<span class="kw">func</span> <span class="fn">_hide_all</span>() -> <span class="tp">void</span>:
+    description_box.hide()
+    dialogue_box.hide()
+    choice_container.hide()
+    continue_hint.hide()
+</code></pre>
+
+      <h3>Étapes dans l'éditeur</h3>
+      <ol class="steps">
+        <li>Créer le dossier <code>res://src/ui/dialogue/</code>.</li>
+        <li>Créer une nouvelle scène de type <strong>Control</strong>, nommer le nœud racine <code>DialogueUI</code>, sauvegarder en <code>DialogueUI.tscn</code>.</li>
+        <li>Sélectionner <code>DialogueUI</code>, mettre les 4 anchors à <code>Full Rect</code> (Layout &rsaquo; Full Rect).</li>
+        <li>Ajouter <code>DescriptionBox</code> (PanelContainer) : ancré haut-centre, largeur 80% de l'écran, centré. Ajouter <code>MarginContainer</code> dedans (marges 16px), puis <code>RichTextLabel</code> nommé <code>description_text</code>.</li>
+        <li>Ajouter <code>DialogueBox</code> (PanelContainer) : ancré bas, pleine largeur, hauteur 180px. Ajouter <code>HBoxContainer</code> + <code>TextureRect</code> (portrait, 80×80) + <code>VBoxContainer</code> &rsaquo; <code>Label</code> (speaker_name) + <code>RichTextLabel</code> (dialogue_text).</li>
+        <li>Ajouter <code>ChoiceContainer</code> (VBoxContainer) : ancré bas-droite, largeur 400px. Laisser vide (rempli dynamiquement).</li>
+        <li>Ajouter <code>ContinueHint</code> (Label) : texte <code>[ Espace ]</code>, ancré bas-droit, couleur grisée.</li>
+        <li>Attacher <code>DialogueUI.gd</code> au nœud racine.</li>
+        <li>Activer <strong>bbcode_enabled = true</strong> sur les deux RichTextLabel.</li>
+      </ol>
+
+      <div class="callout test">
+        <strong>Test à ce stade</strong>
+        <p>Depuis l'éditeur, dans le tab Output, appeler via la console de debug : <code>DialogueEngine.start("acte1/aldric_a1.dialogue.json", "aldric_a1_s1_frontiere")</code>. Les signaux devraient déclencher l'affichage si DialogueUI est dans la scène active.</p>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         P0 — TIMELINE VIEW
+    ══════════════════════════════════════════ -->
+    <section class="section" id="timeline-view">
+      <div class="section-header">
+        <span class="section-badge prio-0">P0</span>
+        <div>
+          <h2>TimelineView.tscn</h2>
+          <p class="unlocks">Débloque : <strong>enchaînement des scènes</strong>. Écran de transition entre chaque séquence. Version minimale d'abord.</p>
+        </div>
+      </div>
+
+      <h3>Structure de nœuds (version minimale)</h3>
+      <div class="node-tree">
+<span class="nt-root">TimelineView</span> <span class="nt-type">Control — Full Rect</span>
+<span class="nt-line">└──</span> <span class="nt-child">CenterContainer</span>
+<span class="nt-line">     └──</span> <span class="nt-child">VBoxContainer</span>
+<span class="nt-line">          ├──</span> <span class="nt-leaf">act_label</span> <span class="nt-type">Label</span>  <span class="nt-prop">text="ACTE 1", align=center</span>
+<span class="nt-line">          ├──</span> <span class="nt-leaf">scene_name</span> <span class="nt-type">Label</span>  <span class="nt-prop">text="Prochain : …"</span>
+<span class="nt-line">          └──</span> <span class="nt-leaf">continue_btn</span> <span class="nt-type">Button</span>  <span class="nt-prop">text="Continuer"</span>
+      </div>
+
+      <div class="file-path">res://src/ui/TimelineView.gd</div>
+      <pre><code><span class="kw">extends</span> <span class="tp">Control</span>
+
+<span class="sy">@onready</span> <span class="kw">var</span> act_label: <span class="tp">Label</span> = <span class="sy">$</span>CenterContainer/VBoxContainer/act_label
+<span class="sy">@onready</span> <span class="kw">var</span> scene_name: <span class="tp">Label</span> = <span class="sy">$</span>CenterContainer/VBoxContainer/scene_name
+<span class="sy">@onready</span> <span class="kw">var</span> continue_btn: <span class="tp">Button</span> = <span class="sy">$</span>CenterContainer/VBoxContainer/continue_btn
+
+<span class="kw">var</span> _pending_entry: <span class="tp">Dictionary</span> = {}
+
+<span class="kw">func</span> <span class="fn">_ready</span>() -> <span class="tp">void</span>:
+    <span class="kw">var</span> act := SceneSequencer.<span class="fn">current_act</span>()
+    act_label.text = <span class="str">"ACTE %d"</span> % act
+    <span class="kw">var</span> next := SceneSequencer.<span class="fn">get_next</span>()
+    <span class="kw">if not</span> next.<span class="fn">is_empty</span>():
+        scene_name.text = next.get(<span class="str">"seq_id"</span>, <span class="str">"…"</span>)
+    continue_btn.pressed.connect(<span class="fn">_on_continue</span>)
+    continue_btn.<span class="fn">grab_focus</span>()
+
+<span class="kw">func</span> <span class="fn">_receive_scene_entry</span>(entry: <span class="tp">Dictionary</span>) -> <span class="tp">void</span>:
+    <span class="cm"># Appelé par SceneRouter lors d'une transition d'acte</span>
+    <span class="kw">if</span> entry.get(<span class="str">"act_transition"</span>, <span class="kw">false</span>):
+        act_label.text = <span class="str">"FIN DE L'ACTE %d"</span> % entry.get(<span class="str">"from_act"</span>, <span class="nm">1</span>)
+        scene_name.text = <span class="str">"Acte %d — À venir"</span> % entry.get(<span class="str">"to_act"</span>, <span class="nm">2</span>)
+
+<span class="kw">func</span> <span class="fn">_on_continue</span>() -> <span class="tp">void</span>:
+    SceneRouter.<span class="fn">advance_scene</span>()
+</code></pre>
+
+      <h3>Étapes dans l'éditeur</h3>
+      <ol class="steps">
+        <li>Créer <code>TimelineView.tscn</code> dans <code>res://src/ui/</code>. Nœud racine : <strong>Control</strong> (Full Rect).</li>
+        <li>Ajouter un fond noir (ColorRect, Full Rect, couleur #0d1117).</li>
+        <li>Ajouter <code>CenterContainer</code> &rsaquo; <code>VBoxContainer</code> &rsaquo; les 3 nœuds listés ci-dessus.</li>
+        <li>Sur le VBoxContainer : <code>alignment = center</code>, <code>separation = 16</code>.</li>
+        <li>Attacher <code>TimelineView.gd</code>.</li>
+      </ol>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         P0 — MAIN MENU
+    ══════════════════════════════════════════ -->
+    <section class="section" id="main-menu">
+      <div class="section-header">
+        <span class="section-badge prio-0">P0</span>
+        <div>
+          <h2>MainMenu.tscn</h2>
+          <p class="unlocks">Débloque : <strong>point d'entrée du jeu</strong>. Sans menu, le jeu ne démarre pas proprement.</p>
+        </div>
+      </div>
+
+      <h3>Structure de nœuds</h3>
+      <div class="node-tree">
+<span class="nt-root">MainMenu</span> <span class="nt-type">Control — Full Rect</span>
+<span class="nt-line">├──</span> <span class="nt-child">Background</span> <span class="nt-type">ColorRect — Full Rect, couleur #0d1117</span>
+<span class="nt-line">├──</span> <span class="nt-child">TitleBlock</span> <span class="nt-type">VBoxContainer — ancré haut-centre</span>
+<span class="nt-line">│    ├──</span> <span class="nt-leaf">title</span> <span class="nt-type">Label</span>  <span class="nt-prop">text="Chroniques de l'Échorite"</span>
+<span class="nt-line">│    └──</span> <span class="nt-leaf">subtitle</span> <span class="nt-type">Label</span>  <span class="nt-prop">text="Un empire. Quatre destins."</span>
+<span class="nt-line">└──</span> <span class="nt-child">ButtonColumn</span> <span class="nt-type">VBoxContainer — centré</span>
+<span class="nt-line">     ├──</span> <span class="nt-leaf">new_game_btn</span> <span class="nt-type">Button</span>  <span class="nt-prop">text="Nouvelle Partie"</span>
+<span class="nt-line">     ├──</span> <span class="nt-leaf">continue_btn</span> <span class="nt-type">Button</span>  <span class="nt-prop">text="Continuer"</span>
+<span class="nt-line">     └──</span> <span class="nt-leaf">quit_btn</span> <span class="nt-type">Button</span>  <span class="nt-prop">text="Quitter"</span>
+      </div>
+
+      <div class="file-path">res://src/ui/MainMenu.gd</div>
+      <pre><code><span class="kw">extends</span> <span class="tp">Control</span>
+
+<span class="sy">@onready</span> <span class="kw">var</span> new_game_btn: <span class="tp">Button</span> = <span class="sy">$</span>ButtonColumn/new_game_btn
+<span class="sy">@onready</span> <span class="kw">var</span> continue_btn: <span class="tp">Button</span> = <span class="sy">$</span>ButtonColumn/continue_btn
+<span class="sy">@onready</span> <span class="kw">var</span> quit_btn: <span class="tp">Button</span> = <span class="sy">$</span>ButtonColumn/quit_btn
+
+<span class="kw">func</span> <span class="fn">_ready</span>() -> <span class="tp">void</span>:
+    new_game_btn.pressed.connect(<span class="fn">_on_new_game</span>)
+    continue_btn.pressed.connect(<span class="fn">_on_continue</span>)
+    quit_btn.pressed.connect(<span class="fn">_on_quit</span>)
+    <span class="cm"># Désactiver "Continuer" si pas de sauvegarde</span>
+    continue_btn.disabled = <span class="kw">not</span> SaveSystem.<span class="fn">has_save</span>()
+    new_game_btn.<span class="fn">grab_focus</span>()
+
+<span class="kw">func</span> <span class="fn">_on_new_game</span>() -> <span class="tp">void</span>:
+    SceneRouter.<span class="fn">start_new_game</span>()  <span class="cm"># GSM.reset() + advance_scene()</span>
+
+<span class="kw">func</span> <span class="fn">_on_continue</span>() -> <span class="tp">void</span>:
+    SaveSystem.<span class="fn">load_game</span>()
+    SceneRouter.<span class="fn">advance_scene</span>()
+
+<span class="kw">func</span> <span class="fn">_on_quit</span>() -> <span class="tp">void</span>:
+    get_tree().<span class="fn">quit</span>()
+</code></pre>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         P0 — PREMIER TEST BOUT-EN-BOUT
+    ══════════════════════════════════════════ -->
+    <section class="section" id="first-test">
+      <div class="section-header">
+        <span class="section-badge prio-0">P0</span>
+        <div>
+          <h2>Premier test bout-en-bout</h2>
+          <p class="unlocks">Débloque : <strong>le flux complet fonctionne</strong>. À faire avant de créer les scènes personnages.</p>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <strong>Prérequis</strong>
+        <p>Créer une scène temporaire <code>AldricWorld.tscn</code> vide avec juste un nœud racine Node2D + DialogueUI instancié dedans + le script minimal ci-dessous. Ça permettra de tester la boucle complète avant d'avoir tous les assets.</p>
+      </div>
+
+      <div class="file-path">res://src/modes/aldric/AldricWorld.gd (version minimale de test)</div>
+      <pre><code><span class="kw">extends</span> <span class="tp">Node2D</span>
+
+<span class="kw">func</span> <span class="fn">_receive_scene_entry</span>(entry: <span class="tp">Dictionary</span>) -> <span class="tp">void</span>:
+    DialogueEngine.<span class="fn">start</span>(
+        entry.get(<span class="str">"dialogue_path"</span>, <span class="str">""</span>),
+        entry.get(<span class="str">"scene_id"</span>, <span class="str">""</span>),
+        entry.get(<span class="str">"entry_node"</span>, <span class="str">"start"</span>)
+    )
+</code></pre>
+
+      <h3>Flux attendu après F5</h3>
+      <ol class="steps">
+        <li>MainMenu apparaît. "Nouvelle Partie" est focus.</li>
+        <li>Clic sur "Nouvelle Partie" → <code>SceneRouter.start_new_game()</code> → <code>GSM.reset()</code> → <code>advance_scene()</code>.</li>
+        <li>SceneSequencer retourne la première entrée : <code>varek_a1_s1_rapport</code> (personnage : varek). Pas encore de scène Varek → erreur attendue ou scène vide.</li>
+        <li><strong>Pour tester Aldric directement</strong> : éditer temporairement <code>ACT1_SEQUENCE</code> dans SceneSequencer, mettre <code>aldric_a1_s1_frontiere</code> en premier.</li>
+        <li>AldricWorld se charge → <code>_receive_scene_entry()</code> appelle <code>DialogueEngine.start()</code>.</li>
+        <li>DialogueUI affiche la description "La Frontière du Vareth…" et attend un input.</li>
+        <li>Espace → ligne suivante. À la fin du dialogue → <code>SceneRouter.advance_scene()</code> → scène suivante.</li>
+      </ol>
+
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════════════════════════════
+         P1 — SCÈNES PERSONNAGES
+    ══════════════════════════════════════════ -->
+    <section class="section" id="aldric-world">
+      <div class="section-header">
+        <span class="section-badge prio-1">P1</span>
+        <div>
+          <h2>AldricWorld.tscn</h2>
+          <p class="unlocks">Mode RPG. Reçoit 4 scènes de dialogue + CP1 depuis le SceneSequencer.</p>
+        </div>
+      </div>
+
+      <div class="char-chips">
+        <span class="char-chip chip-aldric">ALDRIC</span>
+      </div>
+
+      <h3>Structure de nœuds</h3>
+      <div class="node-tree">
+<span class="nt-root">AldricWorld</span> <span class="nt-type">Node2D</span>
+<span class="nt-line">├──</span> <span class="nt-child">Background</span> <span class="nt-type">TextureRect — Full Rect, stretch=keep_aspect_covered</span>
+<span class="nt-line">│    <span class="nt-comment">└── (placeholder : ColorRect #1a0f06 pour débuter)</span></span>
+<span class="nt-line">├──</span> <span class="nt-child">CharacterLayer</span> <span class="nt-type">Node2D — sprites PNJ, animés si besoin</span>
+<span class="nt-line">├──</span> <span class="nt-child">DialogueUI</span> <span class="nt-type">instance de DialogueUI.tscn</span>
+<span class="nt-line">└──</span> <span class="nt-child">GameplayLayer</span> <span class="nt-type">Node2D — combat, carte, etc. (P3)</span>
+      </div>
+
+      <div class="file-path">res://src/modes/aldric/AldricWorld.gd</div>
+      <pre><code><span class="kw">extends</span> <span class="tp">Node2D</span>
+
+<span class="sy">@onready</span> <span class="kw">var</span> background: <span class="tp">TextureRect</span> = <span class="sy">$</span>Background
+
+<span class="cm"># Fonds par scène — à remplir avec les assets quand disponibles</span>
+<span class="kw">const</span> SCENE_BACKGROUNDS: <span class="tp">Dictionary</span> = {
+    <span class="str">"aldric_a1_s1_frontiere"</span>: <span class="str">"res://assets/backgrounds/frontiere.png"</span>,
+    <span class="str">"aldric_a1_s2_nira"</span>:      <span class="str">"res://assets/backgrounds/transit.png"</span>,
+    <span class="str">"aldric_a1_s3_reception"</span>: <span class="str">"res://assets/backgrounds/quartier_general.png"</span>,
+    <span class="str">"aldric_a1_s4_brennan"</span>:   <span class="str">"res://assets/backgrounds/auberge.png"</span>,
+    <span class="str">"aldric_a1_cp1"</span>:          <span class="str">"res://assets/backgrounds/place_principale.png"</span>,
+}
+
+<span class="kw">func</span> <span class="fn">_receive_scene_entry</span>(entry: <span class="tp">Dictionary</span>) -> <span class="tp">void</span>:
+    <span class="kw">var</span> scene_id: <span class="tp">String</span> = entry.get(<span class="str">"scene_id"</span>, <span class="str">""</span>)
+    <span class="fn">_set_background</span>(scene_id)
+    DialogueEngine.<span class="fn">start</span>(
+        entry.get(<span class="str">"dialogue_path"</span>, <span class="str">""</span>),
+        scene_id,
+        entry.get(<span class="str">"entry_node"</span>, <span class="str">"start"</span>)
+    )
+
+<span class="kw">func</span> <span class="fn">_set_background</span>(scene_id: <span class="tp">String</span>) -> <span class="tp">void</span>:
+    <span class="kw">if not</span> SCENE_BACKGROUNDS.has(scene_id):
+        <span class="kw">return</span>
+    <span class="kw">var</span> path: <span class="tp">String</span> = SCENE_BACKGROUNDS[scene_id]
+    <span class="kw">if</span> <span class="tp">ResourceLoader</span>.<span class="fn">exists</span>(path):
+        background.texture = <span class="fn">load</span>(path)
+</code></pre>
+
+    </section>
+
+    <section class="section" id="seira-command">
+      <div class="section-header">
+        <span class="section-badge prio-1">P1</span>
+        <div>
+          <h2>SeiraCommand.tscn</h2>
+          <p class="unlocks">Mode Stratégie. 6 scènes de dialogue + CP1. Structure identique à AldricWorld, fond différent.</p>
+        </div>
+      </div>
+
+      <div class="char-chips">
+        <span class="char-chip chip-seira">SEÏRA</span>
+      </div>
+
+      <div class="callout info">
+        <strong>Même pattern qu'AldricWorld</strong>
+        <p>Copier <code>AldricWorld.tscn</code> + <code>AldricWorld.gd</code>, renommer en <code>SeiraCommand.tscn/.gd</code>, adapter <code>SCENE_BACKGROUNDS</code> avec les scènes de Seïra : <code>seira_a1_s1_nuit</code>, <code>seira_a1_s2_refugies</code>, <code>seira_a1_s3_brennan</code>, <code>seira_a1_s4_cain</code>, <code>seira_a1_s5_rael</code>, <code>seira_a1_s6_orwen</code>, <code>seira_a1_cp1</code>.</p>
+      </div>
+
+      <h3>Chemins des backgrounds pour Seïra</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>scene_id</th><th>Background suggéré</th></tr></thead>
+          <tbody>
+            <tr><td><code>seira_a1_s1_nuit</code></td><td>Rue nocturne de Varethgard, éclairage minimal</td></tr>
+            <tr><td><code>seira_a1_s2_refugies</code></td><td>Camp de tentes, lumière grise de jour</td></tr>
+            <tr><td><code>seira_a1_s3_brennan</code></td><td>Taverne intérieure, midi</td></tr>
+            <tr><td><code>seira_a1_s4_cain</code></td><td>Archives sous-sol, lampe à huile</td></tr>
+            <tr><td><code>seira_a1_s5_rael</code></td><td>Arrière-boutique, imprimerie</td></tr>
+            <tr><td><code>seira_a1_s6_orwen</code></td><td>Consulat, entrée de service</td></tr>
+            <tr><td><code>seira_a1_cp1</code></td><td>Foule, place principale (même que Aldric CP1)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <section class="section" id="varek-empire">
+      <div class="section-header">
+        <span class="section-badge prio-1">P1</span>
+        <div>
+          <h2>VarekEmpire.tscn</h2>
+          <p class="unlocks">Mode 4X. 4 scènes de dialogue + CP1. Même structure de base.</p>
+        </div>
+      </div>
+
+      <div class="char-chips">
+        <span class="char-chip chip-varek">VAREK</span>
+      </div>
+
+      <p>Même pattern que AldricWorld. Scènes : <code>varek_a1_s1_rapport</code>, <code>varek_a1_s2_protocole</code>, <code>varek_a1_s3_delegation_prep</code>, <code>varek_a1_s4_usage_prive</code>, <code>varek_a1_cp1</code>.</p>
+      <p>Pour Varek, envisager un fond de carte ou de bureau imposant. Palette or/sombre pour l'identité impériale.</p>
+
+    </section>
+
+    <section class="section" id="daven-stealth">
+      <div class="section-header">
+        <span class="section-badge prio-1">P1</span>
+        <div>
+          <h2>DavenStealth.tscn</h2>
+          <p class="unlocks">Mode Furtivité. 4 scènes de dialogue + CP1.</p>
+        </div>
+      </div>
+
+      <div class="char-chips">
+        <span class="char-chip chip-daven">DAVEN</span>
+      </div>
+
+      <p>Même pattern. Scènes : <code>daven_a1_s1_couverture</code>, <code>daven_a1_s2_mira</code>, <code>daven_a1_s3_faux_documents</code>, <code>daven_a1_s4_kira</code>, <code>daven_a1_cp1</code>.</p>
+      <p>Palette très sombre, couleurs désaturées. Les couloirs administratifs doivent sembler identiques — le danger vient de la normalité.</p>
+
+    </section>
+
+    <section class="section" id="crossing-point">
+      <div class="section-header">
+        <span class="section-badge prio-1">P1</span>
+        <div>
+          <h2>CrossingPoint.tscn</h2>
+          <p class="unlocks">Scène partagée pour les Points de Croisement — quand <code>character = "shared"</code>. Non utilisé en Acte 1 (les CP1 sont joués dans les scènes personnages), mais nécessaire pour les CP futurs.</p>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <strong>Note Acte 1</strong>
+        <p>Les 4 POVs du CP1 sont joués dans leurs scènes personnages respectives (aldric_a1_cp1 dans AldricWorld, etc.). CrossingPoint.tscn sera utilisé pour les CP de type "tout le monde ensemble" dans les actes 2 et 3.</p>
+      </div>
+
+      <div class="file-path">res://src/modes/shared/CrossingPoint.gd</div>
+      <pre><code><span class="kw">extends</span> <span class="tp">Node2D</span>
+
+<span class="kw">func</span> <span class="fn">_receive_scene_entry</span>(entry: <span class="tp">Dictionary</span>) -> <span class="tp">void</span>:
+    DialogueEngine.<span class="fn">start</span>(
+        entry.get(<span class="str">"dialogue_path"</span>, <span class="str">""</span>),
+        entry.get(<span class="str">"scene_id"</span>, <span class="str">""</span>),
+        entry.get(<span class="str">"entry_node"</span>, <span class="str">"start"</span>)
+    )
+</code></pre>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         P1 — IDENTITÉ VISUELLE
+    ══════════════════════════════════════════ -->
+    <section class="section" id="visual-identity">
+      <div class="section-header">
+        <span class="section-badge prio-1">P1</span>
+        <div>
+          <h2>Identité visuelle par personnage</h2>
+          <p class="unlocks">Débloque : <strong>le joueur sait immédiatement quel personnage il joue</strong> sans lire le nom.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Personnage</th><th>Palette</th><th>Fond UI (DialogueBox)</th><th>Teinte monologue</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="char-chip chip-aldric">ALDRIC</span></td>
+              <td>Ambre/brun chaud <code>#e3a040</code></td>
+              <td><code>#1a0f06</code> avec bordure ambre</td>
+              <td><code>#c8a878</code> — chaleur, ambiguïté morale</td>
+            </tr>
+            <tr>
+              <td><span class="char-chip chip-seira">SEÏRA</span></td>
+              <td>Bleu acier froid <code>#58a6ff</code></td>
+              <td><code>#0c1a2e</code> avec bordure bleue</td>
+              <td><code>#a8c8e8</code> — analytique, distanciation</td>
+            </tr>
+            <tr>
+              <td><span class="char-chip chip-varek">VAREK</span></td>
+              <td>Or impérial <code>#d4a017</code></td>
+              <td><code>#1a1007</code> avec bordure or</td>
+              <td><code>#d4c080</code> — certitude absolue, froid</td>
+            </tr>
+            <tr>
+              <td><span class="char-chip chip-daven">DAVEN</span></td>
+              <td>Gris ardoise <code>#7c8fa1</code></td>
+              <td><code>#0d1218</code> avec bordure grise</td>
+              <td><code>#8898a8</code> — neutralité absolue</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Implémentation — Theme Resources</h3>
+      <ol class="steps">
+        <li>Créer <code>res://assets/themes/</code> et faire 4 fichiers <code>.theme</code> (un par personnage) dans l'éditeur : clic droit dans FileSystem &rsaquo; New Resource &rsaquo; Theme.</li>
+        <li>Dans chaque theme, surcharger <code>PanelContainer / StyleBoxFlat</code> : <code>bg_color</code> + <code>border_color</code> + <code>border_width_left = 3</code>.</li>
+        <li>Dans chaque scène personnage, assigner le theme approprié au nœud <code>DialogueUI</code> dans l'Inspector.</li>
+        <li>Alternativement (plus simple) : passer la couleur via code dans <code>_receive_scene_entry()</code> avec <code>dialogue_ui.set_theme_color()</code>.</li>
+      </ol>
+
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════════════════════════════
+         P2 — TRANSITIONS
+    ══════════════════════════════════════════ -->
+    <section class="section" id="transitions">
+      <div class="section-header">
+        <span class="section-badge prio-2">P2</span>
+        <div>
+          <h2>Transitions &amp; fondus</h2>
+          <p class="unlocks">Débloque : <strong>changements de personnage non-brutaux</strong>. Fondu noir entre chaque scène.</p>
+        </div>
+      </div>
+
+      <h3>Approche recommandée : CanvasLayer overlay</h3>
+      <p>Ajouter un <code>CanvasLayer</code> (layer = 100) dans <strong>chaque scène de jeu</strong>, contenant un <code>ColorRect</code> Full Rect noir, <code>modulate.a = 0</code> au départ. Un <code>AnimationPlayer</code> gère le fade.</p>
+
+      <p>Alternativement, SceneRouter peut gérer le fade globalement via un <code>CanvasLayer</code> qu'il instancie une seule fois. C'est plus propre :</p>
+
+      <div class="file-path">À ajouter dans SceneRouter.gd</div>
+      <pre><code><span class="cm">## Dans _ready() de SceneRouter :</span>
+<span class="kw">var</span> _fade_overlay: <span class="tp">ColorRect</span>
+<span class="kw">var</span> _canvas_layer: <span class="tp">CanvasLayer</span>
+
+<span class="kw">func</span> <span class="fn">_ready</span>() -> <span class="tp">void</span>:
+    _canvas_layer = <span class="tp">CanvasLayer</span>.new()
+    _canvas_layer.layer = <span class="nm">100</span>
+    <span class="fn">add_child</span>(_canvas_layer)
+    _fade_overlay = <span class="tp">ColorRect</span>.new()
+    _fade_overlay.anchor_right = <span class="nm">1.0</span>
+    _fade_overlay.anchor_bottom = <span class="nm">1.0</span>
+    _fade_overlay.color = <span class="tp">Color</span>.BLACK
+    _fade_overlay.modulate.a = <span class="nm">0.0</span>
+    _canvas_layer.<span class="fn">add_child</span>(_fade_overlay)
+
+<span class="cm">## Remplacer le bloc _change_scene par :</span>
+<span class="kw">func</span> <span class="fn">_change_scene</span>(path: <span class="tp">String</span>, entry: <span class="tp">Dictionary</span> = {}) -> <span class="tp">void</span>:
+    _transition_in_progress = <span class="kw">true</span>
+    <span class="cm"># Fondu au noir</span>
+    <span class="kw">var</span> tw := <span class="fn">create_tween</span>()
+    tw.<span class="fn">tween_property</span>(_fade_overlay, <span class="str">"modulate:a"</span>, <span class="nm">1.0</span>, <span class="nm">0.4</span>)
+    <span class="kw">await</span> tw.finished
+    <span class="cm"># Changement de scène</span>
+    get_tree().<span class="fn">change_scene_to_file</span>(path)
+    <span class="kw">await</span> get_tree().process_frame
+    <span class="cm"># Transmettre l'entrée</span>
+    <span class="kw">if not</span> entry.<span class="fn">is_empty</span>():
+        <span class="kw">await</span> get_tree().process_frame
+        <span class="kw">var</span> root := get_tree().current_scene
+        <span class="kw">if</span> root <span class="kw">!=</span> <span class="kw">null</span> <span class="kw">and</span> root.<span class="fn">has_method</span>(<span class="str">"_receive_scene_entry"</span>):
+            root.<span class="fn">_receive_scene_entry</span>(entry)
+    <span class="cm"># Fondu au clair</span>
+    tw = <span class="fn">create_tween</span>()
+    tw.<span class="fn">tween_property</span>(_fade_overlay, <span class="str">"modulate:a"</span>, <span class="nm">0.0</span>, <span class="nm">0.4</span>)
+    <span class="kw">await</span> tw.finished
+    _transition_in_progress = <span class="kw">false</span>
+    transition_ended.<span class="fn">emit</span>()
+    scene_changed.<span class="fn">emit</span>(_current_character, path)
+</code></pre>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         P2 — SAVE/LOAD UI
+    ══════════════════════════════════════════ -->
+    <section class="section" id="save-ui">
+      <div class="section-header">
+        <span class="section-badge prio-2">P2</span>
+        <div>
+          <h2>Interface Save/Load</h2>
+          <p class="unlocks">Débloque : <strong>persistence entre sessions</strong>. Sauvegarde auto + menu de chargement.</p>
+        </div>
+      </div>
+
+      <h3>Sauvegarde automatique</h3>
+      <p>Dans <code>DialogueEngine.gd</code>, le signal <code>dialogue_ended</code> est déjà émis à la fin de chaque scène. C'est le bon moment pour autosauvegarder :</p>
+
+      <div class="file-path">À ajouter dans GameStateManager.gd ou un autoload dédié</div>
+      <pre><code><span class="cm">## Dans _ready() de GSM, se connecter à DialogueEngine :</span>
+<span class="kw">func</span> <span class="fn">_ready</span>() -> <span class="tp">void</span>:
+    DialogueEngine.dialogue_ended.connect(<span class="fn">_on_dialogue_ended</span>)
+
+<span class="kw">func</span> <span class="fn">_on_dialogue_ended</span>(_id: <span class="tp">String</span>) -> <span class="tp">void</span>:
+    SaveSystem.<span class="fn">save_game</span>()  <span class="cm"># Autosave silencieux</span>
+</code></pre>
+
+      <h3>Menu de pause / sauvegarde manuelle</h3>
+      <ol class="steps">
+        <li>Créer <code>PauseMenu.tscn</code> dans <code>res://src/ui/</code> : fond semi-transparent, boutons "Reprendre", "Sauvegarder", "Charger", "Menu principal".</li>
+        <li>L'instancier dans chaque scène personnage dans un <code>CanvasLayer</code> (layer = 50).</li>
+        <li>Connecter la touche <code>ui_cancel</code> (Escape) pour afficher/masquer.</li>
+        <li>Sur "Sauvegarder" : <code>SaveSystem.save_game()</code>.</li>
+        <li>Sur "Menu principal" : <code>SaveSystem.save_game()</code> puis <code>SceneRouter.go_to_main_menu()</code>.</li>
+      </ol>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         P2 — TIMELINE ENRICHIE
+    ══════════════════════════════════════════ -->
+    <section class="section" id="timeline-polish">
+      <div class="section-header">
+        <span class="section-badge prio-2">P2</span>
+        <div>
+          <h2>TimelineView enrichie</h2>
+          <p class="unlocks">Débloque : <strong>lisibilité de la progression</strong>. Le joueur voit où il en est dans la chronologie.</p>
+        </div>
+      </div>
+
+      <p>La version minimale (P0) montre juste un bouton "Continuer". La version enrichie affiche la chronologie complète de l'acte avec les scènes passées et à venir :</p>
+
+      <div class="node-tree">
+<span class="nt-root">TimelineView</span> <span class="nt-type">Control — Full Rect</span>
+<span class="nt-line">├──</span> <span class="nt-child">Background</span> <span class="nt-type">ColorRect #0d1117</span>
+<span class="nt-line">├──</span> <span class="nt-child">ActHeader</span> <span class="nt-type">HBoxContainer — haut de page</span>
+<span class="nt-line">│    ├──</span> <span class="nt-leaf">act_label</span> <span class="nt-type">Label</span>  <span class="nt-prop">"ACTE 1"</span>
+<span class="nt-line">│    └──</span> <span class="nt-leaf">progress_bar</span> <span class="nt-type">ProgressBar</span>  <span class="nt-prop">value = scènes_faites / total</span>
+<span class="nt-line">├──</span> <span class="nt-child">TimelineScroll</span> <span class="nt-type">ScrollContainer</span>
+<span class="nt-line">│    └──</span> <span class="nt-child">EntryList</span> <span class="nt-type">VBoxContainer</span>  <span class="nt-prop">(peuplé dynamiquement)</span>
+<span class="nt-line">└──</span> <span class="nt-child">ContinueBtn</span> <span class="nt-type">Button — ancré bas-centre</span>
+      </div>
+
+      <p>Peupler la liste via <code>SceneSequencer.ACT1_SEQUENCE</code> : pour chaque entrée, afficher le <code>seq_id</code> avec une icône ✓ si <code>GSM.is_scene_done()</code> retourne true, et la couleur du personnage pour distinguer visuellement les alternances.</p>
+
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════════════════════════════
+         P3 — SYSTÈMES DE JEU
+    ══════════════════════════════════════════ -->
+    <section class="section" id="combat">
+      <div class="section-header">
+        <span class="section-badge prio-3">P3</span>
+        <div>
+          <h2>Système de combat — Aldric</h2>
+          <p class="unlocks">Mode RPG tour par tour. À activer quand le dialogue d'une scène de combat se termine.</p>
+        </div>
+      </div>
+
+      <div class="char-chips"><span class="char-chip chip-aldric">ALDRIC</span></div>
+
+      <h3>Architecture</h3>
+      <p>Le combat se déclenche quand un nœud de dialogue de type <code>"auto"</code> ou <code>"choice"</code> a un effet <code>start_combat</code> (à ajouter à DialogueEngine). La scène AldricWorld affiche alors le <code>GameplayLayer</code> (masqué pendant le dialogue).</p>
+
+      <ol class="steps">
+        <li>Créer <code>res://src/modes/aldric/combat/CombatSystem.gd</code> — gère les tours, les unités, les actions.</li>
+        <li>Créer <code>res://src/modes/aldric/combat/CombatUI.tscn</code> — barres de vie, liste d'actions, ordre des tours.</li>
+        <li>Les données de combat des compagnons viennent de <code>CompanionData.create_combat_unit(act)</code> (déjà écrit).</li>
+        <li>Signal de fin de combat → retour au dialogue ou <code>SceneRouter.advance_scene()</code> selon le résultat.</li>
+        <li>Résultat du combat → flag GSM (<code>ALDRIC_WON_SKIRMISH</code>, etc.) pour influencer les dialogues suivants.</li>
+      </ol>
+
+      <div class="callout info">
+        <strong>Approche minimale pour débuter</strong>
+        <p>Le combat peut d'abord être simulé : un bouton "Résoudre le combat" avec un résultat fixe, pour valider le flux avant d'implémenter le vrai système tour par tour.</p>
+      </div>
+
+    </section>
+
+    <section class="section" id="strategy">
+      <div class="section-header">
+        <span class="section-badge prio-3">P3</span>
+        <div>
+          <h2>Interface stratégique — Seïra</h2>
+          <p class="unlocks">Réseau de contacts, recrutement, gestion des ressources.</p>
+        </div>
+      </div>
+
+      <div class="char-chips"><span class="char-chip chip-seira">SEÏRA</span></div>
+
+      <h3>Composants à créer</h3>
+      <ol class="steps">
+        <li><strong>NetworkMap.tscn</strong> — carte du réseau de Seïra. Nœuds = contacts, arêtes = relations. Affiche les compagnons avec statut (<code>GSM.get_companion_status()</code>).</li>
+        <li><strong>ResourcePanel.tscn</strong> — ressources du réseau (argent, influence, informations). Valeurs issues de GSM.</li>
+        <li><strong>RecruitmentDialog.tscn</strong> — dialogue d'intégration quand Seïra prépare un compagnon (<code>seira_prepares_companion</code> effect).</li>
+        <li>Les données de compagnons disponibles viennent de <code>CompanionRegistry</code> (autoload).</li>
+      </ol>
+
+    </section>
+
+    <section class="section" id="empire">
+      <div class="section-header">
+        <span class="section-badge prio-3">P3</span>
+        <div>
+          <h2>Interface empire 4X — Varek</h2>
+          <p class="unlocks">Carte des territoires, gestion des régiments, protocoles.</p>
+        </div>
+      </div>
+
+      <div class="char-chips"><span class="char-chip chip-varek">VAREK</span></div>
+
+      <h3>Composants à créer</h3>
+      <ol class="steps">
+        <li><strong>EmpireMap.tscn</strong> — carte des territoires de l'empire. Provinces colorées selon contrôle/tension. Utiliser un <code>TileMapLayer</code> ou une <code>TextureRect</code> cliquable avec des zones.</li>
+        <li><strong>RegimentPanel.tscn</strong> — liste des régiments avec leurs statuts (Protocole Échorite actif ou non selon flag <code>PROTOCOLE_SIGNE</code>).</li>
+        <li><strong>ReportScreen.tscn</strong> — les rapports de nuit que Varek lit. Interface de type tableur, minimaliste et froid.</li>
+      </ol>
+
+    </section>
+
+    <section class="section" id="infiltration">
+      <div class="section-header">
+        <span class="section-badge prio-3">P3</span>
+        <div>
+          <h2>Système d'infiltration — Daven</h2>
+          <p class="unlocks">Couverture, patrouilles, actions silencieuses.</p>
+        </div>
+      </div>
+
+      <div class="char-chips"><span class="char-chip chip-daven">DAVEN</span></div>
+
+      <h3>Composants à créer</h3>
+      <ol class="steps">
+        <li><strong>BuildingMap.tscn</strong> — vue top-down du bâtiment administratif. Couloirs, portes, positions des agents SI. Rendu très sombre, lumière uniquement aux lampes.</li>
+        <li><strong>CoverMeter.tscn</strong> — indicateur de couverture (0–100%). Baisse si Daven agit trop vite ou fait des erreurs. Visible en permanence dans un coin.</li>
+        <li><strong>PatrolSystem.gd</strong> — les agents de la Surveillance Interne bougent sur des chemins prédéfinis. <code>NavigationAgent2D</code> ou patterns fixes selon la complexité voulue.</li>
+        <li>Les choix dans les dialogues de Daven peuvent modifier le <code>CoverMeter</code> via des effets custom à ajouter à DialogueEngine (<code>"type": "modify_cover", "value": -10</code>).</li>
+      </ol>
+
+    </section>
+
+  </main>
+</div>

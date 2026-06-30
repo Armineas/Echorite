@@ -1,0 +1,466 @@
+{
+  "_comment": "Acte 3 — Varek. Mode 4X/Empire. 5 scènes + CP4 (la mine).",
+  "_design": "L'acte 3 de Varek est celui où il devient visible à lui-même. Il a construit un empire avec la clarté comme outil. Il découvre que la clarté était une drogue. La question est : que reste-t-il quand on enlève la drogue ?",
+
+  "scenes": {
+
+    "varek_a3_s1_sehn_cache": {
+      "id": "varek_a3_s1_sehn_cache",
+      "character": "varek",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Archives impériales, sous-sol trois. Veyra a demandé l'accès pour Varek. Les archives que Sehn avait classées 'Consultation Restreinte — Niveau Impérial'."},
+          "next": "varek_ouvre_archives"
+        },
+
+        "varek_ouvre_archives": {
+          "type": "description",
+          "text": {"fr": "Les rapports originaux. Ceux que Sehn synthétisait avant de les transmettre. Varek en lit un premier. Puis un deuxième. Puis il s'arrête."},
+          "next": "varek_comprend_sehn"
+        },
+
+        "varek_comprend_sehn": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Sehn n'inventait pas. Il sélectionnait. Les rapports qui montraient des problèmes avec le protocole d'amplification disparaissaient dans les archives restreintes. Les rapports favorables remontaient à Varek. Ce n'est pas de la trahison. C'est de la gestion du supérieur."},
+          "next": "varek_pense_decisions"
+        },
+
+        "varek_pense_decisions": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Chaque décision qu'il a prise depuis cinq ans était basée sur des données filtrées. Il n'est pas stupide. Sehn est intelligent. Ensemble ils ont produit quelque chose d'efficacement aveugle."},
+          "next": "veyra_attend"
+        },
+
+        "veyra_attend": {
+          "type": "line",
+          "speaker": "Veyra",
+          "text": {"fr": "Il y en a quatre cent dix-neuf. J'ai commencé à les lire il y a un mois. Je voulais être sûre avant de vous les montrer."},
+          "next": "choix_varek_sehn"
+        },
+
+        "choix_varek_sehn": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Confronter Sehn. Maintenant. Avec les rapports."},
+              "next": "varek_confronte_sehn",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Continuer à lire. Tout lire. Comprendre l'étendue avant de décider."},
+              "next": "varek_lit_tout",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_confronte_sehn": {
+          "type": "description",
+          "text": {"fr": "Sehn n'essaie pas de nier. Il dit : 'Vous n'auriez pas aimé les lire.' Varek lui répond : 'C'est à moi d'en décider.' C'est la première fois qu'il dit ça."},
+          "next": "fin_sehn_cache"
+        },
+
+        "varek_lit_tout": {
+          "type": "description",
+          "text": {"fr": "Il passe deux jours dans les archives. Quatre cent dix-neuf rapports. Il prend des notes dans les marges. Quand il sort, Veyra est toujours là à l'attendre."},
+          "next": "fin_sehn_cache"
+        },
+
+        "fin_sehn_cache": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 3, "scene_id": "varek_a3_s1_sehn_cache"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a3_s2_7eme_ordre_elimination": {
+      "id": "varek_a3_s2_7eme_ordre_elimination",
+      "character": "varek",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Bureau. Orveth apporte l'ordre. Le 7ème Régiment, assigné aux mines depuis dix mois. Les résultats cognitifs sont 'non conformes aux besoins opérationnels'. Traduction : trop loin pour revenir."},
+          "next": "varek_lit_ordre_7eme"
+        },
+
+        "varek_lit_ordre_7eme": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Ce sont ses soldats. Il les a envoyés à la mine. Il les a laissés là dix mois. Les rapports originaux qu'il n'avait pas lus disaient que six mois était le seuil de non-retour. Il a les rapports maintenant."},
+          "next": "orveth_attend_signature"
+        },
+
+        "orveth_attend_signature": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Le commandement recommande une élimination propre. Pas de camp, pas de tribunal. Le protocole est efficace."},
+          "next": "choix_7eme_ordre"
+        },
+
+        "choix_7eme_ordre": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Refuser. Ordonner leur évacuation vers les zones médicales. Si certains ne récupèrent pas, on verra ensuite."},
+              "next": "varek_refuse_7eme",
+              "effects": [{"type": "set_flag", "flag": 55, "value": true}]
+            },
+            {
+              "text": {"fr": "Signer. Dix mois d'exposition. Les rapports de Lyria disent que la récupération au-delà de neuf mois est en dessous de dix pourcent."},
+              "next": "varek_signe_7eme",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_refuse_7eme": {
+          "type": "description",
+          "text": {"fr": "Il refuse. Il signe l'ordre d'évacuation. Orveth ne dit rien mais sa façon de plier le document dit tout ce qu'il pense. Varek s'en fiche."},
+          "next": "fin_7eme_ordre"
+        },
+
+        "varek_signe_7eme": {
+          "type": "description",
+          "text": {"fr": "Il signe. Le stylo est lourd. Il l'a déjà signé des ordres avec un stylo lourd. C'est différent cette fois parce qu'il sait exactement ce qu'il a fait pour qu'ils en arrivent là."},
+          "next": "fin_7eme_ordre"
+        },
+
+        "fin_7eme_ordre": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 3, "scene_id": "varek_a3_s2_7eme_ordre_elimination"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a3_s3_veyra_dessins": {
+      "id": "varek_a3_s3_veyra_dessins",
+      "character": "varek",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Veyra a posé quarante dessins sur la table. Pas de données, pas de rapports. Des dessins à la main des structures dans les galeries profondes."},
+          "next": "varek_regarde_dessins"
+        },
+
+        "varek_regarde_dessins": {
+          "type": "description",
+          "text": {"fr": "Les chambres profondes ressemblent à des coupes anatomiques. Veines, artères, nœuds. Mais à une échelle architecturale. Comme si quelqu'un avait construit en imitant le vivant, ou que le vivant avait poussé en imitant l'architectural."},
+          "next": "veyra_explique_dessins"
+        },
+
+        "veyra_explique_dessins": {
+          "type": "line",
+          "speaker": "Veyra",
+          "text": {"fr": "J'ai passé trois mois là-dedans. Ces structures n'existaient pas dans les plans de l'empire d'il y a cent ans. Elles ont poussé. En réponse à l'extraction, peut-être. Ou en réponse aux gens."},
+          "next": "varek_comprend_vivant"
+        },
+
+        "varek_comprend_vivant": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Il a extrait quelque chose de vivant pendant quarante ans. L'empire l'a fait avant lui. La mine répond. Le cristal qui affecte les soldats n'est peut-être pas un poison. C'est peut-être une réponse."},
+          "next": "choix_dessins_varek"
+        },
+
+        "choix_dessins_varek": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Ces dessins doivent être partagés. Seïra, la résistance — tout le monde doit savoir ce que la mine est vraiment."},
+              "next": "varek_partage_dessins",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Aller voir par moi-même. Il faut être dans les galeries profondes pour comprendre ça vraiment."},
+              "next": "varek_veut_aller_mine",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_partage_dessins": {
+          "type": "description",
+          "text": {"fr": "Il envoie les copies. Il ne contrôle pas vers où elles vont. Pour la première fois depuis des années, il lâche une information sans surveiller à qui elle arrive."},
+          "next": "fin_veyra_dessins"
+        },
+
+        "varek_veut_aller_mine": {
+          "type": "line",
+          "speaker": "Veyra",
+          "text": {"fr": "Je vous accompagne. Mais vous devez promettre de ne pas emporter de cristal. Même un fragment. Même pour étudier."},
+          "next": "varek_promet"
+        },
+
+        "varek_promet": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Je promets."},
+          "next": "fin_veyra_dessins"
+        },
+
+        "fin_veyra_dessins": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 3, "scene_id": "varek_a3_s3_veyra_dessins"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a3_s4_lireth_porte": {
+      "id": "varek_a3_s4_lireth_porte",
+      "character": "varek",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Lireth est à la porte. Pas en audience. Elle est simplement là, debout, comme si elle avait marché depuis loin pour arriver à cet endroit précis."},
+          "next": "varek_ouvre_lireth"
+        },
+
+        "varek_ouvre_lireth": {
+          "type": "description",
+          "text": {"fr": "Il l'invite à entrer. Elle ne s'assied pas."},
+          "next": "lireth_parle"
+        },
+
+        "lireth_parle": {
+          "type": "line",
+          "speaker": "Lireth",
+          "text": {"fr": "J'ai travaillé pour vous depuis seize ans. J'ai exécuté des ordres que je ne comprenais pas. J'ai transmis des informations que je ne voulais pas transmettre. Je suis venue vous dire que je ne le ferai plus."},
+          "next": "varek_ecoute_lireth"
+        },
+
+        "varek_ecoute_lireth": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Elle aurait pu juste partir. Elle est venue lui dire. C'est un geste de respect, pas de défi."},
+          "next": "varek_demande_lireth"
+        },
+
+        "varek_demande_lireth": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Pourquoi maintenant ?"},
+          "next": "lireth_repond_pourquoi"
+        },
+
+        "lireth_repond_pourquoi": {
+          "type": "line",
+          "speaker": "Lireth",
+          "text": {"fr": "Parce que vous lisez les archives maintenant. Parce que vous commencez à voir ce que vous avez construit. Il y a une fenêtre où quelqu'un qui voit peut encore changer quelque chose. Cette fenêtre va se fermer si vous attendez trop."},
+          "next": "choix_varek_lireth"
+        },
+
+        "choix_varek_lireth": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Venez avec moi à la mine. Pas comme agent. Comme témoin."},
+              "next": "varek_invite_lireth_mine",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Partez. Je respecte votre décision. Je ne vous tiens pas ici."},
+              "next": "varek_laisse_partir_lireth",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_invite_lireth_mine": {
+          "type": "description",
+          "text": {"fr": "Lireth réfléchit. Puis : 'D'accord.' Ce n'est pas de la confiance. C'est de la curiosité sur comment ça se termine."},
+          "next": "fin_lireth_porte"
+        },
+
+        "varek_laisse_partir_lireth": {
+          "type": "description",
+          "text": {"fr": "Elle part. À la porte, elle s'arrête une seconde. Elle ne se retourne pas. Elle continue."},
+          "next": "fin_lireth_porte"
+        },
+
+        "fin_lireth_porte": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 3, "scene_id": "varek_a3_s4_lireth_porte"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a3_s5_chemin_mine": {
+      "id": "varek_a3_s5_chemin_mine",
+      "character": "varek",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Le voyage vers la mine. Varek a pris une voiture, pas une escorte. Veyra est avec lui. Il roule depuis l'aube."},
+          "next": "varek_conduit_pense"
+        },
+
+        "varek_conduit_pense": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Il n'a pas utilisé l'Échorite depuis onze jours. Il l'a décidé après avoir lu les archives. La première semaine était difficile — pas physiquement, mais le bruit était revenu. Le bruit des décisions, des incertitudes, des visages des gens dans les réunions. Il avait oublié ce bruit."},
+          "next": "veyra_parle_chemin"
+        },
+
+        "veyra_parle_chemin": {
+          "type": "line",
+          "speaker": "Veyra",
+          "text": {"fr": "Comment vous sentez-vous ?"},
+          "next": "varek_repond_bruit"
+        },
+
+        "varek_repond_bruit": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Bruyant. J'avais oublié ce que c'était d'avoir du bruit dans les décisions. Ce n'est pas désagréable. C'est juste... présent."},
+          "next": "varek_arrive_mine_dehors"
+        },
+
+        "varek_arrive_mine_dehors": {
+          "type": "description",
+          "text": {"fr": "La mine. De dehors, elle ressemble à une entrée de carrière. Rien ne prépare à ce qu'il y a dedans."},
+          "next": "varek_entre_mine_s5"
+        },
+
+        "varek_entre_mine_s5": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "L'air change. Il reconnaît la sensation — la clarté qui s'approche. Il avait promis à Veyra. Il ne touche pas au cristal. Il laisse la clarté être là et rester dans l'air. C'est différent de l'utiliser. C'est ce que c'est sans lui."},
+          "next": "fin_chemin_mine"
+        },
+
+        "fin_chemin_mine": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 3, "scene_id": "varek_a3_s5_chemin_mine"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a3_cp4_mine": {
+      "id": "varek_a3_cp4_mine",
+      "character": "varek",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La chambre centrale. Varek est là depuis une heure quand Seïra arrive. Puis Aldric. Puis Daven. Ils ne s'étaient jamais tous été dans la même pièce."},
+          "next": "varek_attend_chambre"
+        },
+
+        "varek_attend_chambre": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Les inscriptions ici sont différentes des galeries supérieures. Plus denses. Plus régulières. Comme si c'était le centre de quelque chose. Le cœur."},
+          "next": "varek_seïra_face"
+        },
+
+        "varek_seïra_face": {
+          "type": "description",
+          "text": {"fr": "Seïra le regarde. Pas avec de la haine. Avec quelque chose de plus dur que la haine — de la précision."},
+          "next": "seira_parle_varek_cp4"
+        },
+
+        "seira_parle_varek_cp4": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Ce n'est pas moi qui décide de ce qui arrive ensuite. C'est cette pièce, et ce qu'on est capables de comprendre ensemble."},
+          "next": "varek_pense_comprendre"
+        },
+
+        "varek_pense_comprendre": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Elle a raison. Pour la première fois depuis des semaines, il n'a pas envie d'avoir raison à sa place."},
+          "next": "daven_dit_inscription"
+        },
+
+        "daven_dit_inscription": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Mon grand-père connaissait ces marques. Il appelait ça la langue de ce qui écoute. Il disait que la mine n'était pas un endroit. C'était une conversation."},
+          "next": "choix_varek_mine_finale"
+        },
+
+        "choix_varek_mine_finale": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Arrêter l'extraction complètement. Sceller la mine. Suspendre l'usage de l'Échorite dans l'empire."},
+              "next": "varek_arrete_tout",
+              "effects": [{"type": "set_flag", "flag": 51, "value": true}]
+            },
+            {
+              "text": {"fr": "Permettre la recherche de ce que c'est vraiment. Pas d'extraction. Juste la compréhension."},
+              "next": "varek_permet_recherche",
+              "effects": [{"type": "set_flag", "flag": 52, "value": true}]
+            }
+          ]
+        },
+
+        "varek_arrete_tout": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "J'ai l'autorité pour signer l'arrêt d'extraction. Je le signe ici."},
+          "next": "varek_signe_arret"
+        },
+
+        "varek_signe_arret": {
+          "type": "description",
+          "text": {"fr": "Il prend le document dans sa veste. Il l'avait préparé avant de venir. Il ne savait pas s'il le signerait. Il le signe."},
+          "next": "fin_cp4_varek"
+        },
+
+        "varek_permet_recherche": {
+          "type": "description",
+          "text": {"fr": "Il dit : 'Quelqu'un sait lire ces inscriptions. On trouve cette personne d'abord.' Seïra acquiesce. C'est la première fois qu'ils sont d'accord sur quelque chose."},
+          "next": "fin_cp4_varek"
+        },
+
+        "fin_cp4_varek": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 3, "scene_id": "cp4_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

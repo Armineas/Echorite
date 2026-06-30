@@ -1,0 +1,71 @@
+{
+  "id": "brennan",
+  "name": { "fr": "Brennan" },
+  "role": { "fr": "Vétéran de la résistance, premier contact d'Aldric" },
+  "description": {
+    "fr": "Vétéran qui a quitté l'armée il y a huit ans, bien avant l'Échorite. Il n'est pas contre le système par idéologie — il est contre ce système précis. La distinction compte pour lui."
+  },
+
+  "recruitment": {
+    "character": "aldric",
+    "act": 2,
+    "condition": { "flag": 25 },
+    "cost": { "troops": 0 },
+    "scene_id": "aldric_a3_s5_veille",
+    "note": "Brennan rejoint Aldric après la désertion. Pas de coût — il était déjà là."
+  },
+
+  "stats": {
+    "atk": 10,
+    "def": 8,
+    "hp": 60,
+    "special": "premier_de_ligne"
+  },
+
+  "special_ability": {
+    "id": "premier_de_ligne",
+    "name": { "fr": "Premier de ligne" },
+    "description": { "fr": "Absorbe 20% des dégâts destinés à Aldric. Si Brennan tombe, Aldric gagne +3 ATK jusqu'à la fin du combat (rage)." },
+    "passive": true
+  },
+
+  "item_transfer": {
+    "item": "hache_brennan",
+    "condition": "brennan_dies_or_transfers",
+    "note": "Si Brennan meurt ou donne sa hache volontairement (scène A3 S5), Aldric obtient hache_brennan."
+  },
+
+  "echorite_exposure": {
+    "initial": 8,
+    "rate_per_mine_visit": 10,
+    "note": "Exposition minimale — a évité les zones minières consciemment."
+  },
+
+  "key_dialogues": [
+    {
+      "scene": "aldric_a3_s5_veille",
+      "node": "brennan_nuit_avant",
+      "text": { "fr": "— T'as signé pour défendre quelque chose. Moi aussi. Le problème c'est pas ce qu'on a signé. C'est ce qu'on s'est mis à défendre à la place." },
+      "condition": { "all": [{ "flag": 25 }, { "flag": 0 }] }
+    },
+    {
+      "scene": "aldric_a3_cp4_mine",
+      "node": "brennan_entre_mine",
+      "text": { "fr": "— Ça sent l'os brûlé." },
+      "type": "description"
+    }
+  ],
+
+  "narrative_arc": {
+    "act2": "N'apparaît pas encore — mentionné comme contact de la résistance par Caïn.",
+    "act3": "Premier vrai allié d'Aldric après la désertion. Scène de veille (A3 S5) = moment clé de confiance.",
+    "mine": "Entre avec Aldric. Réagit physiquement à l'Échorite (exposition passée dans mines de formation)."
+  },
+
+  "death_condition": {
+    "trigger": "combat_mine_acte3",
+    "probability": "conditional_on_aldric_choices",
+    "consequence_flag": 61,
+    "note": "Si Aldric a fait des choix agressifs en A3, Brennan peut mourir dans la mine. Flag 61 = BRENNAN_DIED."
+  }
+}

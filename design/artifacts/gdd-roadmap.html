@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chroniques de l'Échorite — GDD</title>
+<style>
+:root {
+  --ground:#0D0F1A; --ground-r:#12152A; --ground-c:#181B2E; --ground-c2:#1E2238;
+  --text:#C4A96A; --dim:#7A6848; --muted:#3D3828; --faint:#1A1D2E;
+  --accent:#7B5CF0; --ag:rgba(123,92,240,.12); --a2:#2ABFA0;
+  --border:#24273A; --bs:#1A1D2E;
+  --aldric:#4A8DB8; --seira:#5AAB7F; --varek:#C44B4B; --daven:#C4952A;
+  --fd:'Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  --fb:Georgia,'Times New Roman',serif;
+  --fu:'Courier New',Courier,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ground);color:var(--text);font-family:var(--fb);font-size:14px;line-height:1.75}
+
+/* NAV */
+.top-nav{position:sticky;top:0;z-index:100;background:rgba(13,15,26,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 48px;display:flex;align-items:center;overflow-x:auto}
+.top-nav a{font-family:var(--fu);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:14px 11px;text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;flex-shrink:0}
+.top-nav a:hover{color:var(--text);border-color:var(--accent)}
+.nav-sep{flex:1}
+
+/* PAGE */
+.page{max-width:960px;margin:0 auto;padding:0 48px}
+
+/* HEADER */
+.site-header{padding:56px 0 44px;border-bottom:1px solid var(--border)}
+.eyebrow{font-family:var(--fu);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+h1.title{font-family:var(--fd);font-size:clamp(30px,4vw,52px);font-weight:400;color:#EAD9AA;line-height:1.08;letter-spacing:-.025em;margin-bottom:8px}
+.subtitle{font-family:var(--fu);font-size:11px;letter-spacing:.16em;color:var(--dim);margin-bottom:28px}
+.pitch-box{background:var(--ground-c);border-left:3px solid var(--accent);padding:18px 20px;margin-bottom:24px}
+.pitch-box p{font-size:14.5px;color:var(--dim);line-height:1.8;font-style:italic}
+.pitch-box p b{color:var(--text);font-style:normal;font-weight:normal}
+.meta-row{display:flex;flex-wrap:wrap;gap:6px}
+.meta-pill{font-family:var(--fu);font-size:10px;letter-spacing:.12em;padding:5px 12px;border:1px solid var(--border);color:var(--muted)}
+.meta-pill b{color:var(--text);font-weight:normal}
+
+/* SECTION HEADINGS */
+.sec{padding-top:48px}
+.sec-h1{font-family:var(--fd);font-size:26px;font-weight:400;color:#EAD9AA;margin-bottom:4px;letter-spacing:-.01em}
+.sec-rule{height:1px;background:linear-gradient(90deg,var(--accent) 0%,var(--border) 60%,transparent 100%);margin-bottom:24px;margin-top:8px}
+.sec-h2{font-family:var(--fu);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--accent);margin:28px 0 10px}
+.body-text{font-size:13.5px;color:var(--dim);line-height:1.8}
+.body-text+.body-text{margin-top:10px}
+.body-text b{color:var(--text);font-weight:normal}
+.body-text i{color:var(--text)}
+
+/* INSPO GRID */
+.inspo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin:16px 0}
+.inspo-card{background:var(--ground-c);padding:18px 16px;border-top:2px solid var(--c)}
+.inspo-name{font-family:var(--fd);font-size:16px;color:#EAD9AA;margin-bottom:6px}
+.inspo-text{font-size:12.5px;color:var(--muted);line-height:1.65}
+.inspo-kw{color:var(--c);font-style:normal}
+
+/* INFO TABLE */
+.info-table{width:100%;border-collapse:collapse;margin:16px 0}
+.info-table td{padding:9px 14px;border-bottom:1px solid var(--bs);font-size:13px;vertical-align:top}
+.info-table td:first-child{font-family:var(--fu);font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);width:160px;padding-top:12px}
+.info-table td:last-child{color:var(--dim)}
+.info-table tr:last-child td{border-bottom:none}
+
+/* MODE CARDS */
+.mode-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin:16px 0}
+.mode-card{background:var(--ground-c);padding:20px;border-top:3px solid var(--c);position:relative}
+.mode-card::after{content:'';position:absolute;inset:0;background:var(--cbg);pointer-events:none}
+.mode-tag{font-family:var(--fu);font-size:9px;text-transform:uppercase;letter-spacing:.2em;color:var(--c);margin-bottom:8px;position:relative;z-index:1}
+.mode-name{font-family:var(--fd);font-size:18px;color:#EAD9AA;margin-bottom:4px;position:relative;z-index:1}
+.mode-genre{font-family:var(--fu);font-size:10px;color:var(--c);margin-bottom:12px;position:relative;z-index:1;opacity:.7}
+.mode-desc{font-size:12.5px;color:var(--muted);line-height:1.65;position:relative;z-index:1}
+.mode-mechanics{margin-top:10px;padding-top:10px;border-top:1px solid var(--bs);position:relative;z-index:1}
+.mode-mechanics li{font-family:var(--fu);font-size:10px;color:var(--muted);padding:3px 0;padding-left:12px;position:relative;list-style:none}
+.mode-mechanics li::before{content:'—';position:absolute;left:0;color:var(--c);opacity:.5}
+
+/* MECHANIC TABLE */
+.mech-table{width:100%;border-collapse:collapse;margin:16px 0}
+.mech-table th{background:var(--ground-c);padding:10px 16px;font-family:var(--fu);font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);text-align:left;border-bottom:2px solid var(--accent)}
+.mech-table td{padding:14px 16px;border-bottom:1px solid var(--bs);vertical-align:top}
+.mech-table tr:last-child td{border-bottom:none}
+.mech-table tr:hover td{background:rgba(255,255,255,.01)}
+.mech-name{font-family:var(--fd);font-size:15px;color:#EAD9AA;margin-bottom:6px}
+.mech-desc{font-size:12.5px;color:var(--muted);line-height:1.65}
+.mech-desc b{color:var(--text);font-weight:normal}
+.mech-tag-cell{width:110px;vertical-align:middle;padding-top:18px}
+.mech-tag{font-family:var(--fu);font-size:9px;text-transform:uppercase;letter-spacing:.14em;padding:3px 8px;border:1px solid;display:inline-block}
+.tag-core{color:var(--accent);border-color:rgba(123,92,240,.4);background:var(--ag)}
+.tag-cross{color:var(--a2);border-color:rgba(42,191,160,.35);background:rgba(42,191,160,.06)}
+.tag-aldric{color:var(--aldric);border-color:rgba(74,141,184,.35);background:rgba(74,141,184,.06)}
+.tag-seira{color:var(--seira);border-color:rgba(90,171,127,.35);background:rgba(90,171,127,.06)}
+.tag-varek{color:var(--varek);border-color:rgba(196,75,75,.35);background:rgba(196,75,75,.06)}
+.tag-daven{color:var(--daven);border-color:rgba(196,149,42,.35);background:rgba(196,149,42,.06)}
+
+/* COLOR PALETTE */
+.palette-row{display:flex;gap:2px;margin:16px 0;flex-wrap:wrap}
+.swatch{flex:1;min-width:80px;height:56px;position:relative}
+.swatch-label{position:absolute;bottom:0;left:0;right:0;padding:5px 8px;font-family:var(--fu);font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.6)}
+
+/* CONTROLS TABLE */
+.ctrl-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:16px 0}
+.ctrl-card{background:var(--ground-c);padding:18px}
+.ctrl-device{font-family:var(--fu);font-size:10px;text-transform:uppercase;letter-spacing:.2em;color:var(--accent);margin-bottom:12px}
+.ctrl-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bs);font-size:12.5px}
+.ctrl-row:last-child{border-bottom:none}
+.ctrl-action{color:var(--muted)}
+.ctrl-key{font-family:var(--fu);font-size:11px;color:var(--text);background:var(--faint);padding:2px 8px;border:1px solid var(--border)}
+
+/* TIMELINE TABLE */
+.tl-section{margin:16px 0}
+.tl-title{font-family:var(--fu);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--text);padding:10px 0;margin-bottom:4px;border-bottom:1px solid var(--accent);display:flex;align-items:center;gap:10px}
+.tl-title::after{content:'';flex:1;height:1px;background:var(--border)}
+table.tl{width:100%;border-collapse:collapse;margin-bottom:28px}
+table.tl th{background:var(--ground-c);padding:9px 12px;font-family:var(--fu);font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);text-align:left;border-bottom:2px solid var(--border)}
+table.tl th:first-child{width:32px;text-align:center}
+table.tl td{padding:9px 12px;border-bottom:1px solid var(--bs);vertical-align:middle;font-size:12.5px;color:var(--dim)}
+table.tl tr:last-child td{border-bottom:none}
+table.tl tr:hover td{background:rgba(255,255,255,.01)}
+table.tl td:first-child{text-align:center;font-family:var(--fu);font-size:10px;color:var(--muted)}
+.tl-name{color:var(--text)}
+.tl-note{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+/* TYPE BADGES */
+.tbadge{font-family:var(--fu);font-size:9px;text-transform:uppercase;letter-spacing:.12em;padding:3px 8px;border-radius:2px;border:1px solid;white-space:nowrap;display:inline-block}
+.tb-code{background:rgba(74,141,184,.12);color:#6AAAD0;border-color:rgba(74,141,184,.35)}
+.tb-art{background:rgba(196,75,75,.12);color:#D98080;border-color:rgba(196,75,75,.35)}
+.tb-audio{background:rgba(90,171,127,.12);color:#7CC49A;border-color:rgba(90,171,127,.35)}
+.tb-design{background:rgba(123,92,240,.12);color:#9B7CF0;border-color:rgba(123,92,240,.35)}
+.tb-other{background:rgba(122,104,72,.10);color:#9A8460;border-color:rgba(122,104,72,.3)}
+.tb-content{background:rgba(196,149,42,.10);color:#D4A032;border-color:rgba(196,149,42,.3)}
+
+/* STATUS BADGES */
+.sbadge{font-family:var(--fu);font-size:9px;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:2px;white-space:nowrap;display:inline-block;cursor:pointer;transition:opacity .15s;border:1px solid transparent}
+.sb-todo{background:rgba(61,56,40,.4);color:var(--muted);border-color:var(--bs)}
+.sb-wip{background:rgba(196,149,42,.15);color:#C4952A;border-color:rgba(196,149,42,.4)}
+.sb-done{background:rgba(90,171,127,.15);color:#5AAB7F;border-color:rgba(90,171,127,.4)}
+.sbadge:hover{opacity:.7}
+
+/* PRIORITY */
+.pbadge{font-family:var(--fu);font-size:9px;letter-spacing:.1em;padding:3px 7px;display:inline-block;border:1px solid}
+.pb-crit{color:var(--varek);border-color:rgba(196,75,75,.4);background:rgba(196,75,75,.08)}
+.pb-high{color:#C4952A;border-color:rgba(196,149,42,.35);background:rgba(196,149,42,.07)}
+.pb-med{color:var(--muted);border-color:var(--bs);background:transparent}
+
+/* FOOTER */
+.site-footer{margin-top:72px;padding:24px 0 36px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.ft{font-family:var(--fu);font-size:10px;color:var(--muted);letter-spacing:.1em}
+
+@media(max-width:860px){.page{padding:0 20px}.top-nav{padding:0 20px}.inspo-grid,.mode-grid,.ctrl-grid{grid-template-columns:1fr}.mech-tag-cell{display:none}}
+@media(max-width:600px){table.tl td:nth-child(3),table.tl th:nth-child(3){display:none}}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="#intro">Introduction</a>
+  <a href="#concept">Concept</a>
+  <a href="#mecaniques">Mécaniques</a>
+  <a href="#art">Art</a>
+  <a href="#audio">Audio</a>
+  <a href="#ux">Expérience</a>
+  <a href="#timeline">Timeline</a>
+</nav>
+
+<div class="page">
+
+<!-- HEADER -->
+<header class="site-header" id="intro">
+  <p class="eyebrow">Game Design Document · v0.4 · Godot 4</p>
+  <h1 class="title">Chroniques de l'Échorite</h1>
+  <p class="subtitle">RPG · Stratégie · Infiltration · 4 protagonistes · PC</p>
+
+  <div class="pitch-box">
+    <p><b>Chroniques de l'Échorite</b> est un jeu vidéo de rôle top-down à l'ancienne dans lequel quatre personnages traversent la même guerre depuis des perspectives opposées — un chevalier, une princesse rebelle, un empereur conquérant, un espion double-agent. Leurs histoires se jouent en parallèle acte par acte, et leurs décisions s'influencent mécaniquement : les compagnons qu'Aldric peut recruter dépendent des choix de Seïra, qui dépendent des informations de Daven, qui dépendent de la confiance que Varek lui accorde.</p>
+  </div>
+
+  <div class="meta-row">
+    <span class="meta-pill"><b>Plateforme ·</b> PC (Windows / Linux / macOS)</span>
+    <span class="meta-pill"><b>Engine ·</b> Godot 4</span>
+    <span class="meta-pill"><b>Genre ·</b> RPG / Stratégie / Infiltration</span>
+    <span class="meta-pill"><b>Solo ·</b> 1 joueur</span>
+    <span class="meta-pill"><b>Durée ·</b> ~20h (run complet)</span>
+  </div>
+</header>
+
+<!-- INTRODUCTION -->
+<div class="sec">
+  <h2 class="sec-h1">Introduction</h2>
+  <div class="sec-rule"></div>
+
+  <p class="sec-h2">Inspirations</p>
+
+  <div class="inspo-grid">
+    <div class="inspo-card" style="--c:var(--aldric)">
+      <div class="inspo-name">Final Fantasy IV – VI</div>
+      <div class="inspo-text">Référence principale pour le mode Aldric. <span class="inspo-kw">Personnages d'équipe limités</span>, combats au tour par tour sur fond de carte top-down. Ce sont les premiers Final Fantasy qui ont montré qu'un RPG peut avoir plusieurs protagonistes avec des motivations moralement différentes sans qu'aucun ne soit "le héros".</div>
+    </div>
+    <div class="inspo-card" style="--c:var(--varek)">
+      <div class="inspo-name">Fire Emblem (série)</div>
+      <div class="inspo-text">Source principale du système de <span class="inspo-kw">permadeath des compagnons</span>. Fire Emblem a prouvé qu'une mort permanente ne frustre pas le joueur si elle est narrativement significative — elle crée de l'attachement et de la tension réelle. Notre permadeath va plus loin : la mort d'un compagnon se répercute sur les trois autres histoires.</div>
+    </div>
+    <div class="inspo-card" style="--c:var(--seira)">
+      <div class="inspo-name">Tactics Ogre: Let Us Cling Together</div>
+      <div class="inspo-text">Référence pour <span class="inspo-kw">l'ambiguïté morale</span> et les choix à conséquences sans "bonne réponse". Tactics Ogre est l'un des rares jeux où le joueur peut faire le bon choix et que ça mène quand même à un désastre. Le mode Varek s'inspire directement de cette tension entre cohérence morale et efficacité stratégique.</div>
+    </div>
+    <div class="inspo-card" style="--c:var(--daven)">
+      <div class="inspo-name">Disco Elysium</div>
+      <div class="inspo-text">Modèle pour la narration via les <span class="inspo-kw">monologues intérieurs</span> et les décisions qui révèlent le personnage plutôt que de le construire. Dans le mode Daven surtout : ce que le joueur choisit de faire ou ne pas faire en dit plus sur Daven que n'importe quel dialogue explicite.</div>
+    </div>
+  </div>
+
+  <p class="sec-h2">Expérience joueur</p>
+  <p class="body-text">Le jeu présente les scènes dans l'ordre chronologique où elles se déroulent dans la fiction. Le joueur ne choisit pas quel personnage jouer — il joue la scène suivante sur la timeline. Quand deux scènes sont simultanées, l'ordre privilégie la révélation progressive : on joue d'abord celle qui en dit le moins, et en dernier celle qui frappe le plus. <b>L'Acte 2 se déverrouille quand toutes les scènes de l'Acte 1 sont terminées.</b> Cette progression organique rend les points de croisement encore plus efficaces : le joueur arrive à CP1 en ayant vu exactement ce que chaque personnage faisait juste avant.</p>
+  <p class="body-text">La mort d'un compagnon doit être <b>ressentie</b>, pas seulement constatée. Chaque compagnon a un arc narratif distribué à travers les quatre histoires — leur disparition laisse un vide dans des scènes que le joueur ne verra plus jamais de la même façon.</p>
+
+  <p class="sec-h2">Public cible</p>
+  <p class="body-text">Joueurs de RPG classiques (Final Fantasy, Chrono Trigger) qui ont grandi avec le genre et cherchent une expérience qui respecte leur intelligence narrative. Amateurs de jeux à choix ramifiés (Disco Elysium, Planescape Torment) sensibles aux conséquences différées. <b>Âge cible :</b> 18–35 ans. Le jeu ne se joue pas sans engagement — ce n'est pas un reproche.</p>
+
+  <p class="sec-h2">Logiciels de développement</p>
+  <table class="info-table">
+    <tr><td>Moteur</td><td>Godot 4.x — scène-système pour séparer les 4 modes de jeu, GDScript</td></tr>
+    <tr><td>Graphismes</td><td>Aseprite — pixel art, sprites, tilesets, animations</td></tr>
+    <tr><td>Musique</td><td>LMMS ou FL Studio — composition, mixage des thèmes par personnage</td></tr>
+    <tr><td>Effets sonores</td><td>Bfxr / SFXR pour les sons 8-bit, Audacity pour l'édition</td></tr>
+    <tr><td>Gestion projet</td><td>Git + GitHub — versioning, branches par fonctionnalité</td></tr>
+    <tr><td>Design doc</td><td>Ce document (HTML / navigateur) — vivant, mis à jour au fil du dev</td></tr>
+  </table>
+</div>
+
+<!-- CONCEPT -->
+<div class="sec" id="concept">
+  <h2 class="sec-h1">Concept</h2>
+  <div class="sec-rule"></div>
+
+  <p class="sec-h2">Vue d'ensemble du gameplay</p>
+  <p class="body-text">Le jeu se structure en <b>trois actes</b>, chacun joué avec les quatre personnages avant de passer au suivant. Dans chaque acte, le joueur suit l'histoire de son personnage actif depuis une vue de dessus — exploration, dialogues, décisions, et pour Aldric, des combats au tour par tour. Entre les actes, <b>quatre points de croisement</b> rejoignent les timelines : le même événement vu depuis quatre perspectives, avec des informations que chaque personnage a ou n'a pas.</p>
+  <p class="body-text">La mécanique centrale n'est pas le combat — c'est <b>le pipeline de conséquences</b> : Daven choisit quelles informations transmettre → Seïra décide quoi en faire → Aldric reçoit (ou ne reçoit pas) les compagnons correspondants → Varek réagit à ce que ses agents lui rapportent sur la rébellion. Chaque lien de cette chaîne peut se rompre.</p>
+
+  <p class="sec-h2">Les quatre modes de jeu</p>
+  <div class="mode-grid">
+    <div class="mode-card" style="--c:var(--aldric);--cbg:rgba(74,141,184,.05)">
+      <p class="mode-tag">Personnage principal</p>
+      <p class="mode-name">Aldric</p>
+      <p class="mode-genre">RPG classique top-down</p>
+      <p class="mode-desc">Exploration tile-based, dialogues, combat au tour par tour. Équipe de 3 : Aldric + 2 compagnons actifs. La composition de son équipe est entièrement déterminée par les décisions de Seïra et de Daven dans leurs propres arcs.</p>
+      <ul class="mode-mechanics">
+        <li>Combat au tour par tour (ATQ / DEF / TECH / FUITE)</li>
+        <li>Permadeath : mort définitive des compagnons</li>
+        <li>Aldric survit à 0 PV si un compagnon tient</li>
+        <li>Inventaire, équipement, progression de stats</li>
+        <li>Choix dialogiques à conséquences différées</li>
+      </ul>
+    </div>
+    <div class="mode-card" style="--c:var(--seira);--cbg:rgba(90,171,127,.05)">
+      <p class="mode-tag">Architecte de la résistance</p>
+      <p class="mode-name">Seïra</p>
+      <p class="mode-genre">Gestion & recrutement</p>
+      <p class="mode-desc">Interface de commandement. Pas d'exploration — des décisions. Ressources, réseau de renseignement, recrutement. Ses choix déterminent quels compagnons existent dans le jeu et lesquels Aldric pourra rencontrer.</p>
+      <ul class="mode-mechanics">
+        <li>4 ressources : argent, troupes, renseignement, moral</li>
+        <li>Fiches de recrutement avec conditions multiples</li>
+        <li>Décisions politiques à ramifications différées</li>
+        <li>Carte stratégique de la rébellion</li>
+        <li>Gestion des tensions internes à la coalition</li>
+      </ul>
+    </div>
+    <div class="mode-card" style="--c:var(--varek);--cbg:rgba(196,75,75,.05)">
+      <p class="mode-tag">L'adversaire jouable</p>
+      <p class="mode-name">Varek</p>
+      <p class="mode-genre">Stratégie 4X simplifiée</p>
+      <p class="mode-desc">Vue macro de l'empire. Rapports militaires, ordres à signer, gestion des généraux. Le joueur habite la perspective de l'antagoniste — ses décisions rationnelles créent des catastrophes humaines, sans qu'aucune case "méchant" ne soit jamais cochée.</p>
+      <ul class="mode-mechanics">
+        <li>Carte stratégique (territoires, fronts, garnisons)</li>
+        <li>Ordres signables avec conséquences partiellement visibles</li>
+        <li>Compteur d'Échorite (invisible, effets progressifs)</li>
+        <li>Gestion de cour : loyauté des généraux, filtrage de l'info</li>
+        <li>Lock narratif : certains événements se produisent quoi qu'il arrive</li>
+      </ul>
+    </div>
+    <div class="mode-card" style="--c:var(--daven);--cbg:rgba(196,149,42,.05)">
+      <p class="mode-tag">Double agent</p>
+      <p class="mode-name">Daven</p>
+      <p class="mode-genre">Infiltration & couvertures</p>
+      <p class="mode-desc">Furtivité top-down, gestion des identités, missions à compte à rebours. Daven est présent comme personnage secondaire dans les trois autres histoires — son propre arc devient jouable quand sa couverture implose. Ce qu'il fait avec ce qu'il sait définit qui il est.</p>
+      <ul class="mode-mechanics">
+        <li>Mouvement furtif, cônes de détection ennemis</li>
+        <li>Identités multiples avec niveaux de crédibilité</li>
+        <li>Canaux de transmission (à qui, quoi, quel risque)</li>
+        <li>Missions d'extraction à durée limitée</li>
+        <li>Conséquences permanentes des échecs de mission</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- MÉCANIQUES -->
+<div class="sec" id="mecaniques">
+  <h2 class="sec-h1">Mécaniques</h2>
+  <div class="sec-rule"></div>
+
+  <p class="sec-h2">Mécaniques principales</p>
+  <table class="mech-table">
+    <thead><tr><th>Mécanique</th><th>Description</th><th class="mech-tag-cell">Type</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="mech-name">Permadeath des compagnons</div></td>
+        <td><div class="mech-desc">Quand un compagnon meurt en combat, il est retiré définitivement de la partie courante. La mort n'est jamais réversible et n'est jamais anodine — chaque compagnon a des scènes qui n'existeront plus après sa mort. <b>La perte se ressent dans toutes les histoires :</b> Seïra reçoit un rapport, Daven note le nom dans un journal, Varek ajuste ses analyses.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-aldric">Aldric</span></td>
+      </tr>
+      <tr>
+        <td><div class="mech-name">Protection à 0 PV</div></td>
+        <td><div class="mech-desc">Quand Aldric tombe à 0 PV, un compagnon vivant l'empêche de mourir. Aldric est inconscient — ce compagnon continue de se battre seul. Si ce compagnon tombe aussi, il <b>meurt définitivement</b> pour protéger Aldric. Si les deux compagnons actifs tombent : Game Over. Cette mécanique rend chaque sacrifice de compagnon narrativement explicite.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-aldric">Aldric</span></td>
+      </tr>
+      <tr>
+        <td><div class="mech-name">Pipeline compagnons</div></td>
+        <td><div class="mech-desc">Pour qu'un compagnon rejoigne Aldric, une chaîne de trois conditions doit tenir : <b>Daven</b> protège ou signale la personne → <b>Seïra</b> investit les ressources pour la recruter → <b>Aldric</b> rencontre le compagnon dans une scène déclenchée par les deux étapes précédentes. Chaque maillon peut se rompre indépendamment — un compagnon peut mourir avant d'être recruté, ou rester inaccessible faute d'information.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-cross">Cross-story</span></td>
+      </tr>
+      <tr>
+        <td><div class="mech-name">Flags de décision globaux</div></td>
+        <td><div class="mech-desc">Chaque décision significative dans n'importe quelle histoire génère un flag stocké dans le GameStateManager. Ces flags conditionnent les scènes futures de tous les personnages — certaines scènes n'existent que si plusieurs flags convergent. Le joueur ne voit jamais ces flags directement, mais en ressent les conséquences quand un dialogue change, une option disparaît, ou une scène ne se déroule pas comme prévu.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-cross">Cross-story</span></td>
+      </tr>
+      <tr>
+        <td><div class="mech-name">Lock narratif (événements fixes)</div></td>
+        <td><div class="mech-desc">Certains événements structurels se produisent quoi qu'il arrive — le joueur influence <b>comment</b> ils se produisent et ce qu'ils signifient, pas <b>s'ils</b> se produisent. Le massacre de Vel'Shan a lieu même si Varek hésite à signer : Orveth agit de sa propre initiative. Ce mécanisme empêche le meta-gaming de vider les histoires de leur tension dramatique.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-varek">Varek</span></td>
+      </tr>
+      <tr>
+        <td><div class="mech-name">Amplification Échorite</div></td>
+        <td><div class="mech-desc">L'Échorite n'est pas un stimulant — c'est un amplificateur. Il amplifie ce que la personne <b>est déjà</b>. Mécaniquement : un compteur invisible accumule l'exposition. À faible dose, effets positifs (combat, soins). À doses répétées : inhibitions qui disparaissent, instincts qui prennent le dessus, comportements qui deviennent incontrôlables. Le joueur ne voit jamais la barre — il en voit les conséquences sur les PNJ.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-varek">Varek</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="sec-h2">Mécaniques secondaires</p>
+  <table class="mech-table">
+    <thead><tr><th>Mécanique</th><th>Description</th><th class="mech-tag-cell">Type</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="mech-name">Points de Croisement (CP)</div></td>
+        <td><div class="mech-desc">4 événements rejoués depuis 4 perspectives dans l'ordre de jeu du joueur. Le même fait, quatre significations différentes selon ce que chaque personnage sait. <b>CP1</b> : la délégation brisée. <b>CP2</b> : Vel'Shan. <b>CP3</b> : la désertion d'Aldric. <b>CP4</b> : la mine (convergence finale). Le contenu d'un CP varie selon les flags accumulés par le joueur.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-cross">Cross-story</span></td>
+      </tr>
+      <tr>
+        <td><div class="mech-name">Progression chronologique</div></td>
+        <td><div class="mech-desc">Le jeu présente les scènes dans l'ordre où elles se déroulent dans la fiction — pas par personnage. Le joueur ne choisit pas qui jouer ensuite : il joue la scène qui arrive. Si deux scènes sont simultanées, celle à l'impact narratif le plus fort joue en dernier. <b>L'Acte 2 se déverrouille quand toutes les scènes de l'Acte 1 sont jouées</b> — le SceneSequencer gère cet ordre automatiquement.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-core">Cœur</span></td>
+      </tr>
+      <tr>
+        <td><div class="mech-name">Couvertures multiples (Daven)</div></td>
+        <td><div class="mech-desc">Daven maintient plusieurs identités actives simultanément. Chaque identité a un niveau de crédibilité, des zones où elle fonctionne, et des PNJs susceptibles de la percer. Le joueur gère quelle identité activer selon la zone et le contexte. Un niveau d'alerte trop élevé dégrade la couverture — pas de retour en arrière.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-daven">Daven</span></td>
+      </tr>
+      <tr>
+        <td><div class="mech-name">Gestion de ressources (Seïra)</div></td>
+        <td><div class="mech-desc">Quatre ressources : <b>argent</b> (recrutements mercenaires), <b>troupes</b> (opérations militaires), <b>renseignement</b> (accès aux informations de Daven), <b>moral</b> (cohésion de la coalition). Chaque décision consomme ou génère. Certains recrutements de compagnons nécessitent plusieurs ressources simultanément, ce qui force des arbitrages réels.</div></td>
+        <td class="mech-tag-cell"><span class="mech-tag tag-seira">Seïra</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ART -->
+<div class="sec" id="art">
+  <h2 class="sec-h1">Art</h2>
+  <div class="sec-rule"></div>
+
+  <p class="sec-h2">Direction artistique</p>
+  <p class="body-text">Pixel art top-down, résolution base <b>32×32 pixels par tile</b>, fenêtre de jeu 480×270 upscalée ×4 (1920×1080). Le style s'inspire des RPG SNES tardifs (Final Fantasy VI, Secret of Mana) mais avec une palette désaturée et sombre qui renforce la gravité narrative. Pas d'animations de combat élaborées — des effets lisibles, rapides, sobres.</p>
+  <p class="body-text">Chaque mode de jeu a <b>une identité visuelle distincte</b> : le mode Aldric utilise des teintes bleues-froides pour les zones ennemies et chaudes pour les zones rebelles. Le mode Seïra est presque entièrement une interface — fond sombre, cartes de renseignement, icônes géographiques. Le mode Varek utilise des rouges et gris métalliques. Le mode Daven alterne entre zones très sombres (infiltration) et zones normales (couverture active).</p>
+
+  <p class="sec-h2">Palette de couleurs</p>
+  <div class="palette-row">
+    <div class="swatch" style="background:#0D0F1A"><div class="swatch-label">Fond #0D0F1A</div></div>
+    <div class="swatch" style="background:#C4A96A"><div class="swatch-label">Texte #C4A96A</div></div>
+    <div class="swatch" style="background:#7B5CF0"><div class="swatch-label">Échorite #7B5CF0</div></div>
+    <div class="swatch" style="background:#2ABFA0"><div class="swatch-label">Accent 2 #2ABFA0</div></div>
+    <div class="swatch" style="background:#4A8DB8"><div class="swatch-label">Aldric #4A8DB8</div></div>
+    <div class="swatch" style="background:#5AAB7F"><div class="swatch-label">Seïra #5AAB7F</div></div>
+    <div class="swatch" style="background:#C44B4B"><div class="swatch-label">Varek #C44B4B</div></div>
+    <div class="swatch" style="background:#C4952A"><div class="swatch-label">Daven #C4952A</div></div>
+  </div>
+
+  <p class="sec-h2">Design des personnages</p>
+  <p class="body-text">Les sprites sont en <b>16×24 pixels</b> (taller character ratio). Chaque personnage est lisible en une couleur dominante : bleu acier pour Aldric, vert sobre pour Seïra, rouge impérial pour Varek, ocre usé pour Daven. Les compagnons reprennent des variantes de ces palettes avec des accents qui les distinguent. Les soldats de Vareth sur-Échorite ont une teinte violette progressive selon leur niveau d'exposition.</p>
+
+  <p class="sec-h2">Interface utilisateur</p>
+  <p class="body-text">Chaque mode a son propre langage d'UI : le RPG d'Aldric utilise des fenêtres de dialogue classiques avec portrait. La gestion de Seïra est une interface de commandement (tableaux, icônes, indicateurs). Le 4X de Varek ressemble à un bureau impérial — rapports, cartes, sceaux. Daven n'a presque pas d'UI — des informations contextuelles minimales seulement. <b>Aucun HUD permanent dans le mode Daven :</b> la tension vient de l'absence d'information.</p>
+</div>
+
+<!-- AUDIO -->
+<div class="sec" id="audio">
+  <h2 class="sec-h1">Audio</h2>
+  <div class="sec-rule"></div>
+
+  <p class="sec-h2">Musique</p>
+  <p class="body-text">Chaque personnage a un <b>thème musical distinct</b> qui évolue avec son arc narratif. Le thème d'Aldric commence orchestral et chevaleresque, et s'érode progressivement vers quelque chose de plus âpre et dépouillé. Le thème de Seïra est architecturé, méthodique — des cordes et des cuivres. Varek : minimaliste, froid, rythmique. Daven : ambiant, discret, avec des silences qui durent plus longtemps que confortable.</p>
+  <p class="body-text">Les points de croisement utilisent une <b>fusion des quatre thèmes</b> — un arrangement qui tisse les motifs de chaque personnage selon leur état émotionnel au moment du CP. CP4 (la mine) est la seule scène où tous les thèmes jouent simultanément sans résolution harmonique claire.</p>
+
+  <p class="sec-h2">Effets sonores</p>
+  <p class="body-text">Sons synthétiques de style rétro (pas de foley réaliste). Les cristaux d'Échorite ont un son propre — une fréquence légèrement dissonante qui s'intègre dans les ambiances selon leur proximité. La mort d'un compagnon en combat déclenche un silence de 0,5 seconde avant que la musique reprenne — ce vide sonore est intentionnel et irremplaçable par aucun effet.</p>
+</div>
+
+<!-- EXPÉRIENCE -->
+<div class="sec" id="ux">
+  <h2 class="sec-h1">Expérience de jeu</h2>
+  <div class="sec-rule"></div>
+
+  <p class="sec-h2">Interface & navigation</p>
+  <p class="body-text">L'écran de sélection de personnage montre les quatre protagonistes avec leur progression dans l'acte courant. Les scènes déjà jouées sont accessibles en lecture seule (log narratif). Les flags de décision passés sont consultables — pas pour les modifier, mais pour s'en souvenir. <b>Aucun retour en arrière</b> sur une décision prise. La sauvegarde est automatique à chaque début de scène.</p>
+
+  <p class="sec-h2">Contrôles</p>
+  <div class="ctrl-grid">
+    <div class="ctrl-card">
+      <p class="ctrl-device">Clavier</p>
+      <div class="ctrl-row"><span class="ctrl-action">Déplacement</span><span class="ctrl-key">ZQSD / Flèches</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Confirmer / Interagir</span><span class="ctrl-key">Espace / Entrée</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Annuler / Menu</span><span class="ctrl-key">Échap</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Inventaire</span><span class="ctrl-key">I</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Log narratif</span><span class="ctrl-key">L</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Pause</span><span class="ctrl-key">P</span></div>
+    </div>
+    <div class="ctrl-card">
+      <p class="ctrl-device">Manette (Xbox / PS)</p>
+      <div class="ctrl-row"><span class="ctrl-action">Déplacement</span><span class="ctrl-key">Stick G / D-Pad</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Confirmer / Interagir</span><span class="ctrl-key">A / Croix</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Annuler / Menu</span><span class="ctrl-key">B / Rond</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Inventaire</span><span class="ctrl-key">Y / Triangle</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Log narratif</span><span class="ctrl-key">LB / L1</span></div>
+      <div class="ctrl-row"><span class="ctrl-action">Pause</span><span class="ctrl-key">Start / Options</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="sec" id="timeline">
+  <h2 class="sec-h1">Development Timeline</h2>
+  <div class="sec-rule"></div>
+  <p class="body-text" style="margin-bottom:24px">Cliquez sur le statut d'une tâche pour le faire avancer (À faire → En cours → Terminé). L'état est sauvegardé dans le navigateur.</p>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 0 — Architecture & Fondations</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><span class="tl-name">Setup projet Godot — structure dossiers, conventions</span></td><td><span class="tbadge tb-other">Autre</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Organisation aldric/, seira/, varek/, daven/, shared/. Définir conventions GDScript avant toute ligne de code.</td></tr>
+        <tr><td>2</td><td><span class="tl-name">GameStateManager — singleton global, tous les flags narratifs</span><div class="tl-note">enum flags, CompanionState, API publique set/get</div></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Bloquant pour tout le reste. Définir exhaustivement les flags avant de coder.</td></tr>
+        <tr><td>3</td><td><span class="tl-name">Système de sauvegarde — sérialisation JSON</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>1 slot par run. Sauvegarde auto début de scène + CPs.</td></tr>
+        <tr><td>4</td><td><span class="tl-name">Système d'actes — verrous de progression inter-personnages</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Acte 2 déverrouillé quand les 4 ont fini l'Acte 1. UI de progression visible.</td></tr>
+        <tr><td>5</td><td><span class="tl-name">Moteur de dialogue — texte, choix, conditions sur flags</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Évaluer Dialogic ou faire maison. Doit supporter les conditions (show_if flag == true).</td></tr>
+        <tr><td>6</td><td><span class="tl-name">Menu principal + vue de progression (timeline)</span><div class="tl-note">Pas de sélection libre — le jeu décide l'ordre chronologique. Vue lisible en lecture seule.</div></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>TimelineView remplace CharacterSelect. Montre qui a joué quoi, dans quel ordre. Pas de spoilers sur scènes futures.</td></tr>
+        <tr><td>7</td><td><span class="tl-name">SceneRouter — transitions entre modes de jeu</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Charge la bonne scène selon personnage actif + progression. Évite les couplages directs.</td></tr>
+        <tr><td>8</td><td><span class="tl-name">Matrice d'influence cross-story (document de design)</span></td><td><span class="tbadge tb-design">Design</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Tableau exhaustif : action → flag → effet sur quel personnage → dans quel acte. Référence anti-bug narrative.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 1 — Mode Aldric (RPG)</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>9</td><td><span class="tl-name">Mouvement top-down — décision grille vs libre</span></td><td><span class="tbadge tb-design">Design</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Prototyper les deux en 1h chacun avant de choisir. La grille simplifie le combat.</td></tr>
+        <tr><td>10</td><td><span class="tl-name">TileMap + caméra + transitions de zones</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>TileMapLayer Godot 4. Couches sol/objets/collisions. Tileset placeholder pour prototyper.</td></tr>
+        <tr><td>11</td><td><span class="tl-name">Combat tour par tour — prototype (rectangles colorés)</span><div class="tl-note">Initiative, stats de base, formule dégâts, IA ennemie basique</div></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>L'objectif est la lisibilité et la prise de décision. Pas d'art — des carrés. Valider le fun avant de dessiner.</td></tr>
+        <tr><td>12</td><td><span class="tl-name">UI de combat — barres PV, menu actions, log</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Placeholder. Doit montrer clairement qui agit, quel PV, quelles options.</td></tr>
+        <tr><td>13</td><td><span class="tl-name">Système de compagnons — 2 slots actifs, permadeath</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Mort → retire compagnon + notifie GameStateManager. Changer compagnons actifs hors combat.</td></tr>
+        <tr><td>14</td><td><span class="tl-name">Mécanique Aldric à 0 PV — protection par compagnons</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Compagnon protège → combat seul → peut mourir pour Aldric. Game Over si les 2 compagnons tombent.</td></tr>
+        <tr><td>15</td><td><span class="tl-name">Transition exploration → combat → retour</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Rencontre avec ennemi déclenche le combat. Résultat du combat retourne à la carte.</td></tr>
+        <tr><td>16</td><td><span class="tl-name">Inventaire et équipement basiques</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-med">Normale</span></td><td>Objets de soin, arme + armure par personnage. Pas de craft en V1. <b>→ InventorySystem.gd écrit.</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 2 — Mode Seïra (Gestion)</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>17</td><td><span class="tl-name">Système de ressources — 4 jauges avec HUD</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Argent, troupes, renseignement, moral. Mise à jour en temps réel selon les décisions. <b>→ SeiraResourceManager.gd (logique complète). HUD restant.</b></td></tr>
+        <tr><td>18</td><td><span class="tl-name">Interface recrutement — fiches compagnons + conditions</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Conditions non remplies visibles mais grisées. Décision immédiate transmise au GameStateManager.</td></tr>
+        <tr><td>19</td><td><span class="tl-name">Système de décisions politiques — arbre conditionnel</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Contexte + options + coûts estimés. Pas de retour arrière. Flags générés se révèlent en Acte 2-3.</td></tr>
+        <tr><td>20</td><td><span class="tl-name">Carte stratégique de la rébellion</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Vue macro : territoires, fronts, Bastion, villages clés. Lecture d'état + décisions, pas temps réel.</td></tr>
+        <tr><td>21</td><td><span class="tl-name">Transmission compagnons Seïra → Aldric</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Validation recrutement → flag GameState → scène Aldric déclenchée si conditions réunies. <b>→ CompanionPipelineManager.gd écrit (3 étapes Daven→Seïra→Aldric). Intégration scène restante.</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 3 — Mode Varek (Stratégie 4X)</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>22</td><td><span class="tl-name">Carte stratégique de l'empire</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Régions, lignes de front, garnisons, mines. Mise à jour entre actes selon décisions.</td></tr>
+        <tr><td>23</td><td><span class="tl-name">Système d'ordres signables — interface rapports militaires</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Texte formel, conséquences partiellement visibles. Certains ordres sont lock narratif. <b>→ VarekOrderSystem.gd écrit (5 ordres, lock narratif Vel'Shan). UI restante.</b></td></tr>
+        <tr><td>24</td><td><span class="tl-name">Gestion de cour — loyauté généraux, filtrage de l'info</span><div class="tl-note">Orveth, Sehn, Lireth, Veyra</div></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Chaque conseiller a un niveau de loyauté et des comportements propres. Sehn filtre les rapports. <b>→ CourtManager.gd écrit. UI cour restante.</b></td></tr>
+        <tr><td>25</td><td><span class="tl-name">Compteur Échorite invisible — effets progressifs</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Ne jamais montrer la barre directement. Le joueur voit les conséquences comportementales, pas la cause. <b>→ EchoriteSystem.gd écrit. 4 seuils, get_observable_description() pour PNJs.</b></td></tr>
+        <tr><td>26</td><td><span class="tl-name">Lock narratif — Vel'Shan arrive quoi qu'il arrive</span></td><td><span class="tbadge tb-design">Design</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Si Varek hésite, Orveth agit. Le joueur influence comment, pas si. Guardrails dans GameStateManager.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 4 — Mode Daven (Infiltration)</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>27</td><td><span class="tl-name">Mouvement furtif — cônes de vision, zones de couverture</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Niveau d'alerte progressif (Normal → Suspicion → Alerte). Toujours lisible et juste pour le joueur. <b>→ DavenStealthSystem.gd écrit (4 types ennemis, cônes, bruit). Scène TileMap restante.</b></td></tr>
+        <tr><td>28</td><td><span class="tl-name">Système de couvertures — identités + contraintes par zone</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Identité active selon la zone. Crédibilité dégradable. PNJs qui peuvent percer une couverture. <b>→ DavenCoverSystem.gd écrit (4 identités, crédibilité, niveaux d'alerte). Intégration UI restante.</b></td></tr>
+        <tr><td>29</td><td><span class="tl-name">Canaux de transmission — à qui, quoi, quel risque</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Transmettre à Varek ou à Seïra ou personne. Chaque choix génère des flags cross-story.</td></tr>
+        <tr><td>30</td><td><span class="tl-name">Missions à compte à rebours — extraction Kira</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Plusieurs chemins, risques différents. Échec = conséquence permanente. Jamais de mort subite sans avertissement.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 5 — Systèmes Cross-Story & Points de Croisement</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>31</td><td><span class="tl-name">CP1 — La Délégation Brisée (4 POVs)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Valide la mécanique de multi-POV. Même événement, 4 significations différentes.</td></tr>
+        <tr><td>32</td><td><span class="tl-name">CP2 — Vel'Shan (conséquences différenciées)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Flags générés ici déclenchent la désertion d'Aldric (CP3). Ordre narratif sensible.</td></tr>
+        <tr><td>33</td><td><span class="tl-name">CP3 — La Désertion (Aldric + Seïra, ordre libre)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Fonctionne dans les deux sens d'ordre de jeu. Pas de spoiler injuste selon qui a été joué en premier.</td></tr>
+        <tr><td>34</td><td><span class="tl-name">CP4 — La Mine (convergence finale, fins variables)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>3 fins possibles pour Varek minimum. Contenu conditionnel selon compagnons vivants et flags accumulés.</td></tr>
+        <tr><td>35</td><td><span class="tl-name">Tests d'intégration cross-story — 20 combinaisons critiques</span></td><td><span class="tbadge tb-other">Autre</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>"Si Mira meurt, CP4 est-il jouable ?" × 20 scénarios. <b>→ NarrativeIntegrationTests.gd écrit. 20 tests T01-T20 couvrant tous les flags critiques.</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 6 — Contenu narratif complet (3 actes × 4 personnages)</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>36</td><td><span class="tl-name">Acte I — Aldric (4 scènes)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-high">Haute</span></td><td>La Frontière, Nira, La Réception, Brennan. Écrire dans le moteur de dialogue final directement.</td></tr>
+        <tr><td>37</td><td><span class="tl-name">Acte I — Seïra (6 scènes + décisions recrutement A1)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-high">Haute</span></td><td>La Nuit, Réfugiés, Brennan, Caïn, Rael, Orwen. Tester flags générés vers Aldric.</td></tr>
+        <tr><td>38</td><td><span class="tl-name">Acte I — Varek (4 scènes)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Rapport, Délégation, 7ème Régiment, Usage Privé.</td></tr>
+        <tr><td>39</td><td><span class="tl-name">Acte I — Daven (4 scènes)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Couverture, Mira (protection), Faux Documents, Observation d'Aldric.</td></tr>
+        <tr><td>40</td><td><span class="tl-name">Acte II — les 4 personnages (20 scènes + CPs)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-high">Haute</span></td><td><b>→ 4 × 4-6 scènes + 4 CP2 POVs écrits en JSON. 23 entrées dans ACT2_SEQUENCE (SceneSequencer). Seïra S4 conditionnel sur flag 2.</b></td></tr>
+        <tr><td>41</td><td><span class="tl-name">Acte III — les 4 personnages + CP4 (18 scènes)</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-high">Haute</span></td><td><b>→ 4 × 4-5 scènes + 3 CP3 POVs (conditionnels flag 25) + 4 CP4 POVs écrits. 26 entrées dans ACT3_SEQUENCE. 3 fins mine (flags 50/51/52).</b></td></tr>
+        <tr><td>42</td><td><span class="tl-name">9 compagnons — dialogues de recrutement + moments combat</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-done" onclick="cycleStatus(this)">Terminé</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Brennan, Lyria, Caïn, Mira, Rael, Thessa, Orwen, Kira, Brand. <b>→ 9 fichiers .companion.json écrits. Stats, conditions de recrutement, abilities spéciales, dialogues clés, arc narratif par acte.</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 7 — Art définitif</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>43</td><td><span class="tl-name">Charte pixel art — style, résolution, tiles de référence</span></td><td><span class="tbadge tb-design">Design</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>32×32 px/tile. Décider le tile ratio personnages (16×24 ?). Palette de référence par mode.</td></tr>
+        <tr><td>44</td><td><span class="tl-name">Tilesets — extérieur, intérieur, mine, forteresse</span></td><td><span class="tbadge tb-art">Art</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Aseprite. Chaque mode a sa palette chromatique dominante.</td></tr>
+        <tr><td>45</td><td><span class="tl-name">Sprites personnages + compagnons + ennemis</span></td><td><span class="tbadge tb-art">Art</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Marche 4 directions, idle, mort. Soldats Échorite avec teinte violette progressive.</td></tr>
+        <tr><td>46</td><td><span class="tl-name">UI définitive — cohérente entre les 4 modes</span></td><td><span class="tbadge tb-art">Art</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Mode Daven : UI quasi-inexistante. Mode Varek : interface bureaucratique froide.</td></tr>
+        <tr><td>47</td><td><span class="tl-name">Effets visuels — combat, Échorite, mort de compagnon</span></td><td><span class="tbadge tb-art">Art</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-med">Normale</span></td><td>Mort de compagnon : silence 0.5s + effet minimal. Pas de surenchère visuelle sur ce moment.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 8 — Audio</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>48</td><td><span class="tl-name">Thème Aldric — orchestral, érosion progressive</span></td><td><span class="tbadge tb-audio">Audio</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Commence chevaleresque, s'érode vers l'Acte 3. Variations tension basse/haute.</td></tr>
+        <tr><td>49</td><td><span class="tl-name">Thème Seïra — architecturé, cordes + cuivres</span></td><td><span class="tbadge tb-audio">Audio</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Méthodique. Évoque la construction, pas l'action.</td></tr>
+        <tr><td>50</td><td><span class="tl-name">Thème Varek — minimaliste, froid, rythmique</span></td><td><span class="tbadge tb-audio">Audio</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Peu d'instruments. Efficiency sonore qui reflète son caractère.</td></tr>
+        <tr><td>51</td><td><span class="tl-name">Thème Daven — ambiant, silences calculés</span></td><td><span class="tbadge tb-audio">Audio</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Les silences durent plus longtemps que confortable. C'est voulu.</td></tr>
+        <tr><td>52</td><td><span class="tl-name">Thème CP4 — fusion des 4 thèmes sans résolution</span></td><td><span class="tbadge tb-audio">Audio</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Seule scène où tous les thèmes jouent ensemble. Pas d'harmonie résolue — intentionnel.</td></tr>
+        <tr><td>53</td><td><span class="tl-name">Effets sonores — UI, combat, Échorite, mort</span></td><td><span class="tbadge tb-audio">Audio</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-med">Normale</span></td><td>Synthétiques rétro (Bfxr). L'Échorite a une fréquence dissonante reconnaissable.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Phase 9 — Polish & Tests</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>54</td><td><span class="tl-name">Équilibrage — stats combats, coûts ressources, rareté compagnons</span></td><td><span class="tbadge tb-design">Design</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-high">Haute</span></td><td>Difficulté des combats calibrée selon la composition d'équipe variable.</td></tr>
+        <tr><td>55</td><td><span class="tl-name">5 runs complets end-to-end avec combinaisons différentes</span></td><td><span class="tbadge tb-other">Autre</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-crit">Critique</span></td><td>Run A : tous les compagnons. Run B : aucun compagnon rare. Run C : Kira + Brand seulement. Etc.</td></tr>
+        <tr><td>56</td><td><span class="tl-name">Menu pause, paramètres, accessibilité</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-wip" onclick="cycleStatus(this)">En cours</span></td><td><span class="pbadge pb-med">Normale</span></td><td>Volume musique/SFX, plein écran, vitesse du texte de dialogue. <b>→ SettingsManager.gd écrit (7 paramètres, persistance user://settings.json). UI menu restante.</b></td></tr>
+        <tr><td>57</td><td><span class="tl-name">Page itch.io + build de release</span></td><td><span class="tbadge tb-other">Autre</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-med">Normale</span></td><td>Export Godot Windows/Linux/macOS. Screenshots, description, tags.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-title">Au-delà — si le planning le permet</div>
+    <table class="tl">
+      <thead><tr><th>#</th><th>Tâche</th><th>Type</th><th>Statut</th><th>Priorité</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>—</td><td><span class="tl-name">Mode commentaire — rejouer les scènes avec notes de design</span></td><td><span class="tbadge tb-other">Autre</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-med">Bonus</span></td><td>Pour les joueurs qui veulent comprendre les décisions de design.</td></tr>
+        <tr><td>—</td><td><span class="tl-name">Support manette complet + remapping</span></td><td><span class="tbadge tb-code">Code</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-med">Bonus</span></td><td></td></tr>
+        <tr><td>—</td><td><span class="tl-name">Localisation anglais</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-med">Bonus</span></td><td>Prévoir les clés de traduction dès l'écriture des dialogues.</td></tr>
+        <tr><td>—</td><td><span class="tl-name">Second run — variantes narratives supplémentaires</span></td><td><span class="tbadge tb-content">Contenu</span></td><td><span class="sbadge sb-todo" onclick="cycleStatus(this)">À faire</span></td><td><span class="pbadge pb-med">Bonus</span></td><td>Scènes qui n'existent que dans des runs très spécifiques (tous les compagnons vivants au CP4).</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p class="ft">CHRONIQUES DE L'ÉCHORITE · GDD v0.4 · Godot 4 · Document vivant</p>
+  <p class="ft">57 tâches · 15 terminées · 14 en cours · Contenu narratif complet — P1-P4 gameplay en cours</p>
+</footer>
+
+</div><!-- /page -->
+
+<script>
+var SKEY='echorite_gdd_v2';
+var states=JSON.parse(localStorage.getItem(SKEY)||'{}');
+var cycle=['À faire','En cours','Terminé'];
+var cls=['sb-todo','sb-wip','sb-done'];
+
+function cycleStatus(el){
+  var cur=el.textContent.trim();
+  var idx=cycle.indexOf(cur);
+  var next=(idx+1)%3;
+  el.textContent=cycle[next];
+  el.className='sbadge '+cls[next];
+  var key=el.closest('tr').querySelector('.tl-name').textContent.trim().slice(0,40);
+  states[key]=next;
+  localStorage.setItem(SKEY,JSON.stringify(states));
+}
+
+// Restore saved states
+document.querySelectorAll('.sbadge').forEach(function(el){
+  var key=el.closest('tr').querySelector('.tl-name').textContent.trim().slice(0,40);
+  if(states[key]!==undefined){
+    var i=states[key];
+    el.textContent=cycle[i];
+    el.className='sbadge '+cls[i];
+  }
+});
+</script>
+</body>
+</html>

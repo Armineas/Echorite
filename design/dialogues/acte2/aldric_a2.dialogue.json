@@ -1,0 +1,450 @@
+{
+  "_comment": "Acte 2 — Aldric. Mode RPG/Combat. 4 scènes + CP2.",
+  "_design": "L'acte 2 d'Aldric est celui où la loyauté cède. Il commence A2 en soldat. Il le termine en quelqu'un qui a regardé un ordre et l'a refusé. Entre les deux : la mine.",
+
+  "scenes": {
+
+    "aldric_a2_s1_siege_velardane": {
+      "id": "aldric_a2_s1_siege_velardane",
+      "character": "aldric",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Vel'Ardane. Le rapport dit 'pacification sectorielle'. Aldric est en observation sur la corniche nord. Ce qu'il voit en bas ne ressemble pas à de la pacification."},
+          "next": "aldric_observe_velardane"
+        },
+
+        "aldric_observe_velardane": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Les maisons brûlent dans un ordre méthodique. Les soldats utilisent leurs boucliers pour repousser les gens vers le centre. Il y a une logistique dans ça qui est pire que la violence pure."},
+          "next": "aldric_rapport_arrive"
+        },
+
+        "aldric_rapport_arrive": {
+          "type": "description",
+          "text": {"fr": "Son lieutenant Orhal arrive. Il a le rapport de la nuit sous le bras."},
+          "next": "orhal_rapport"
+        },
+
+        "orhal_rapport": {
+          "type": "line",
+          "speaker": "Orhal",
+          "text": {"fr": "Quarante-sept maisons neutralisées. Résistance : minimale. Deux unités de protection réaffectées vers le sud ce soir. Le secteur sera sécurisé d'ici l'aube."},
+          "next": "aldric_entend_mots"
+        },
+
+        "aldric_entend_mots": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Quarante-sept maisons neutralisées. Il sait écrire ces rapports. Il en a écrit. Il n'avait jamais regardé depuis la corniche ce que ces mots signifiaient sur le sol."},
+          "next": "choix_velardane_reaction"
+        },
+
+        "choix_velardane_reaction": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Orhal, qu'est-ce qu'on a fait aux civils dans les maisons neutralisées ?"},
+              "next": "aldric_demande_civils",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Confirme au commandement que le secteur sera sécurisé. Je vais inspecter les points d'évacuation."},
+              "next": "aldric_continue_protocole",
+              "effects": []
+            }
+          ]
+        },
+
+        "aldric_demande_civils": {
+          "type": "line",
+          "speaker": "Orhal",
+          "text": {"fr": "... Relogement d'urgence. Zone temporaire au nord. C'est le protocole."},
+          "next": "aldric_sait_relogement"
+        },
+
+        "aldric_sait_relogement": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il a vu la zone temporaire. Trois hectares. Mille deux cents personnes d'ici la fin de la semaine. Il connaît les chiffres de mortalité des camps temporaires. Ils sont dans les manuels de commandement qu'on ne lit pas à voix haute."},
+          "next": "fin_velardane"
+        },
+
+        "aldric_continue_protocole": {
+          "type": "description",
+          "text": {"fr": "Orhal confirme et repart. Aldric reste sur la corniche. En dessous, une maison brûle dans l'ordre."},
+          "next": "fin_velardane"
+        },
+
+        "fin_velardane": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 2, "scene_id": "aldric_a2_s1_siege_velardane"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a2_s2_mine_premiere_visite": {
+      "id": "aldric_a2_s2_mine_premiere_visite",
+      "character": "aldric",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Secteur minier sécurisé. Mission d'inspection. Aldric descend dans la galerie principale avec deux soldats d'escorte — ceux qui travaillent ici depuis le début."},
+          "next": "aldric_regarde_soldats"
+        },
+
+        "aldric_regarde_soldats": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il y a quelque chose dans les yeux des soldats de service ici. Pas de la fatigue. Pas de la peur. Quelque chose de plus lisse que ça. Comme si une couche de quelque chose avait été posée dessus."},
+          "next": "aldric_descend_galerie"
+        },
+
+        "aldric_descend_galerie": {
+          "type": "description",
+          "text": {"fr": "La galerie profonde. L'air change. Une légère vibration dans les murs de pierre. Les veines de cristal sont partout — bleu-blanc, pulsant légèrement dans l'obscurité."},
+          "next": "aldric_ressent_cristal"
+        },
+
+        "aldric_ressent_cristal": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il ressent quelque chose. Pas la douleur. Quelque chose de plus proche de la clarté. Comme si le bruit de fond de ses pensées s'atténuait d'un coup. C'est agréable. C'est ça qui est dangereux."},
+          "next": "escorte_parle"
+        },
+
+        "escorte_parle": {
+          "type": "line",
+          "speaker": "Soldat Denn",
+          "text": {"fr": "On s'habitue après deux semaines. Après ça, les nuits dehors sont plus difficiles. On a du mal à dormir sans... l'air d'ici."},
+          "next": "aldric_comprend_dependance"
+        },
+
+        "aldric_comprend_dependance": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Après deux semaines. Il y a des unités assignées ici depuis trois mois. Il est en train de calculer ce que ça signifie sur leurs capacités de jugement indépendant."},
+          "next": "choix_mine_reaction"
+        },
+
+        "choix_mine_reaction": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Depuis combien de temps vous êtes affectés ici, vous deux ?"},
+              "next": "aldric_demande_duree",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Remonter immédiatement. Rédiger le rapport d'inspection avec les observations sur les yeux des soldats."},
+              "next": "aldric_remonte_vite",
+              "effects": []
+            }
+          ]
+        },
+
+        "aldric_demande_duree": {
+          "type": "line",
+          "speaker": "Soldat Denn",
+          "text": {"fr": "Moi, dix semaines. Lui, quatorze. Mais c'est bien ici. Vraiment. On nous dit de ne pas en parler dehors, mais — c'est bien."},
+          "next": "aldric_quatorze_semaines"
+        },
+
+        "aldric_quatorze_semaines": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Quatorze semaines. Il note mentalement les rotations. Les hommes qui ont passé quatorze semaines ici ne sont plus vraiment ses soldats. Ils appartiennent à cet endroit d'une façon qu'il ne peut pas réparer par un ordre de mutation."},
+          "next": "fin_mine"
+        },
+
+        "aldric_remonte_vite": {
+          "type": "description",
+          "text": {"fr": "Il remonte. L'air du dehors lui semble dur, presque agressif. Il note ça aussi dans son rapport."},
+          "next": "fin_mine"
+        },
+
+        "fin_mine": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 2, "scene_id": "aldric_a2_s2_mine_premiere_visite"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a2_s3_cain_rencontre": {
+      "id": "aldric_a2_s3_cain_rencontre",
+      "character": "aldric",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Auberge de la route frontière. L'homme assis seul au fond n'est pas ce qu'il prétend être. Aldric le sait depuis qu'il est entré. Il le connaît."},
+          "next": "aldric_reconnait_cain"
+        },
+
+        "aldric_reconnait_cain": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Caïn. Sous-officier du 4ème régiment. Déserteur il y a trois ans. Le rapport disait 'perte opérationnelle'. Aldric avait signé le rapport."},
+          "next": "aldric_approche_cain"
+        },
+
+        "aldric_approche_cain": {
+          "type": "description",
+          "text": {"fr": "Il s'assied en face de lui. Caïn ne s'enfuit pas. Il attendait ça, ou quelque chose de semblable."},
+          "next": "cain_aldric_dialogue"
+        },
+
+        "cain_aldric_dialogue": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "Je sais ce que vous allez me demander. Pourquoi j'ai déserté plutôt que de refuser l'ordre en face."},
+          "next": "aldric_repond_oui"
+        },
+
+        "aldric_repond_oui": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "Oui."},
+          "next": "cain_explique"
+        },
+
+        "cain_explique": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "Parce que refuser l'ordre en face, ça démontre quelque chose. Ça montre que l'ordre était refusable. Vareth ne peut pas se permettre que ça soit visible. Donc on ne me laissait pas le refus. On me laissait la désertion ou l'obéissance."},
+          "next": "aldric_comprend_cain"
+        },
+
+        "aldric_comprend_cain": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il pense à l'ordre de Vel'Shan qu'il a reçu ce matin. Il pense à la mine. Il pense à la corniche au-dessus de Vel'Ardane. Il pense à Orhal qui disait 'quarante-sept maisons neutralisées' comme si c'était un nombre de chaussures livrées."},
+          "next": "choix_cain_final"
+        },
+
+        "choix_cain_final": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Et maintenant ? Vous êtes quoi ?"},
+              "next": "cain_repond_maintenant",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Je ne peux pas vous laisser partir. Le protocole—"},
+              "next": "aldric_protocole_cain",
+              "effects": []
+            }
+          ]
+        },
+
+        "cain_repond_maintenant": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "Je suis quelqu'un qui a fait le bon choix au mauvais moment. C'est tout. Le bon choix existe encore. C'est vous qui choisissez maintenant."},
+          "next": "fin_cain_non_arrete"
+        },
+
+        "fin_cain_non_arrete": {
+          "type": "description",
+          "text": {"fr": "Aldric se lève. Il ne donne pas l'alerte. Caïn ne remercie pas. Ce n'est pas quelque chose qui se remercie."},
+          "next": "fin_cain_auto"
+        },
+
+        "aldric_protocole_cain": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "Allez-y. Appelez. Je ne m'enfuirai pas. On verra ce qu'on voit quand vous signerez le rapport sur ma capture."},
+          "next": "aldric_ne_crie_pas"
+        },
+
+        "aldric_ne_crie_pas": {
+          "type": "description",
+          "text": {"fr": "Il ne crie pas. Il ne sait pas pourquoi. Il se lève et il sort. Dans la rue, il s'arrête. Il ne comprend pas ce qu'il vient de ne pas faire."},
+          "next": "fin_cain_auto"
+        },
+
+        "fin_cain_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 2, "scene_id": "aldric_a2_s3_cain_rencontre"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a2_s4_l_ordre": {
+      "id": "aldric_a2_s4_l_ordre",
+      "character": "aldric",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Bureau de commandement. Orveth apporte l'ordre sous scellé impérial. Aldric reconnaît le sceau avant d'avoir lu."},
+          "next": "orveth_ordre"
+        },
+
+        "orveth_ordre": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Ordre d'exécution sectorielle. Vel'Shan. Population civile comprise dans le périmètre de résistance active. Délai : 48 heures. Vous signez ici."},
+          "next": "aldric_lit_ordre"
+        },
+
+        "aldric_lit_ordre": {
+          "type": "description",
+          "text": {"fr": "Il lit l'ordre. Deux fois. Il ne comprend pas mieux la deuxième fois. Il comprend seulement plus précisément."},
+          "next": "aldric_pense_cain"
+        },
+
+        "aldric_pense_cain": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Caïn avait dit : on ne vous laisse pas le refus. On vous laisse la désertion ou l'obéissance. Il regarde la plume. Il pense à la mine. Aux yeux des soldats. Aux quarante-sept maisons."},
+          "next": "choix_l_ordre"
+        },
+
+        "choix_l_ordre": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Signer. Il y a peut-être un moyen de minimiser l'exécution depuis l'intérieur."},
+              "next": "aldric_signe_ordre",
+              "effects": [{"type": "set_flag", "flag": 22, "value": true}]
+            },
+            {
+              "text": {"fr": "Ne pas signer. Regarder Orveth et lui dire non."},
+              "next": "aldric_refuse_ordre",
+              "effects": [{"type": "set_flag", "flag": 25, "value": true}]
+            }
+          ]
+        },
+
+        "aldric_signe_ordre": {
+          "type": "description",
+          "text": {"fr": "La plume. Le sceau. Orveth reprend l'ordre sans rien dire. Aldric reste assis dans le bureau vide. Il a signé beaucoup d'ordres. Il ne sait pas pourquoi celui-ci est différent des autres. Il a les mêmes mots."},
+          "next": "fin_ordre_signe"
+        },
+
+        "fin_ordre_signe": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 2, "scene_id": "aldric_a2_s4_l_ordre"}
+          ],
+          "next": "end"
+        },
+
+        "aldric_refuse_ordre": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "Non."},
+          "next": "orveth_reaction_refus"
+        },
+
+        "orveth_reaction_refus": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Vous comprenez ce que 'non' signifie ici."},
+          "next": "aldric_sait_ce_que_non_signifie"
+        },
+
+        "aldric_sait_ce_que_non_signifie": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "Oui."},
+          "next": "orveth_prend_ordre"
+        },
+
+        "orveth_prend_ordre": {
+          "type": "description",
+          "text": {"fr": "Orveth reprend l'ordre. Il part sans un mot de plus. L'ordre sera signé. Par quelqu'un d'autre."},
+          "next": "aldric_seul_apres_refus"
+        },
+
+        "aldric_seul_apres_refus": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il vient de décider quelque chose. Il ne sait pas encore exactement ce que c'est. Il sait que ça n'est pas réversible."},
+          "next": "fin_ordre_refuse"
+        },
+
+        "fin_ordre_refuse": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 2, "scene_id": "aldric_a2_s4_l_ordre"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "aldric_a2_cp2": {
+      "id": "aldric_a2_cp2",
+      "character": "aldric",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La colline au-dessus de Vel'Shan. Aldric regarde. Son second est en bas. L'ordre a été signé — pas par lui."},
+          "next": "aldric_sur_colline"
+        },
+
+        "aldric_sur_colline": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il a refusé. Son second a signé. Ce qui se passe en bas se passe quand même. Son refus n'a sauvé personne. Il a seulement sauvé sa propre signature."},
+          "next": "aldric_voit_execution"
+        },
+
+        "aldric_voit_execution": {
+          "type": "description",
+          "text": {"fr": "Les unités se déploient. Méthodiques. Il reconnaît le protocole d'exécution sectorielle. Il l'a étudié. Il ne l'avait jamais vu appliqué."},
+          "next": "aldric_comprend_desormais"
+        },
+
+        "aldric_comprend_desormais": {
+          "type": "line",
+          "speaker": "Aldric",
+          "internal": true,
+          "text": {"fr": "Il restera sur la colline jusqu'à la fin. Ce n'est pas de la pénitence. C'est le minimum qu'il lui reste à faire : ne pas regarder ailleurs."},
+          "next": "fin_cp2_aldric"
+        },
+
+        "fin_cp2_aldric": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "aldric", "act": 2, "scene_id": "cp2_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

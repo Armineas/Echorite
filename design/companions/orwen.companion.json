@@ -1,0 +1,63 @@
+{
+  "id": "orwen",
+  "name": { "fr": "Orwen" },
+  "role": { "fr": "Contrebandier des routes de l'est, logisticien de la résistance" },
+  "description": {
+    "fr": "Il déplace des personnes et des marchandises sans questions depuis vingt ans. Il n'est pas dans la résistance par conviction — il est là parce que la résistance paye mieux et pose moins de questions que l'empire. La distinction l'amuse."
+  },
+
+  "recruitment": {
+    "character": "seira",
+    "act": 2,
+    "condition": { "flag": 41 },
+    "cost": { "gold": 30 },
+    "scene_id": "seira_a2_s6_decision_confiance",
+    "note": "Orwen est le déserteur que Seïra décide de rencontrer. Son recrutement coûte de l'or — pur transaction. Son allégeance est réelle tant qu'on le paye."
+  },
+
+  "stats": {
+    "atk": 6,
+    "def": 7,
+    "hp": 50,
+    "special": "routes_secretes"
+  },
+
+  "special_ability": {
+    "id": "routes_secretes",
+    "name": { "fr": "Routes secrètes" },
+    "description": { "fr": "Réduit le coût en or de tous les mouvements de troupes de 15%. Débloquerait le passage secret vers la mine dans seira_a3_cp4 (entrée par la salle centrale)." },
+    "passive": true
+  },
+
+  "pipeline_role": {
+    "character": "seira",
+    "stage_enables": "secret_mine_passage",
+    "note": "Orwen connaît l'entrée secondaire de la mine. Sans lui, Seïra arrive par la sortie principale (combat). Avec lui, elle arrive dans la salle centrale."
+  },
+
+  "echorite_exposure": {
+    "initial": 15,
+    "rate_per_mine_visit": 7,
+    "note": "A transporté des marchandises depuis les zones minières. Exposition légère mais réelle."
+  },
+
+  "key_dialogues": [
+    {
+      "scene": "seira_a2_s6_decision_confiance",
+      "node": "orwen_transaction",
+      "text": { "fr": "— Je suis pas de votre résistance. Je suis un prestataire. La différence c'est que si vous perdez, je disparais et vous mourez. Ce qui est une répartition des risques que je trouve honnête." }
+    },
+    {
+      "scene": "seira_a3_cp4_mine",
+      "node": "orwen_passage_secret",
+      "text": { "fr": "— Vous voulez l'entrée de devant ou l'entrée qu'ils savent pas que j'existe ?" },
+      "condition": { "flag": 41 }
+    }
+  ],
+
+  "narrative_arc": {
+    "act2": "Recrutement conditionnel sur la décision de faire confiance. Premier test de Seïra sur la confiance envers les inconnus.",
+    "act3": "Logistique de la résistance — présent mais en retrait. Son rôle clé est l'entrée secondaire de la mine.",
+    "mine": "N'entre pas dans la mine mais guide Seïra vers l'entrée secrète si recruté."
+  }
+}

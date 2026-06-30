@@ -1,0 +1,198 @@
+{
+  "_comment": "CP2 — Le Massacre de Vel'Shan. Point de croisement central, fin de l'Acte 2.",
+  "_design_note": "VEL_SHAN_HAPPENED est toujours true — le massacre a eu lieu. Ce qui change selon VEL_SHAN_SIGNED : si false → Orveth a agi seul. La scène de Varek change. Le reste est fixe.",
+  "_flag_refs": {
+    "22": "VEL_SHAN_SIGNED",
+    "23": "VEL_SHAN_HAPPENED",
+    "25": "ALDRIC_REFUSED_ORDER",
+    "26": "ALDRIC_WATCHED_FROM_HILL"
+  },
+
+  "id": "cp2_velshan",
+  "character": "shared",
+  "act": 2,
+  "scene": "cp2_velshan",
+  "title": "CP2 — Vel'Shan",
+
+  "nodes": {
+
+    "start": {
+      "type": "line",
+      "speaker": "Narrateur",
+      "text": "Vel'Shan. Deux cent trente-huit civils.",
+      "next": "cut_aldric_start"
+    },
+
+    "cut_aldric_start": {
+      "type": "line",
+      "speaker": "ALDRIC",
+      "text": "L'ordre arrive à l'aube. Nettoyer le village. Il n'y a pas d'ennemis à Vel'Shan.",
+      "next": "aldric_choix_pivot"
+    },
+
+    "aldric_choix_pivot": {
+      "type": "choice",
+      "speaker": "",
+      "choices": [
+        {
+          "text": "Refuser l'ordre.",
+          "next": "aldric_refuse",
+          "effects": []
+        },
+        {
+          "text": "Déléguer l'exécution au second.",
+          "next": "aldric_delegue",
+          "effects": []
+        }
+      ]
+    },
+
+    "aldric_refuse": {
+      "type": "line",
+      "speaker": "Aldric",
+      "text": "Je refuse.",
+      "next": "aldric_refuse_consequence"
+    },
+
+    "aldric_refuse_consequence": {
+      "type": "line",
+      "speaker": "Narrateur",
+      "text": "Son second exécute l'ordre. Aldric monte sur la colline. Il regarde. Il ne détourne pas les yeux. Ça sert à rien de détourner les yeux.",
+      "next": "fin_aldric_refuse_auto"
+    },
+
+    "fin_aldric_refuse_auto": {
+      "type": "auto",
+      "effects": [
+        { "type": "set_flag", "flag": 25, "value": true },
+        { "type": "set_flag", "flag": 26, "value": true },
+        { "type": "complete_scene", "character": "aldric", "act": 2, "scene_id": "cp2_done" }
+      ],
+      "next": "cut_seira_start"
+    },
+
+    "aldric_delegue": {
+      "type": "line",
+      "speaker": "Narrateur",
+      "text": "L'ordre passe. Son second hoche la tête. Aldric descend de cheval et s'assoit dans la boue.",
+      "next": "fin_aldric_delegue_auto"
+    },
+
+    "fin_aldric_delegue_auto": {
+      "type": "auto",
+      "effects": [
+        { "type": "complete_scene", "character": "aldric", "act": 2, "scene_id": "cp2_done" }
+      ],
+      "next": "cut_seira_start"
+    },
+
+    "cut_seira_start": {
+      "type": "line",
+      "speaker": "SEÏRA",
+      "text": "Le rapport arrive trois jours après. Elle lit deux fois.",
+      "next": "seira_reagit"
+    },
+
+    "seira_reagit": {
+      "type": "line",
+      "speaker": "Narrateur",
+      "text": "Elle pleure vingt minutes. Seule. Puis convoque ses conseillers et parle sans que sa voix tremble.",
+      "next": "fin_seira_auto"
+    },
+
+    "fin_seira_auto": {
+      "type": "auto",
+      "effects": [
+        { "type": "complete_scene", "character": "seira", "act": 2, "scene_id": "cp2_done" }
+      ],
+      "next": "cut_varek_check"
+    },
+
+    "cut_varek_check": {
+      "type": "auto",
+      "condition": { "flag": 22, "value": true },
+      "condition_fail_next": "cut_varek_unsigned",
+      "effects": [],
+      "next": "cut_varek_signed"
+    },
+
+    "cut_varek_signed": {
+      "type": "line",
+      "speaker": "VAREK",
+      "text": "Rapport 7-43-B. Il le lit. Il pose le stylo. Trente secondes. Rapport suivant.",
+      "next": "fin_varek_auto"
+    },
+
+    "cut_varek_unsigned": {
+      "type": "line",
+      "speaker": "VAREK",
+      "text": "Orveth a agi sans l'ordre. Varek apprend Vel'Shan dans un rapport de routine. Il convoque Orveth.",
+      "next": "varek_convoque_orveth"
+    },
+
+    "varek_convoque_orveth": {
+      "type": "line",
+      "speaker": "Varek",
+      "text": "Je n'ai pas signé cet ordre.",
+      "next": "orveth_repond_non_signe"
+    },
+
+    "orveth_repond_non_signe": {
+      "type": "line",
+      "speaker": "Orveth",
+      "text": "Non. Mais vous l'auriez signé. J'ai raccourci le délai.",
+      "next": "varek_reagit_orveth"
+    },
+
+    "varek_reagit_orveth": {
+      "type": "line",
+      "speaker": "Varek",
+      "text": "— Un long silence. — Sortez.",
+      "next": "fin_varek_auto"
+    },
+
+    "fin_varek_auto": {
+      "type": "auto",
+      "effects": [
+        { "type": "set_flag", "flag": 23, "value": true },
+        { "type": "complete_scene", "character": "varek", "act": 2, "scene_id": "cp2_done" }
+      ],
+      "next": "cut_daven_start"
+    },
+
+    "cut_daven_start": {
+      "type": "line",
+      "speaker": "DAVEN",
+      "text": "Il était dans la rue principale de Vel'Shan la veille. Il avait l'information. Il ne l'a pas envoyée à temps.",
+      "next": "daven_se_dit"
+    },
+
+    "daven_se_dit": {
+      "type": "line",
+      "speaker": "Daven",
+      "text": "C'est moi.",
+      "next": "fin_daven_auto"
+    },
+
+    "fin_daven_auto": {
+      "type": "auto",
+      "effects": [
+        { "type": "complete_scene", "character": "daven", "act": 2, "scene_id": "cp2_done" }
+      ],
+      "next": "silence_final"
+    },
+
+    "silence_final": {
+      "type": "line",
+      "speaker": "Narrateur",
+      "text": "Vel'Shan. Deux cent trente-huit civils.",
+      "next": "fin_cp2"
+    },
+
+    "fin_cp2": {
+      "type": "auto",
+      "effects": [],
+      "next": "end"
+    }
+  }
+}

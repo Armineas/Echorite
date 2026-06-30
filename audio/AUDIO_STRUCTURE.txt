@@ -1,0 +1,119 @@
+═══════════════════════════════════════════════════════════════════════════════
+  CHRONIQUES DE L'ÉCHORITE — Structure Audio
+═══════════════════════════════════════════════════════════════════════════════
+
+audio/
+│
+├── music/
+│   │
+│   ├── PROMPTS_SUNO.txt          ← Tous les prompts de génération (32 tracks)
+│   │
+│   ├── aldric/                   ← Thèmes d'Aldric
+│   │   ├── aldric_a1_exploration.ogg   [01]
+│   │   ├── aldric_a1_combat.ogg        [02]
+│   │   ├── aldric_a2_tension.ogg       [03]
+│   │   ├── aldric_a3_deserter.ogg      [04]
+│   │   └── aldric_a3_combat.ogg        [05]
+│   │
+│   ├── seira/                    ← Thèmes de Seïra
+│   │   ├── seira_a1_planning.ogg       [06]
+│   │   ├── seira_a2_resistance.ogg     [07]
+│   │   └── seira_a3_coalition.ogg      [08]
+│   │
+│   ├── varek/                    ← Thèmes de Varek
+│   │   ├── varek_a1_power.ogg          [09]
+│   │   ├── varek_a2_doubt.ogg          [10]
+│   │   └── varek_a3_isolation.ogg      [11]
+│   │
+│   ├── daven/                    ← Thèmes de Daven
+│   │   ├── daven_a1_cover.ogg          [12]
+│   │   ├── daven_a2_pressure.ogg       [13]
+│   │   └── daven_a3_unmasked.ogg       [14]
+│   │
+│   ├── crossing_points/          ← Points de Croisement CP1–CP4
+│   │   ├── cp1_delegation.ogg          [15]
+│   │   ├── cp2_velshan.ogg             [16]
+│   │   ├── cp3_desertion.ogg           [17]  ← conditionnel (flag 25)
+│   │   └── cp4_mine.ogg               [18]
+│   │
+│   ├── ambient/                  ← Ambiances de zone (loopables)
+│   │   ├── ambient_mine_echorite.ogg   [19]  ← couche indépendante (MusicManager)
+│   │   ├── ambient_camp_resistance.ogg [20]
+│   │   ├── ambient_imperial_court.ogg  [21]
+│   │   ├── ambient_overworld.ogg       [22]
+│   │   ├── ambient_night.ogg           [23]
+│   │   └── ambient_velardane_occupe.ogg [24]
+│   │
+│   ├── events/                   ← Événements ponctuels (NON loopables)
+│   │   ├── event_companion_death.ogg   [25]  ← précédé de 0.5s silence dans le code
+│   │   ├── event_victory_minor.ogg     [26]
+│   │   ├── event_revelation.ogg        [27]
+│   │   ├── event_tension_sting.ogg     [28]
+│   │   └── event_companion_joins.ogg   [29]
+│   │
+│   └── menu/                     ← Menu et transitions
+│       ├── menu_main.ogg               [30]
+│       ├── menu_act_transition.ogg     [31]
+│       └── menu_game_over.ogg          [32]
+│
+└── sfx/                          ← Effets sonores (à structurer plus tard)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  COMMENT UTILISER DANS LE JEU (MusicManager.gd — Autoload "Music")
+═══════════════════════════════════════════════════════════════════════════════
+
+  # Jouer le thème du personnage courant automatiquement (depuis SceneSequencer) :
+  Music.play_character_theme("aldric")
+
+  # Jouer une track spécifique avec crossfade :
+  Music.play("cp2_velshan")
+
+  # Passer en musique de combat :
+  Music.play_combat_theme("aldric")
+
+  # Jouer un événement ponctuel (ne coupe pas la musique principale) :
+  Music.play_event("event_companion_death", true)   # true = duck le volume principal
+
+  # Activer/désactiver la couche Échorite (zones de mine) :
+  Music.set_echorite_ambiance(0.7)   # 0.0 = silence, 1.0 = plein volume
+  Music.set_echorite_ambiance(0.0)   # désactiver progressivement
+
+  # Stop avec fadeout :
+  Music.stop()
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  INTÉGRATION RECOMMANDÉE (SceneSequencer → MusicManager)
+═══════════════════════════════════════════════════════════════════════════════
+
+  Quand SceneSequencer charge une scène :
+    → Music.play_character_theme(scene_data["character"])
+
+  Quand un CP commence :
+    → Music.play("cp" + str(cp_number) + "_delegation")  # ou nom exact
+
+  Quand une zone Échorite est chargée :
+    → Music.set_echorite_ambiance(0.6)
+  Quand la zone Échorite est quittée :
+    → Music.set_echorite_ambiance(0.0)
+
+  Quand un compagnon meurt (CombatManager) :
+    → await get_tree().create_timer(0.5).timeout   # silence obligatoire
+    → Music.play_event("event_companion_death", true)
+
+═══════════════════════════════════════════════════════════════════════════════
+  FORMAT TECHNIQUE
+═══════════════════════════════════════════════════════════════════════════════
+
+  Format : .ogg (Vorbis)
+  Conversion depuis MP3 Suno :
+    ffmpeg -i input.mp3 -c:a libvorbis -q:a 6 output.ogg
+
+  Bus Godot requis (à créer dans Project > Audio) :
+    - "Music"  → volume contrôlé par SettingsManager (music_volume)
+    - "SFX"    → volume contrôlé par SettingsManager (sfx_volume)
+
+  Tracks loopables : activer "Loop" dans l'inspector Godot sur le .ogg
+    (ou dans le code : stream.loop = true)
+  Tracks events : ne pas activer Loop

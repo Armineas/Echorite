@@ -1,0 +1,491 @@
+{
+  "_comment": "Acte 3 — Daven. Mode Furtivité. 5 scènes + CP3 (intercepte Aldric) + CP4 (la mine).",
+  "_design": "L'acte 3 de Daven est celui où sa couverture tombe et où il doit décider s'il existe sans elle. Il a passé sa vie à être quelqu'un d'autre. Il ne sait pas encore si c'est une compétence ou une fuite.",
+
+  "scenes": {
+
+    "daven_a3_s1_couverture_decouverture": {
+      "id": "daven_a3_s1_couverture_decouverture",
+      "character": "daven",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "L'extraction de Kira a été tracée. Vareth sait qui était dans les archives ce soir-là. La couverture est terminée. Daven a quarante-huit heures avant que les agents de Vareth aient une photo."},
+          "next": "daven_realise_couverture"
+        },
+
+        "daven_realise_couverture": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Six ans. Il a construit cette couverture sur six ans. Les faux papiers, les habitudes, les connaissances, les histoires cohérentes. Tout ça est maintenant un balisage vers lui."},
+          "next": "daven_inventaire"
+        },
+
+        "daven_inventaire": {
+          "type": "description",
+          "text": {"fr": "Il fait l'inventaire de ce qu'il a : une valise, des contacts dans trois villes, et le fait que personne ne connaît son vrai nom. Sauf peut-être les archives de son grand-père."},
+          "next": "daven_question_identite"
+        },
+
+        "daven_question_identite": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il peut prendre une nouvelle couverture. Il en a les outils. La question est : est-ce que c'est encore ce qu'il veut faire ?"},
+          "next": "choix_couverture_nouvelle"
+        },
+
+        "choix_couverture_nouvelle": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Construire une nouvelle couverture. C'est ce qu'il sait faire. Ça peut encore servir."},
+              "next": "daven_nouvelle_couverture",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Rester visible. Utiliser son vrai nom pour la première fois depuis six ans. Voir ce que ça fait."},
+              "next": "daven_visible",
+              "effects": [{"type": "set_flag", "flag": 60, "value": true}]
+            }
+          ]
+        },
+
+        "daven_nouvelle_couverture": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il prépare la couverture. Il s'arrête à mi-chemin. Il ne sait pas pourquoi. Peut-être parce que Kira lui avait posé une question en sortant des archives et qu'il n'avait pas répondu."},
+          "next": "fin_couverture"
+        },
+
+        "daven_visible": {
+          "type": "description",
+          "text": {"fr": "Il signe une note de sa main, de son vrai nom. Daven. Juste ça. Il l'envoie au contact chez Seïra. Première communication avec son vrai nom depuis six ans. Le monde ne s'effondre pas."},
+          "next": "fin_couverture"
+        },
+
+        "fin_couverture": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 3, "scene_id": "daven_a3_s1_couverture_decouverture"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a3_s2_aldric_trouve": {
+      "id": "daven_a3_s2_aldric_trouve",
+      "character": "daven",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La grange à l'est de Laeven. Daven s'y cache depuis deux jours. La porte s'ouvre. Ce n'est pas Vareth."},
+          "next": "aldric_grange"
+        },
+
+        "aldric_grange": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "Je vous cherchais. Pas pour vous capturer. Vous avez envoyé des informations à Seïra depuis des mois. J'ai besoin de savoir ce que vous savez sur la mine."},
+          "next": "daven_observe_aldric"
+        },
+
+        "daven_observe_aldric": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Un déserteur de Vareth qui cherche quelqu'un qui a trahi Vareth. Il y a une ironie là-dedans qui serait plus drôle si Vareth n'était pas à deux heures de marche derrière les deux."},
+          "next": "daven_repond_aldric"
+        },
+
+        "daven_repond_aldric": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Vous avez traversé les lignes pour ça ?"},
+          "next": "aldric_grange_oui"
+        },
+
+        "aldric_grange_oui": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "Oui."},
+          "next": "daven_decide_parler"
+        },
+
+        "daven_decide_parler": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Ce n'est pas quelqu'un qui ment bien. Les gens qui mentent bien ont plus de mots dans les petites réponses. Il dit 'oui'. Juste 'oui'. Il traverse les lignes pour parler d'une mine."},
+          "next": "choix_daven_parle_aldric"
+        },
+
+        "choix_daven_parle_aldric": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Lui dire ce que son grand-père lui avait dit. La mine cultivée, pas extraite. La langue de ce qui écoute."},
+              "next": "daven_dit_grandpere",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Lui dire d'abord pourquoi il est là. Le voir. Savoir qui c'est vraiment avant de donner quoi que ce soit."},
+              "next": "daven_demande_aldric_raison",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_dit_grandpere": {
+          "type": "description",
+          "text": {"fr": "Il parle. Pour la première fois depuis l'enfance, il dit les mots de son grand-père à voix haute, à quelqu'un d'autre. C'est étrange. Ce n'est pas désagréable."},
+          "next": "fin_aldric_trouve"
+        },
+
+        "daven_demande_aldric_raison": {
+          "type": "description",
+          "text": {"fr": "Aldric lui parle de Vel'Shan. De la colline. De ce qu'il a regardé. Daven l'écoute. Puis il lui dit ce que son grand-père lui avait dit."},
+          "next": "fin_aldric_trouve"
+        },
+
+        "fin_aldric_trouve": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 3, "scene_id": "daven_a3_s2_aldric_trouve"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a3_s3_secret_mine": {
+      "id": "daven_a3_s3_secret_mine",
+      "character": "daven",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Daven retrouve les carnets de son grand-père. Pas des journaux intimes — des observations. L'homme travaillait pour les archives royales avant la chute de la couronne. Il avait visité la mine deux fois."},
+          "next": "daven_lit_carnets_gp"
+        },
+
+        "daven_lit_carnets_gp": {
+          "type": "description",
+          "text": {"fr": "La première visite : 'Les galeries semblent organiques. Comme si la roche avait une direction.' La deuxième visite, vingt ans plus tard : 'Les nouvelles galeries n'ont pas été creusées. Elles existaient. Nous les avons trouvées. La mine nous cherchait peut-être autant que nous la cherchions.'"},
+          "next": "daven_comprend_grandpere"
+        },
+
+        "daven_comprend_grandpere": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Son grand-père était scientifique, pas mystique. Quand il dit 'nous cherchait', il note un fait, pas une métaphore. La mine avait des structures nouvelles entre ses deux visites. Elle s'était développée en réponse à la présence humaine."},
+          "next": "daven_implication_mine"
+        },
+
+        "daven_implication_mine": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Si la mine répond à la présence, l'Échorite qui affecte les soldats n'est peut-être pas un sous-produit de l'extraction. C'est peut-être la mine qui apprend comment fonctionner avec des humains. Et l'empire lui apprend que les humains peuvent être rendus dociles."},
+          "next": "choix_daven_secret_mine"
+        },
+
+        "choix_daven_secret_mine": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Transmettre ça à Seïra immédiatement. Elle a les autres pièces du puzzle."},
+              "next": "daven_transmet_seira_mine",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Aller à la mine d'abord. Voir si ce que le grand-père décrivait est encore visible."},
+              "next": "daven_ira_mine",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_transmet_seira_mine": {
+          "type": "description",
+          "text": {"fr": "Il écrit la synthèse. Quatre pages. Il signe de son vrai nom. Il n'a plus de raison de ne pas le faire."},
+          "next": "fin_secret_mine"
+        },
+
+        "daven_ira_mine": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il ira. Mais il transmet d'abord à Seïra. Il a appris ça de Vel'Shan : certaines informations n'attendent pas qu'on soit prêt à les utiliser soi-même."},
+          "next": "fin_secret_mine"
+        },
+
+        "fin_secret_mine": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 3, "scene_id": "daven_a3_s3_secret_mine"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a3_s4_traque": {
+      "id": "daven_a3_s4_traque",
+      "character": "daven",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Deux équipes de pisteurs. Vareth à l'ouest. Les agents d'Élindre — l'organisation rivale — au nord. Ils ne coopèrent pas entre eux. C'est sa seule marge."},
+          "next": "daven_calcule_traque"
+        },
+
+        "daven_calcule_traque": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il peut utiliser l'un contre l'autre. Laisser Vareth trouver une fausse piste que les agents d'Élindre vont suivre aussi. Le problème c'est que ça l'éloigne de la mine et du moment où les autres auront besoin de ce qu'il sait."},
+          "next": "choix_traque_strategie"
+        },
+
+        "choix_traque_strategie": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Diversion : laisser une fausse piste commune aux deux. Se dégager pour rejoindre la mine directement."},
+              "next": "daven_diversion_traque",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Contact discret avec Seïra. Lui demander une extraction coordonnée qui expose les deux pisteurs."},
+              "next": "daven_contact_seira_traque",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_diversion_traque": {
+          "type": "description",
+          "text": {"fr": "Il plante la fausse piste en quatre heures. Il part vers l'est. Les deux équipes s'y retrouvent et passent douze heures à se surveiller mutuellement. Il a sa fenêtre."},
+          "next": "fin_traque"
+        },
+
+        "daven_contact_seira_traque": {
+          "type": "description",
+          "text": {"fr": "Seïra envoie trois éclaireurs qui créent assez de bruit au nord pour occuper les agents d'Élindre. Vareth détourne vers eux. Daven sort par le couloir sud. Il ne remercie pas. Elle ne demande pas de remerciements."},
+          "next": "fin_traque"
+        },
+
+        "fin_traque": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 3, "scene_id": "daven_a3_s4_traque"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a3_s5_seira_question": {
+      "id": "daven_a3_s5_seira_question",
+      "character": "daven",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Face à face. Pour la première fois depuis que Daven lui envoie des informations depuis des mois, ils sont dans la même pièce, en face l'un de l'autre."},
+          "next": "seira_daven_face"
+        },
+
+        "seira_daven_face": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Combien de personnes sont mortes parce que vous avez calculé ?"},
+          "next": "daven_question_seira"
+        },
+
+        "daven_question_seira": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "La question qu'il attendait. Pas 'pourquoi', pas 'comment'. Combien. Elle sait que le 'comment' est inessentiel comparé au nombre."},
+          "next": "daven_repond_honnete"
+        },
+
+        "daven_repond_honnete": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Je ne sais pas le total. Vel'Shan — deux mille quatre cents. Avant ça, j'ai des estimations mais pas des certitudes. Les opérations que j'ai couvertes pour maintenir ma position. Je n'ai pas fait les additions."},
+          "next": "seira_ecoute_daven"
+        },
+
+        "seira_ecoute_daven": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Pourquoi pas ?"},
+          "next": "daven_sait_pourquoi_pas"
+        },
+
+        "daven_sait_pourquoi_pas": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Parce que si j'avais fait les additions, j'aurais dû décider si ça valait ce que j'avais collecté. Et je n'étais pas sûr de la réponse."},
+          "next": "seira_repond_daven_verite"
+        },
+
+        "seira_repond_daven_verite": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "C'est la première chose honnête que vous me dites qui n'est pas une information."},
+          "next": "fin_seira_question"
+        },
+
+        "fin_seira_question": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 3, "scene_id": "daven_a3_s5_seira_question"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a3_cp3": {
+      "id": "daven_a3_cp3",
+      "character": "daven",
+      "act": 3,
+      "condition": {"flag": 25, "value": true},
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Il intercepte Aldric dans l'obscurité avant la frontière. Il l'attendait. Il savait qu'Aldric allait traverser ce soir."},
+          "next": "daven_arrete_aldric_cp3"
+        },
+
+        "daven_arrete_aldric_cp3": {
+          "type": "description",
+          "text": {"fr": "Une main sur l'épaule. Pas une prise. Juste une présence."},
+          "next": "daven_dit_aldric_cp3"
+        },
+
+        "daven_dit_aldric_cp3": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Dis-lui la vérité. Pas seulement les faits. Elle connaîtra les faits. Elle a besoin de savoir ce que tu as choisi et pourquoi. Et ce que tu n'as pas choisi."},
+          "next": "aldric_demande_qui_cp3"
+        },
+
+        "aldric_demande_qui_cp3": {
+          "type": "line",
+          "speaker": "Aldric",
+          "text": {"fr": "Qui êtes-vous ?"},
+          "next": "daven_repond_qui"
+        },
+
+        "daven_repond_qui": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Quelqu'un qui a fait l'erreur inverse. Je vous dis ça pour que vous ne la fassiez pas."},
+          "next": "daven_disparait_cp3"
+        },
+
+        "daven_disparait_cp3": {
+          "type": "description",
+          "text": {"fr": "Il part avant qu'Aldric puisse insister. Dans l'obscurité, il pense à Vel'Shan. Il pense : 'Bien. Parle-lui vrai.'"},
+          "next": "fin_cp3_daven"
+        },
+
+        "fin_cp3_daven": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 3, "scene_id": "cp3_done"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a3_cp4_mine": {
+      "id": "daven_a3_cp4_mine",
+      "character": "daven",
+      "act": 3,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La mine. Daven est là depuis l'aube. Il attendait les autres. Il voulait être là avant eux pour voir ce que son grand-père avait vu."},
+          "next": "daven_reconnait_mine"
+        },
+
+        "daven_reconnait_mine": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Son grand-père avait dit : 'Les murs ont une texture qui ressemble à de la peau de très loin.' Il n'avait pas compris à neuf ans. Maintenant il voit. Les murs ne ressemblent pas à de la peau. Ils ressemblent à de la mémoire. Dense et stratifiée."},
+          "next": "daven_trouve_inscriptions"
+        },
+
+        "daven_trouve_inscriptions": {
+          "type": "description",
+          "text": {"fr": "Les inscriptions. Il en reconnaît quelques-unes. Pas leur sens. Leur forme — il les a vues dans les documents de son grand-père, dans les marges, comme des notes personnelles dont personne n'avait compris l'origine."},
+          "next": "varek_arrive_mine_daven"
+        },
+
+        "varek_arrive_mine_daven": {
+          "type": "description",
+          "text": {"fr": "Varek arrive. Il voit Daven. Ils se regardent. Ce n'est pas de la haine. C'est de la reconnaissance — deux personnes qui ont servi la même machine de façons différentes."},
+          "next": "choix_daven_varek_mine"
+        },
+
+        "choix_daven_varek_mine": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Montrer à Varek les marques dans les carnets du grand-père. Les comparer aux inscriptions sur les murs."},
+              "next": "daven_montre_varek_carnets",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Attendre les autres. Ce que ces murs signifient devrait être décidé ensemble."},
+              "next": "daven_attend_tous",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_montre_varek_carnets": {
+          "type": "description",
+          "text": {"fr": "Varek regarde les carnets. Il lit les notes du grand-père. Il dit : 'Il avait raison. Et personne ne l'a écouté.' Daven répond : 'C'est souvent comme ça.'"},
+          "next": "fin_cp4_daven"
+        },
+
+        "daven_attend_tous": {
+          "type": "description",
+          "text": {"fr": "Les autres arrivent un par un. Seïra par le passage secret. Aldric par la galerie principale. Ils se retrouvent dans la chambre centrale. Daven pose les carnets de son grand-père sur le sol au milieu d'eux."},
+          "next": "fin_cp4_daven"
+        },
+
+        "fin_cp4_daven": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 3, "scene_id": "cp4_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

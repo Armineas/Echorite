@@ -1,0 +1,69 @@
+{
+  "id": "rael",
+  "name": { "fr": "Raël" },
+  "role": { "fr": "Jeune combattant de la résistance, miroir d'Aldric" },
+  "description": {
+    "fr": "A rejoint la résistance de Seïra à 19 ans. N'a jamais obéi à un empire — il a directement refusé. Il est ce qu'Aldric aurait pu être si son histoire avait été différente, et cette ressemblance dérange Aldric plus qu'elle ne le réconforte."
+  },
+
+  "recruitment": {
+    "character": "seira",
+    "act": 3,
+    "condition": { "flag": 41 },
+    "cost": { "gold": 20, "morale": 10 },
+    "scene_id": "seira_a3_s1_coalition_vacille",
+    "note": "Raël part en solo si Seïra ne peut pas négocier suffisamment (flag 41 non présent). Il reste si Seïra a bâti suffisamment de confiance."
+  },
+
+  "stats": {
+    "atk": 12,
+    "def": 5,
+    "hp": 40,
+    "special": "solo_instinct"
+  },
+
+  "special_ability": {
+    "id": "solo_instinct",
+    "name": { "fr": "Instinct solo" },
+    "description": { "fr": "+3 ATK si Raël est le seul combattant du groupe actif. -2 DEF si en groupe de 3+. Il combat mieux seul." },
+    "passive": true
+  },
+
+  "aldric_mirror": {
+    "trigger_scene": "aldric_a3_s1_apprendre_commander",
+    "aldric_reaction": "reconnaît sa propre posture à 22 ans — inconfort",
+    "rael_reaction_first_kill": "seira_a3_s2_allies_partent",
+    "quote": { "fr": "— Ce qu'il fallait faire." }
+  },
+
+  "echorite_exposure": {
+    "initial": 0,
+    "rate_per_mine_visit": 10,
+    "note": "Pas d'exposition — n'a jamais approché les mines. C'est ce qui le rend différent des soldats glazed-eyes."
+  },
+
+  "key_dialogues": [
+    {
+      "scene": "seira_a3_s1_coalition_vacille",
+      "node": "rael_condition_rester",
+      "text": { "fr": "— Je reste si on a un plan. Pas une direction, un plan. La différence c'est que le plan survit au premier contact." }
+    },
+    {
+      "scene": "aldric_a3_s1_apprendre_commander",
+      "node": "rael_regarde_aldric",
+      "text": { "fr": "— Vous étiez quoi avant ?" },
+      "condition": { "flag": 25 }
+    }
+  ],
+
+  "narrative_arc": {
+    "act3": "Présent dans la coalition de Seïra. Sa relation avec Aldric est le cœur de la scène A3 S1 (miroir). Il part en solo si Seïra échoue à tenir la coalition.",
+    "mine": "Raël entre dans la mine si recruté. Son absence d'exposition lui permet de percevoir la mine différemment."
+  },
+
+  "departure_condition": {
+    "trigger": "coalition_fails",
+    "flag_set": 62,
+    "note": "Si Seïra ne retient pas la coalition (A3 S2), Raël part. Flag 62 = RAEL_LEFT_SOLO. Il peut encore aider à la mine mais de façon indépendante."
+  }
+}

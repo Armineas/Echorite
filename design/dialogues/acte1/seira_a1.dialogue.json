@@ -1,0 +1,805 @@
+{
+  "_comment": "Acte 1 — Seïra. Mode Stratégie/Recrutement. 6 scènes + CP1.",
+  "_design": "Seïra construit. Chaque scène ajoute un nœud à son réseau. La délégation de Lyreveth est son premier grand test.",
+
+  "scenes": {
+
+    "seira_a1_s1_nuit": {
+      "id": "seira_a1_s1_nuit",
+      "character": "seira",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Varethgard. Une heure du matin. Les rues sont vides sauf pour les patrouilles et Seïra."},
+          "next": "seira_marche"
+        },
+
+        "seira_marche": {
+          "type": "description",
+          "text": {"fr": "Elle connaît les horaires de patrouille. Elle se déplace entre elles, pas contre elles. C'est une différence importante."},
+          "next": "seira_compte"
+        },
+
+        "seira_compte": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Dix-sept contacts dans la ville. Cinq fiables. Trois utilisables. Les neuf autres, elle les garde pour des cas spécifiques."},
+          "next": "seira_observe_batiment"
+        },
+
+        "seira_observe_batiment": {
+          "type": "description",
+          "text": {"fr": "Elle s'arrête devant le bâtiment d'enregistrement. Lumière au deuxième étage. À cette heure."},
+          "next": "seira_note"
+        },
+
+        "seira_note": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Quelqu'un travaille la nuit dans l'administration impériale. Ou quelqu'un fait semblant de travailler. La différence est intéressante."},
+          "next": "choix_nuit"
+        },
+
+        "choix_nuit": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Noter l'adresse. À vérifier plus tard."},
+              "next": "seira_note_adresse",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Attendre. Voir qui sort."},
+              "next": "seira_attend",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_note_adresse": {
+          "type": "description",
+          "text": {"fr": "Elle note. Repart. La nuit continue."},
+          "next": "fin_nuit_auto"
+        },
+
+        "seira_attend": {
+          "type": "description",
+          "text": {"fr": "Vingt minutes. Personne. La lumière s'éteint. Elle repart sans avoir vu de visage."},
+          "next": "seira_nuit_apres"
+        },
+
+        "seira_nuit_apres": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Ce n'est pas une perte. Elle sait maintenant qu'il y a quelque chose à voir. C'est déjà une information."},
+          "next": "fin_nuit_auto"
+        },
+
+        "fin_nuit_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s1_nuit"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a1_s2_refugies": {
+      "id": "seira_a1_s2_refugies",
+      "character": "seira",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Camp de réfugiés en périphérie de Varethgard. Deux cents personnes. Des tentes, pas des maisons."},
+          "next": "liret_parle"
+        },
+
+        "liret_parle": {
+          "type": "line",
+          "speaker": "Liret",
+          "text": {"fr": "Ce n'est pas une question de charité. Ces gens ont des compétences. Des contacts dans les provinces de l'Est. Si on les intègre au réseau, on double notre portée."},
+          "next": "seira_regarde"
+        },
+
+        "seira_regarde": {
+          "type": "description",
+          "text": {"fr": "Seïra regarde le camp. Comptabilise. Elle fait toujours ça."},
+          "next": "seira_repond_liret"
+        },
+
+        "seira_repond_liret": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Deux cents personnes, c'est aussi deux cents profils à vérifier. Deux cents points d'entrée possible pour la Surveillance Interne."},
+          "next": "choix_refugies"
+        },
+
+        "choix_refugies": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "On investit. Triage d'abord, intégration progressive."},
+              "next": "seira_investit",
+              "effects": []
+            },
+            {
+              "text": {"fr": "On recrute cinq personnes au maximum. Les profils les plus propres."},
+              "next": "seira_cinq",
+              "effects": []
+            },
+            {
+              "text": {"fr": "On les aide sans les recruter. Ça n'a pas à être une transaction."},
+              "next": "seira_aide_seulement",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_investit": {
+          "type": "line",
+          "speaker": "Liret",
+          "text": {"fr": "C'est risqué."},
+          "next": "seira_assume"
+        },
+
+        "seira_assume": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Tout est risqué. Le calcul est : est-ce que ce risque est plus utile que le gain ? Ici, oui."},
+          "next": "fin_refugies_investis"
+        },
+
+        "fin_refugies_investis": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 20, "value": true},
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s2_refugies"}
+          ],
+          "next": "end"
+        },
+
+        "seira_cinq": {
+          "type": "line",
+          "speaker": "Liret",
+          "text": {"fr": "D'accord. Vous choisissez les cinq ?"},
+          "next": "seira_cinq_repond"
+        },
+
+        "seira_cinq_repond": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Non. On établit des critères. Ils se sélectionnent eux-mêmes. C'est plus propre."},
+          "next": "fin_refugies_cinq"
+        },
+
+        "fin_refugies_cinq": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s2_refugies"}
+          ],
+          "next": "end"
+        },
+
+        "seira_aide_seulement": {
+          "type": "line",
+          "speaker": "Liret",
+          "text": {"fr": "On perd une opportunité."},
+          "next": "seira_assume_aide"
+        },
+
+        "seira_assume_aide": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "On préserve leur capacité de refus. C'est une forme de respect. Et parfois ça revient."},
+          "next": "fin_refugies_aide"
+        },
+
+        "fin_refugies_aide": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s2_refugies"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a1_s3_brennan": {
+      "id": "seira_a1_s3_brennan",
+      "character": "seira",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Taverne de Varethgard. Midi. Brennan est au bout du comptoir, dos au mur. Il regarde les entrées."},
+          "next": "seira_observe_brennan"
+        },
+
+        "seira_observe_brennan": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Ex-militaire. La façon dont il s'assoie : dos protégé, vue sur deux sorties. Ça ne disparaît jamais complètement."},
+          "next": "seira_approche"
+        },
+
+        "seira_approche": {
+          "type": "description",
+          "text": {"fr": "Elle s'assoit face à lui sans demander."},
+          "next": "brennan_repond_seira"
+        },
+
+        "brennan_repond_seira": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Cette chaise n'est pas libre."},
+          "next": "seira_repond_chaise"
+        },
+
+        "seira_repond_chaise": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Je sais. C'est pour ça que je me suis assise dessus."},
+              "next": "brennan_ecoute_seira",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Brennan. Sixième garde. Vel'Shan, retrait de l'an 3."},
+              "next": "brennan_durcit",
+              "effects": []
+            }
+          ]
+        },
+
+        "brennan_ecoute_seira": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Vous avez deux minutes."},
+          "next": "seira_parle_brennan"
+        },
+
+        "brennan_durcit": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Vous fouinez dans les dossiers militaires."},
+          "next": "seira_assume_dossiers"
+        },
+
+        "seira_assume_dossiers": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Oui. Et j'ai trouvé ce que je cherchais."},
+          "next": "seira_parle_brennan"
+        },
+
+        "seira_parle_brennan": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Vous êtes efficace, discret, et vous n'aimez plus beaucoup l'empire. Ça me suffit comme point de départ."},
+          "next": "brennan_repond_seira_2"
+        },
+
+        "brennan_repond_seira_2": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Vous avez dit point de départ. Ça veut dire que vous voulez que ça devienne quelque chose."},
+          "next": "choix_brennan"
+        },
+
+        "choix_brennan": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Oui. Mais seulement si vous décidez de venir."},
+              "next": "brennan_interesse",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Je vous offre du travail. Pas une cause."},
+              "next": "brennan_pragmatique",
+              "effects": []
+            }
+          ]
+        },
+
+        "brennan_interesse": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Je ne décide pas là."},
+          "next": "seira_accepte_brennan"
+        },
+
+        "seira_accepte_brennan": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "C'est normal."},
+          "next": "fin_brennan_seira_ouvert"
+        },
+
+        "brennan_pragmatique": {
+          "type": "line",
+          "speaker": "Brennan",
+          "text": {"fr": "Honnête. Qu'est-ce que c'est comme travail ?"},
+          "next": "seira_repond_travail"
+        },
+
+        "seira_repond_travail": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Protéger des gens qui ne savent pas qu'ils sont en danger. Pour l'instant."},
+          "next": "fin_brennan_seira_ouvert"
+        },
+
+        "fin_brennan_seira_ouvert": {
+          "type": "auto",
+          "effects": [
+            {"type": "seira_prepares_companion", "companion_id": "brennan"},
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s3_brennan"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a1_s4_cain": {
+      "id": "seira_a1_s4_cain",
+      "character": "seira",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Bibliothèque des archives, sous-sol. Caïn est une archiviste qui connaît des choses qu'elle ne devrait pas connaître."},
+          "next": "cain_se_leve"
+        },
+
+        "cain_se_leve": {
+          "type": "description",
+          "text": {"fr": "Elle se lève quand Seïra entre. Elle attendait."},
+          "next": "cain_parle"
+        },
+
+        "cain_parle": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "Je sais qui vous êtes. Pas votre nom — ce que vous faites. J'observe depuis trois ans."},
+          "next": "seira_calibre"
+        },
+
+        "seira_calibre": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Trois ans. Si elle avait voulu me dénoncer, elle l'aurait fait. La question est : qu'est-ce qu'elle veut ?"},
+          "next": "seira_repond_cain"
+        },
+
+        "seira_repond_cain": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Et qu'est-ce que vous avez vu ?"},
+              "next": "cain_repond_vu",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Trois ans, c'est long pour ne pas avoir agi."},
+              "next": "cain_repond_tard",
+              "effects": []
+            }
+          ]
+        },
+
+        "cain_repond_vu": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "Assez pour comprendre que vous essayez de construire quelque chose, pas de détruire. C'est rare."},
+          "next": "seira_suivant_cain"
+        },
+
+        "cain_repond_tard": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "J'attendais d'être sûre. Je le suis maintenant."},
+          "next": "seira_suivant_cain"
+        },
+
+        "seira_suivant_cain": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Qu'est-ce que vous avez dans ces archives ?"},
+          "next": "cain_archives"
+        },
+
+        "cain_archives": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "Les mouvements de régiments que les rapports officiels ne mentionnent pas. Les listes de prisonniers non déclarés. Les requêtes de fournitures pour des endroits qui n'existent pas sur les cartes."},
+          "next": "choix_cain"
+        },
+
+        "choix_cain": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Intégrez le réseau. Vous avez accès à des choses qu'on n'a pas."},
+              "next": "cain_rejoint",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Pour l'instant : continuez ce que vous faites. Je reviendrai."},
+              "next": "cain_attente",
+              "effects": []
+            }
+          ]
+        },
+
+        "cain_rejoint": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "Je n'attendais que ça."},
+          "next": "fin_cain_integree"
+        },
+
+        "fin_cain_integree": {
+          "type": "auto",
+          "effects": [
+            {"type": "seira_prepares_companion", "companion_id": "cain"},
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s4_cain"}
+          ],
+          "next": "end"
+        },
+
+        "cain_attente": {
+          "type": "line",
+          "speaker": "Caïn",
+          "text": {"fr": "Je serai là."},
+          "next": "fin_cain_en_attente"
+        },
+
+        "fin_cain_en_attente": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s4_cain"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a1_s5_rael": {
+      "id": "seira_a1_s5_rael",
+      "character": "seira",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Arrière-boutique d'un imprimeur. Rael a quelque chose à vendre. Seïra est venue voir ce que c'est."},
+          "next": "rael_etale"
+        },
+
+        "rael_etale": {
+          "type": "description",
+          "text": {"fr": "Il étale des documents sur la table. Formulaires officiels impériaux, vierges. Trois cents, peut-être plus."},
+          "next": "rael_propose"
+        },
+
+        "rael_propose": {
+          "type": "line",
+          "speaker": "Rael",
+          "text": {"fr": "Formulaires d'identité, laissez-passer de transit, réquisitions militaires. Tout en blanc. Prix raisonnable."},
+          "next": "seira_evalue"
+        },
+
+        "seira_evalue": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Valeur évidente. Aussi : comment il les a obtenus ? Et pourquoi il les vend à moi plutôt qu'à quelqu'un de plus facile ?"},
+          "next": "seira_questionne_rael"
+        },
+
+        "seira_questionne_rael": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Où vous les avez pris ?"},
+          "next": "rael_repond_source"
+        },
+
+        "rael_repond_source": {
+          "type": "line",
+          "speaker": "Rael",
+          "text": {"fr": "Quelqu'un d'utile à l'imprimerie officielle. Je n'ai pas posé de questions. Vous non plus."},
+          "next": "choix_rael"
+        },
+
+        "choix_rael": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Acheter. Ces documents valent le risque."},
+              "next": "seira_achete_rael",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Recruter Rael — sa source intéresse plus que les documents."},
+              "next": "seira_recrute_rael",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Refuser. Trop de zones d'ombre dans cette transaction."},
+              "next": "seira_refuse_rael",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_achete_rael": {
+          "type": "description",
+          "text": {"fr": "Transaction propre. Elle repart avec les documents."},
+          "next": "fin_rael_achat"
+        },
+
+        "fin_rael_achat": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 22, "value": true},
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s5_rael"}
+          ],
+          "next": "end"
+        },
+
+        "seira_recrute_rael": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Votre source. J'ai besoin d'y accéder directement. Pas juste aux documents."},
+          "next": "rael_negocie"
+        },
+
+        "rael_negocie": {
+          "type": "line",
+          "speaker": "Rael",
+          "text": {"fr": "Ça, c'est une autre conversation. Et un autre prix."},
+          "next": "seira_ouvre_nego"
+        },
+
+        "seira_ouvre_nego": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Alors on commence cette conversation."},
+          "next": "fin_rael_recrute"
+        },
+
+        "fin_rael_recrute": {
+          "type": "auto",
+          "effects": [
+            {"type": "seira_prepares_companion", "companion_id": "rael"},
+            {"type": "set_flag", "flag": 22, "value": true},
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s5_rael"}
+          ],
+          "next": "end"
+        },
+
+        "seira_refuse_rael": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Pas aujourd'hui."},
+          "next": "fin_rael_refus"
+        },
+
+        "fin_rael_refus": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s5_rael"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a1_s6_orwen": {
+      "id": "seira_a1_s6_orwen",
+      "character": "seira",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Consulat de Lyreveth, entrée de service. Orwen est un diplomate de rang intermédiaire. Il a accès à tout sans être visible."},
+          "next": "seira_premier_contact"
+        },
+
+        "seira_premier_contact": {
+          "type": "description",
+          "text": {"fr": "Seïra est là en tant que logisticienne. C'est la couverture la plus ennuyeuse qui soit. Les gens ennuyeux sont invisibles."},
+          "next": "orwen_entre"
+        },
+
+        "orwen_entre": {
+          "type": "line",
+          "speaker": "Orwen",
+          "text": {"fr": "Le relevé des livraisons de la semaine. Signez là."},
+          "next": "seira_signe"
+        },
+
+        "seira_signe": {
+          "type": "description",
+          "text": {"fr": "Elle signe. Elle prend son temps."},
+          "next": "seira_note_orwen"
+        },
+
+        "seira_note_orwen": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Il lit les signatures. Les compare. Ce n'est pas de la prudence administrative — c'est de la méfiance méthodique. Intéressant."},
+          "next": "choix_orwen"
+        },
+
+        "choix_orwen": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Rien — laisser cette première rencontre être ce qu'elle est."},
+              "next": "seira_laisse_aller",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Faire une petite erreur dans la signature. Voir s'il la relève."},
+              "next": "seira_erreur_signature",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_laisse_aller": {
+          "type": "description",
+          "text": {"fr": "Elle repart. C'est un premier contact. Il ne se souvient probablement pas d'elle."},
+          "next": "seira_apres_orwen"
+        },
+
+        "seira_apres_orwen": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "C'est un début. Il faudra trois semaines, peut-être moins si la délégation de Lyreveth crée de l'agitation."},
+          "next": "fin_orwen_discret"
+        },
+
+        "fin_orwen_discret": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s6_orwen"}
+          ],
+          "next": "end"
+        },
+
+        "seira_erreur_signature": {
+          "type": "description",
+          "text": {"fr": "Elle écrit son prénom avec un léger décalage — subtil, pas une faute. Un test."},
+          "next": "orwen_remarque"
+        },
+
+        "orwen_remarque": {
+          "type": "description",
+          "text": {"fr": "Il le remarque. Il ne dit rien. Il la regarde une seconde de plus que prévu."},
+          "next": "seira_apres_test"
+        },
+
+        "seira_apres_test": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Bien. Il voit les choses. Maintenant elle sait qu'elle peut travailler avec lui."},
+          "next": "fin_orwen_test_ok"
+        },
+
+        "fin_orwen_test_ok": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 23, "value": true},
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "seira_a1_s6_orwen"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a1_cp1": {
+      "id": "seira_a1_cp1",
+      "character": "seira",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La délégation de Lyreveth défile dans Varethgard. Seïra est dans la foule."},
+          "next": "seira_lit_foule"
+        },
+
+        "seira_lit_foule": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Elle lit les diplomates. Postures. Regards. Qui regarde les documents dans le chariot. Qui regarde les bâtiments. Qui ne regarde rien."},
+          "next": "seira_voit_orwen_delegation"
+        },
+
+        "seira_voit_orwen_delegation": {
+          "type": "description",
+          "text": {"fr": "Orwen est dans la délégation. Pas à sa place habituelle — trois rangs derrière là où il devrait être."},
+          "next": "seira_note_orwen_cp1"
+        },
+
+        "seira_note_orwen_cp1": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Il a été rétrogradé. Ou il s'est mis en retrait volontairement. La différence est importante."},
+          "next": "choix_cp1_seira"
+        },
+
+        "choix_cp1_seira": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Accélérer le contact avec Orwen. La délégation va créer de l'instabilité."},
+              "next": "seira_accelere_orwen",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Attendre de comprendre sa situation avant d'agir."},
+              "next": "seira_attend_orwen",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_accelere_orwen": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Les gens rétrogradés deviennent disponibles. C'est une fenêtre."},
+          "next": "fin_cp1_seira_actif"
+        },
+
+        "fin_cp1_seira_actif": {
+          "type": "auto",
+          "effects": [
+            {"type": "seira_prepares_companion", "companion_id": "orwen"},
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "cp1_done"}
+          ],
+          "next": "end"
+        },
+
+        "seira_attend_orwen": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Une fenêtre ouverte trop vite se referme. Il faut d'abord savoir pourquoi elle est ouverte."},
+          "next": "fin_cp1_seira_prudent"
+        },
+
+        "fin_cp1_seira_prudent": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 1, "scene_id": "cp1_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

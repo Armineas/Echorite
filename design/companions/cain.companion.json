@@ -1,0 +1,67 @@
+{
+  "id": "cain",
+  "name": { "fr": "Caïn" },
+  "role": { "fr": "Déserteur philosophe, ex-sergent du 7ème Régiment" },
+  "description": {
+    "fr": "Déserteur depuis deux ans. Il a quitté l'armée non pas après un traumatisme mais après une réalisation : l'armée ne permet pas le refus, seulement la désertion. Cette distinction est au cœur de sa philosophie et de ce qu'il transmet à Aldric."
+  },
+
+  "recruitment": {
+    "character": "aldric",
+    "act": 2,
+    "condition": { "flag": 25 },
+    "cost": { "morale": 0 },
+    "scene_id": "aldric_a2_s3_cain_rencontre",
+    "note": "Caïn ne 'rejoint' pas — il guide. Son recrutement est automatique après la rencontre si Aldric déserte. Il n'a pas de coût mais sa présence débloquerait l'option de libérer les prisonniers de la mine."
+  },
+
+  "stats": {
+    "atk": 7,
+    "def": 6,
+    "hp": 45,
+    "special": "philosophie_deserteur"
+  },
+
+  "special_ability": {
+    "id": "philosophie_deserteur",
+    "name": { "fr": "Philosophie du déserteur" },
+    "description": { "fr": "Les soldats glazed-eyes ont 40% de chance de rendre les armes plutôt que de combattre si Caïn est présent. Ne fonctionne pas contre les officiers." },
+    "passive": true
+  },
+
+  "item_transfer": {
+    "item": "manteau_cain",
+    "condition": "cain_liberated_by_aldric",
+    "note": "Si Aldric libère Caïn d'un poste Vareth (scène optionnelle A3), Caïn lui donne son manteau."
+  },
+
+  "key_insight": {
+    "fr": "On ne vous laisse pas le refus. On vous laisse l'obéissance ou la désertion. Le refus suppose qu'on vous reconnaisse le droit de rester dedans en disant non. Ils ne vous reconnaissent pas ce droit."
+  },
+
+  "echorite_exposure": {
+    "initial": 35,
+    "rate_per_mine_visit": 10,
+    "note": "A travaillé dans les mines pendant 3 mois avant de déserter. Exposition modérée — juste sous le 2ème seuil."
+  },
+
+  "key_dialogues": [
+    {
+      "scene": "aldric_a2_s3_cain_rencontre",
+      "node": "cain_distinction_desertion",
+      "text": { "fr": "— Y'a ceux qui sont partis après avoir obéi une fois de trop. Et y'a ceux qui sont partis avant. La différence, c'est juste combien de fois t'as attendu." }
+    },
+    {
+      "scene": "aldric_a3_s3_soldats_7eme",
+      "node": "cain_reconnait_soldats",
+      "text": { "fr": "— J'en connais deux. Ils étaient encore normaux il y a huit semaines." },
+      "condition": { "flag": 25 }
+    }
+  ],
+
+  "narrative_arc": {
+    "act2": "La rencontre clé qui articule le refus vs la désertion — structure le choix d'Aldric.",
+    "act3": "Présent dans la résistance comme figure de référence. Caïn comprend les soldats glazed-eyes parce qu'il a failli le devenir.",
+    "mine": "Entre avec Aldric si recruté. Reconnaît les marques de conditions de travail — il les a vécues."
+  }
+}

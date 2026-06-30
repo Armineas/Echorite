@@ -1,0 +1,458 @@
+{
+  "_comment": "Acte 1 — Daven. Mode Furtivité. 4 scènes + CP1.",
+  "_design": "Les choix de Daven sont silencieux. Ce qu'il ne fait pas pèse autant que ce qu'il fait.",
+
+  "scenes": {
+
+    "daven_a1_s1_couverture": {
+      "id": "daven_a1_s1_couverture",
+      "character": "daven",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Bureau d'enregistrement impérial, secteur 4. Daven est assis derrière un comptoir avec un tampon officiel et un nom qui n'est pas le sien."},
+          "next": "administre"
+        },
+
+        "administre": {
+          "type": "description",
+          "text": {"fr": "Il traite des dossiers de transit. Quatre-vingt-deux dossiers depuis ce matin. Il connaît le nom de chaque agent de la Surveillance Interne qui passe dans le couloir."},
+          "next": "agent_survint_entre"
+        },
+
+        "agent_survint_entre": {
+          "type": "line",
+          "speaker": "Agent Vareth",
+          "text": {"fr": "Registre de transit du mois dernier. Tout de suite."},
+          "next": "daven_repond_couv"
+        },
+
+        "daven_repond_couv": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Bien sûr. Un instant."},
+          "next": "daven_cherche"
+        },
+
+        "daven_cherche": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il cherche le registre. Dans le registre, il y a des noms qu'il a lui-même placés là. Si l'agent Vareth cherche bien, il trouvera une incohérence. Daven la connaît exactement."},
+          "next": "choix_registre"
+        },
+
+        "choix_registre": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Donner le registre tel quel."},
+              "next": "daven_donne_registre",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Prendre une seconde de trop pour retirer la page problématique."},
+              "next": "daven_retire_page",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_donne_registre": {
+          "type": "description",
+          "text": {"fr": "L'agent feuillette. S'arrête sur une page. Daven maintient le même regard vide qu'avec les quatre-vingt-deux dossiers précédents. L'agent referme le registre et repart."},
+          "next": "daven_apres_risque"
+        },
+
+        "daven_apres_risque": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il n'a pas vu. Ou il a vu et ne sait pas encore ce que ça signifie. Les deux sont acceptables."},
+          "next": "fin_couverture_auto"
+        },
+
+        "daven_retire_page": {
+          "type": "description",
+          "text": {"fr": "La page disparaît dans sa manche en moins d'une seconde. Il tend le registre. L'agent ne le regarde même pas."},
+          "next": "daven_apres_safe"
+        },
+
+        "daven_apres_safe": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Plus sûr. Aussi plus visible si quelqu'un compte les pages."},
+          "next": "fin_couverture_auto"
+        },
+
+        "fin_couverture_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "daven_a1_s1_couverture"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a1_s2_mira": {
+      "id": "daven_a1_s2_mira",
+      "character": "daven",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Minuit. Couloir du bâtiment administratif. Une femme devant la porte 14 — les archives de transit."},
+          "next": "agents_approchent"
+        },
+
+        "agents_approchent": {
+          "type": "description",
+          "text": {"fr": "Deux agents de la Surveillance Interne arrivent du couloir opposé. Ils ne l'ont pas encore vue."},
+          "next": "choix_mira"
+        },
+
+        "choix_mira": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "L'intercepter — la faire passer pour son assistante."},
+              "next": "daven_intercepte",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Créer une diversion dans le couloir opposé."},
+              "next": "daven_diversion",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Ne pas intervenir."},
+              "next": "daven_laisse",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_intercepte": {
+          "type": "line",
+          "speaker": "Daven",
+          "text": {"fr": "Vous cherchez quelqu'un ?"},
+          "next": "mira_repond"
+        },
+
+        "mira_repond": {
+          "type": "line",
+          "speaker": "Mira",
+          "text": {"fr": "Le bureau de transit de nuit."},
+          "next": "daven_guide_mira"
+        },
+
+        "daven_guide_mira": {
+          "type": "description",
+          "text": {"fr": "Il la prend par le bras, naturellement, comme s'ils se connaissaient. Les agents passent. L'un d'eux regarde Daven. Daven dit bonsoir."},
+          "next": "fin_mira_protegee"
+        },
+
+        "fin_mira_protegee": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 0, "value": true},
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "daven_a1_s2_mira"}
+          ],
+          "next": "end"
+        },
+
+        "daven_diversion": {
+          "type": "description",
+          "text": {"fr": "Une pile de dossiers renversée deux couloirs plus loin. Quand il revient, la femme est partie. Les agents regardent encore."},
+          "next": "daven_incertitude"
+        },
+
+        "daven_incertitude": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il ne sait pas si elle a réussi à partir."},
+          "next": "fin_mira_incertaine"
+        },
+
+        "fin_mira_incertaine": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "daven_a1_s2_mira"}
+          ],
+          "next": "end"
+        },
+
+        "daven_laisse": {
+          "type": "description",
+          "text": {"fr": "Les agents s'arrêtent. Posent des questions. L'emmènent."},
+          "next": "daven_continue"
+        },
+
+        "daven_continue": {
+          "type": "description",
+          "text": {"fr": "Daven continue sa ronde."},
+          "next": "fin_mira_non_protegee"
+        },
+
+        "fin_mira_non_protegee": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "daven_a1_s2_mira"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a1_s3_faux_documents": {
+      "id": "daven_a1_s3_faux_documents",
+      "character": "daven",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Salle de classement, 2h du matin. Daven prépare les documents de transit pour la délégation de Lyreveth."},
+          "next": "daven_lit_instructions"
+        },
+
+        "daven_lit_instructions": {
+          "type": "description",
+          "text": {"fr": "Les instructions sont claires. Les clauses secondaires. Il les rédige lui-même."},
+          "next": "daven_comprend"
+        },
+
+        "daven_comprend": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Ces clauses sont lisibles si on sait lire. La délégation de Lyreveth ne sait pas lire ce genre de document. Dans six mois, ils sauront."},
+          "next": "daven_choix_docs"
+        },
+
+        "daven_choix_docs": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Rédiger les clauses telles qu'on me les a dictées."},
+              "next": "daven_redige_fidele",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Modifier légèrement une clause — la rendre plus lisible, plus équitable."},
+              "next": "daven_modifie",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_redige_fidele": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Ce n'est pas lui qui décide de ça. Il rédige. Il tampon. Il classe."},
+          "next": "fin_docs_fidele"
+        },
+
+        "fin_docs_fidele": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "daven_a1_s3_faux_documents"}
+          ],
+          "next": "end"
+        },
+
+        "daven_modifie": {
+          "type": "description",
+          "text": {"fr": "La modification est minuscule. Une virgule déplacée dans la clause 7. Ça ne changera probablement rien. Probablement."},
+          "next": "daven_apres_modif"
+        },
+
+        "daven_apres_modif": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Si quelqu'un compare les deux versions, il sera mort avant de pouvoir l'expliquer."},
+          "next": "fin_docs_modif"
+        },
+
+        "fin_docs_modif": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "daven_a1_s3_faux_documents"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a1_s4_kira": {
+      "id": "daven_a1_s4_kira",
+      "character": "daven",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Salle de classement, 3h du matin. Daven est seul."},
+          "next": "daven_trouve_kira"
+        },
+
+        "daven_trouve_kira": {
+          "type": "description",
+          "text": {"fr": "Dossier K-117 : Kira, archiviste militaire. Mutations récentes forcées. Deux demandes de mutation refusées. Surveillée."},
+          "next": "daven_lit_kira"
+        },
+
+        "daven_lit_kira": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il y a des milliers de K-117 dans ces armoires. Celle-là en particulier a cherché à partir deux fois."},
+          "next": "choix_kira"
+        },
+
+        "choix_kira": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Copier le dossier. L'envoyer à une adresse anonyme côté résistance."},
+              "next": "daven_envoie_kira",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Mémoriser et reclasser. Trop risqué de sortir des documents."},
+              "next": "daven_memorise_kira",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Reclasser sans lire davantage."},
+              "next": "daven_laisse_kira",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_envoie_kira": {
+          "type": "description",
+          "text": {"fr": "Il copie. Écriture déguisée. Enveloppe sans retour. Boîte aux lettres morte du marché couvert."},
+          "next": "daven_apres_envoi"
+        },
+
+        "daven_apres_envoi": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il ne sait pas si quelqu'un le récupérera."},
+          "next": "fin_kira_envoye"
+        },
+
+        "fin_kira_envoye": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 2, "value": true},
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "daven_a1_s4_kira"}
+          ],
+          "next": "end"
+        },
+
+        "daven_memorise_kira": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "daven_a1_s4_kira"}
+          ],
+          "next": "end"
+        },
+
+        "daven_laisse_kira": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "daven_a1_s4_kira"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "daven_a1_cp1": {
+      "id": "daven_a1_cp1",
+      "character": "daven",
+      "act": 1,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "La délégation traverse la place principale. Daven regarde depuis la fenêtre de la salle de service, deuxième étage."},
+          "next": "daven_reconnait_docs"
+        },
+
+        "daven_reconnait_docs": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il reconnaît les documents dans le chariot central. Il les a lui-même rédigés il y a trois jours."},
+          "next": "daven_voit_aldric"
+        },
+
+        "daven_voit_aldric": {
+          "type": "description",
+          "text": {"fr": "Dans l'escorte : un officier du premier régiment. Il marche bien. Trop bien pour quelqu'un qui sait ce qu'il escorte."},
+          "next": "daven_reaction_cp1"
+        },
+
+        "daven_reaction_cp1": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Mémoriser son visage."},
+              "next": "daven_memorise_aldric",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Fermer la fenêtre."},
+              "next": "daven_ferme_fenetre",
+              "effects": []
+            }
+          ]
+        },
+
+        "daven_memorise_aldric": {
+          "type": "line",
+          "speaker": "Daven",
+          "internal": true,
+          "text": {"fr": "Il le regarde jusqu'à la fin. Il ne sait pas encore pourquoi."},
+          "next": "fin_cp1_daven_observe"
+        },
+
+        "fin_cp1_daven_observe": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 3, "value": true},
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "cp1_done"}
+          ],
+          "next": "end"
+        },
+
+        "daven_ferme_fenetre": {
+          "type": "description",
+          "text": {"fr": "Il ferme la fenêtre. Ce n'était pas la première fois. Ce ne sera pas la dernière."},
+          "next": "fin_cp1_daven_passe"
+        },
+
+        "fin_cp1_daven_passe": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "daven", "act": 1, "scene_id": "cp1_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

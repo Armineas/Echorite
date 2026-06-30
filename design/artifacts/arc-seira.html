@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arc de Seïra — Bible Narrative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+  --ground: #0d1117;
+  --surface: #161d27;
+  --surface-2: #1e2736;
+  --text: #c8d3e0;
+  --text-dim: #6b7e96;
+  --text-faint: #3a4a5c;
+  --accent: #7b5ea7;
+  --accent-glow: rgba(123, 94, 167, 0.18);
+  --accent-bright: #a07dd4;
+  --danger: #8b2635;
+  --danger-glow: rgba(139, 38, 53, 0.15);
+  --danger-bright: #b84050;
+  --line: #2a3547;
+  --line-dim: #1a2333;
+
+  --font-display: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Crimson Pro', 'Georgia', serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+  --rail-width: 220px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+body {
+  background-color: var(--ground);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.75;
+  font-weight: 300;
+  min-height: 100vh;
+}
+
+/* ─── CRYSTAL HERO ─────────────────────────────────────────────── */
+.crystal-hero {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  background: var(--ground);
+}
+
+#crystal-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 40px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 68px);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #e8edf5;
+  text-shadow:
+    0 0 40px rgba(123, 94, 167, 0.6),
+    0 0 80px rgba(123, 94, 167, 0.25);
+  line-height: 1.1;
+}
+
+.hero-sub {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+}
+
+/* ─── LAYOUT ────────────────────────────────────────────────────── */
+.layout {
+  display: flex;
+  min-height: calc(100vh - 320px);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ─── RAIL NAV ──────────────────────────────────────────────────── */
+.rail {
+  width: var(--rail-width);
+  flex-shrink: 0;
+  padding: 48px 0 80px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid var(--line-dim);
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+.rail-section {
+  padding: 0 20px 32px 24px;
+}
+
+.rail-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 10px;
+}
+
+.rail-act {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line-dim);
+}
+
+.rail nav a {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 3px 0;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.rail nav a:hover { color: var(--accent-bright); }
+.rail nav a:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+/* ─── MAIN CONTENT ──────────────────────────────────────────────── */
+.main {
+  flex: 1;
+  padding: 60px 56px 120px 56px;
+  max-width: 860px;
+}
+
+/* ─── SECTIONS ──────────────────────────────────────────────────── */
+.act-block {
+  margin-bottom: 100px;
+}
+
+.act-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 40px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.act-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  flex-shrink: 0;
+}
+
+.act-title {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #e0e8f5;
+}
+
+.act-subtitle {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ─── SCENE CARDS ───────────────────────────────────────────────── */
+.scene {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 2px;
+  padding: 28px 32px 28px 28px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.scene-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.scene-number {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+}
+
+.scene-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #dde6f2;
+}
+
+.scene-location {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-left: auto;
+}
+
+.scene p {
+  margin-bottom: 12px;
+  color: var(--text);
+  font-size: 16px;
+}
+
+.scene p:last-child { margin-bottom: 0; }
+
+.scene em { color: #dde4ee; font-style: italic; }
+
+/* ─── DOSSIER / RECRUTEMENT ─────────────────────────────────────── */
+.dossier {
+  background: var(--surface-2);
+  border: 1px solid var(--accent);
+  border-left: 3px solid var(--accent-bright);
+  border-radius: 2px;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+
+.dossier-header {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  margin-bottom: 10px;
+}
+
+.dossier-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #dde6f2;
+  margin-bottom: 10px;
+}
+
+.dossier p {
+  font-size: 14.5px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.dossier p:last-child { margin-bottom: 0; }
+
+.dossier .outcome {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-bright);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+/* ─── CONSEQUENCE / MORT ────────────────────────────────────────── */
+.consequence {
+  background: rgba(139, 38, 53, 0.07);
+  border: 1px solid var(--danger);
+  border-left: 3px solid var(--danger-bright);
+  border-radius: 2px;
+  padding: 18px 22px;
+  margin: 18px 0;
+}
+
+.consequence-header {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--danger-bright);
+  margin-bottom: 8px;
+}
+
+.consequence p {
+  font-size: 14.5px;
+  color: #c8b0b4;
+  margin-bottom: 6px;
+}
+
+.consequence p:last-child { margin-bottom: 0; }
+
+/* ─── CHOIX MORAL ───────────────────────────────────────────────── */
+.moral-choice {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--text-dim);
+  padding: 18px 22px;
+  margin: 18px 0;
+}
+
+.moral-header {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.moral-choice p {
+  font-size: 15px;
+  color: var(--text);
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.moral-choice .branches {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.branch {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 6px 10px;
+  border-radius: 1px;
+  color: var(--text-dim);
+}
+
+.branch.yes { background: rgba(123, 94, 167, 0.1); border-left: 2px solid var(--accent); }
+.branch.no { background: rgba(139, 38, 53, 0.08); border-left: 2px solid var(--danger); }
+
+/* ─── CROSSING POINT ────────────────────────────────────────────── */
+.cp-block {
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-top: 3px solid var(--accent-bright);
+  padding: 28px 32px;
+  margin: 40px 0;
+}
+
+.cp-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  margin-bottom: 6px;
+}
+
+.cp-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #e4eeff;
+  margin-bottom: 16px;
+}
+
+.cp-block p {
+  font-size: 15.5px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+/* ─── KNOWLEDGE REVEAL ──────────────────────────────────────────── */
+.echorite-reveal {
+  background: linear-gradient(135deg, rgba(123, 94, 167, 0.06) 0%, rgba(13, 17, 23, 0) 60%);
+  border: 1px solid rgba(123, 94, 167, 0.3);
+  padding: 18px 22px;
+  margin: 18px 0;
+}
+
+.echorite-reveal .header {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.echorite-reveal p {
+  font-size: 14.5px;
+  color: #b8c4d8;
+  margin-bottom: 6px;
+}
+
+/* ─── DIVIDERS ──────────────────────────────────────────────────── */
+.act-divider {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 60px 0;
+}
+
+/* ─── INTRO BLOCK ───────────────────────────────────────────────── */
+.intro-block {
+  margin-bottom: 60px;
+}
+
+.intro-block p {
+  font-size: 16.5px;
+  margin-bottom: 14px;
+  color: #aab8cc;
+  max-width: 640px;
+}
+
+.intro-block strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .rail { display: none; }
+  .main { padding: 40px 24px 80px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- CRYSTAL HERO -->
+<div class="crystal-hero">
+  <canvas id="crystal-canvas"></canvas>
+  <div class="hero-text">
+    <div class="hero-eyebrow">Bible Narrative — Personnage Jouable</div>
+    <div class="hero-title">SEÏRA</div>
+    <div class="hero-sub">Princesse d'Élindre — Commandante de l'Ombre — Architecte de la Rébellion</div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- LEFT RAIL -->
+  <aside class="rail">
+    <div class="rail-section">
+      <div class="rail-label">Navigation</div>
+      <div class="rail-act">Acte I</div>
+      <nav>
+        <a href="#s1-1">1.1 — La Chute du Palais</a>
+        <a href="#s1-2">1.2 — Le Réseau des Réfugiés</a>
+        <a href="#s1-3">1.3 — Brennan</a>
+        <a href="#s1-4">1.4 — Caïn</a>
+        <a href="#s1-5">1.5 — Thessa</a>
+        <a href="#s1-6">1.6 — Rael</a>
+        <a href="#s1-7">1.7 — Orwen</a>
+        <a href="#cp1">CP1 — La Délégation</a>
+      </nav>
+    </div>
+    <div class="rail-section">
+      <div class="rail-act">Acte II</div>
+      <nav>
+        <a href="#s2-1">2.1 — Le Dossier Fantôme</a>
+        <a href="#s2-2">2.2 — Lyria</a>
+        <a href="#s2-3">2.3 — Mira</a>
+        <a href="#s2-4">2.4 — Kira</a>
+        <a href="#cp2">CP2 — Vel'Shan</a>
+        <a href="#s2-5">2.5 — Brand</a>
+        <a href="#s2-6">2.6 — L'Échorite</a>
+        <a href="#cp3">CP3 — Aldric</a>
+      </nav>
+    </div>
+    <div class="rail-section">
+      <div class="rail-act">Acte III</div>
+      <nav>
+        <a href="#s3-1">3.1 — La Coalition</a>
+        <a href="#s3-2">3.2 — Retournements</a>
+        <a href="#s3-3">3.3 — La Vérité de Daven</a>
+        <a href="#s3-4">3.4 — Mort &amp; Deuil</a>
+        <a href="#s3-5">3.5 — La Mine</a>
+        <a href="#cp4">CP4 — Convergence</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- INTRO -->
+    <div class="intro-block">
+      <p>Seïra ne combat pas. Elle <strong>construit</strong> ce qui combat à sa place. Dans un jeu où Aldric saigne et Varek conquiert, c'est elle qui décide si quelqu'un est vivant pour sauver le monde — ou pas. Chaque scène de son arc est une salle de guerre, pas un champ de bataille.</p>
+      <p>Son gameplay est celui d'une femme qui comprend que <strong>l'idéalisme non financé est une forme de cruauté</strong>. Elle peut se montrer froide, calculatrice, capable de sacrifier un homme pour en sauver cent. Elle peut aussi perdre le sommeil pour chacun de ces sacrifices. Ces deux choses sont vraies en même temps.</p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <!-- ACTE I -->
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <div class="act-block" id="acte1">
+      <div class="act-header">
+        <span class="act-number">ACTE I</span>
+        <h2 class="act-title">Ce qui reste quand tout brûle</h2>
+        <span class="act-subtitle">~5 heures de jeu</span>
+      </div>
+
+      <!-- S1.1 -->
+      <div class="scene" id="s1-1">
+        <div class="scene-header">
+          <span class="scene-number">S.1.1</span>
+          <h3 class="scene-title">La Chute du Palais</h3>
+          <span class="scene-location">Palais d'Élindre — Nuit de l'invasion</span>
+        </div>
+        <p>Le jeu s'ouvre ici, avant même qu'Aldric prenne les armes. Seïra est dans la salle des cartes, debout au-dessus d'une table de bois où les positions de l'armée d'Élindre sont marquées à la cire rouge. Elle a passé la nuit à calculer une contre-offensive. Elle n'a pas dormi. Les chiffres sont bons. Le plan est solide.</p>
+        <p>Puis les premières explosions. La fumée entre sous les portes. Un garde arrive : <em>« Les forces de Vareth ont franchi les trois lignes. Le Roi est tombé. »</em> Il s'arrête — le Roi, son père.</p>
+        <p>Le joueur voit Seïra immobile une seconde. Une seconde exactement. Puis elle retourne à la table et commence à brûler les cartes elle-même, méthodiquement, avant que les soldats de Varek ne les trouvent. Elle ordonne l'évacuation du personnel du palais vers les tunnels est. Elle ne pleure pas. Elle travaille.</p>
+        <p><strong>Ce moment établit le contrat du personnage :</strong> le deuil de Seïra n'est pas supprimé, il est transformé en actes. Le joueur comprend que derrière chaque décision logistique il y a quelque chose qui n'a jamais eu le droit d'être dit.</p>
+      </div>
+
+      <!-- S1.2 -->
+      <div class="scene" id="s1-2">
+        <div class="scene-header">
+          <span class="scene-number">S.1.2</span>
+          <h3 class="scene-title">Nœuds dans la nuit</h3>
+          <span class="scene-location">Village de Keth — Avant-poste de réfugiés</span>
+        </div>
+        <p>Trois semaines après la chute. Seïra a établi un premier réseau de renseignement en utilisant les routes commerciales que son père refusait de militariser. Elle reçoit des rapports de marchands, de paysans, d'enfants qui font passer des messages cousus dans les doublures de manteaux.</p>
+        <p>Elle cartographie deux choses en parallèle : les mouvements de l'armée de Varek, et les gens qui pourraient devenir la rébellion. Ce ne sont pas les mêmes cartes, mais elle les regarde l'une après l'autre pour voir où elles se recoupent.</p>
+        <p>Première décision de ressources du joueur : <strong>investir dans le réseau de soins (accès à Lyria plus tard) ou dans un réseau de renseignement militaire (accès à Mira plus tôt)</strong>. Les deux voies se referment partiellement selon le choix.</p>
+        <div class="moral-choice">
+          <div class="moral-header">Tension logistique — Acte I</div>
+          <p>Les ressources d'Élindre sont maigres. Financer la santé du réseau de réfugiés (nourriture, soins) construit la confiance des civils. Financer le renseignement accélère la cartographie des mouvements de Varek.</p>
+          <div class="branches">
+            <div class="branch yes">SOINS → Confiance civile +. Accès à Lyria facilité. Recrutement de Brand possible. Réseau lent à s'établir.</div>
+            <div class="branch no">RENSEIGNEMENT → Mira localisable dès l'Acte I. Mais les réfugiés doutent de Seïra — Orwen plus difficile à convaincre.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S1.3 — BRENNAN -->
+      <div class="scene" id="s1-3">
+        <div class="scene-header">
+          <span class="scene-number">S.1.3</span>
+          <h3 class="scene-title">Le Prix de Brennan</h3>
+          <span class="scene-location">Taverne de la Route Basse — Territoire neutre</span>
+        </div>
+        <p>Brennan est là parce qu'il est toujours là où il y a du travail. Capitaine mercenaire, la cinquantaine, une cicatrice qui lui barre la mâchoire gauche et des yeux qui évaluent tout le monde en unités de compte. Il a entendu parler de la rébellion d'Élindre. Il est venu voir si ça valait son temps.</p>
+        <p>Seïra arrive sans escorte. C'est un choix calculé — elle sait que Brennan méprise les gens qui ont besoin d'être protégés lors de négociations. Elle pose une bourse sur la table. Pas assez, et Brennan le dit immédiatement. <em>« Vous cherchez un protecteur ou vous cherchez un soldat ? Parce que le tarif n'est pas le même. »</em></p>
+        <p>La vraie négociation commence ici. Seïra dispose de deux leviers : l'argent, et la cause. Brennan se fiche de la cause — mais Seïra a étudié son dossier et sait qu'il a un fils dans un village d'Élindre, à deux jours de marche d'une ligne d'avancée de Varek. Elle peut mentionner son fils. Ce serait efficace. Ce serait aussi de la manipulation.</p>
+
+        <div class="dossier" id="dossier-brennan">
+          <div class="dossier-header">Dossier de Recrutement</div>
+          <div class="dossier-name">BRENNAN — Capitaine Mercenaire (Protecteur/Tank)</div>
+          <p><strong>Levier 1 — Argent :</strong> 300 pièces d'or. Seïra n'en a que 200. Elle peut promettre le reste à la libération d'un territoire. Brennan accepte si elle donne des gages concrets (un nom, un sceau, une date).</p>
+          <p><strong>Levier 2 — Son fils :</strong> Elle peut révéler qu'elle sait pour l'enfant. Brennan recule, puis dit oui immédiatement — mais son regard change. Il sait qu'elle joue un jeu. Il ne l'oubliera pas.</p>
+          <p><strong>Si aucun des deux :</strong> Brennan attend qu'on lui fasse une meilleure offre. Varek, qui n'a pas les mêmes scrupules, le recrute dans les quinze jours. Brennan devient un commandant d'unité qui menace directement le groupe d'Aldric.</p>
+          <div class="outcome">RÉSULTAT POSITIF → Brennan rejoint. Il est loyal mais pas dévoué. Il part si Seïra lui paraît perdre la guerre.</div>
+        </div>
+
+        <p>Ce que Seïra apprend de Brennan : <strong>la cause n'est pas une monnaie universelle</strong>. Certaines personnes protègent des choses concrètes — un enfant, un village, une routine — pas des abstractions. Elle ajoute ça à sa façon de parler aux gens.</p>
+      </div>
+
+      <!-- S1.4 — CAÏN -->
+      <div class="scene" id="s1-4">
+        <div class="scene-header">
+          <span class="scene-number">S.1.4</span>
+          <h3 class="scene-title">L'Homme qui ne croit plus</h3>
+          <span class="scene-location">Forêt de Rel — Camp de déserteur</span>
+        </div>
+        <p>Caïn est plus difficile à trouver que Brennan. Il n'est dans aucun registre. Seïra le localise via une mention dans le rapport d'un passeur : <em>un soldat de Vareth qui aide les familles à traverser la frontière sans demander d'argent</em>. Elle note ça. Un soldat de Vareth qui aide les gens gratuitement n'a pas fui par peur — il a fui par conviction.</p>
+        <p>Elle va le voir seule, encore une fois. Caïn la regarde arriver et sa main va à son couteau. <em>« Élindre. Je reconnais l'accent. »</em> Il ne dégaine pas, mais il ne retire pas non plus la main.</p>
+        <p>Seïra ne lui parle pas de la rébellion. Elle lui parle de ce qu'il fait dans cette forêt. Pourquoi il aide ces gens. Il répond finalement — non pas parce qu'il lui fait confiance, mais parce que personne ne lui a posé la question depuis longtemps.</p>
+
+        <div class="dossier">
+          <div class="dossier-header">Dossier de Recrutement</div>
+          <div class="dossier-name">CAÏN — Déserteur de Vareth (Attaquant)</div>
+          <p><strong>L'obstacle :</strong> Caïn a vu ce que les rébellions font une fois qu'elles gagnent. Son unité a été envoyée écraser un soulèvement dans une province lointaine — mais la rébellion, une fois victorieuse, avait fait la même chose que l'empire qu'elle remplaçait. Il ne veut pas être le couteau d'une idée qui se retourne.</p>
+          <p><strong>Ce que Seïra doit lui offrir :</strong> pas une cause, mais une structure de responsabilité. Elle lui dit que chaque décision militaire peut être contestée par ses commandants de terrain. Elle lui montre un protocole écrit — elle l'a rédigé la nuit d'avant, sachant qu'il aurait besoin de le voir sur du papier. <em>Elle invente une institution pour recruter un homme.</em></p>
+          <p><strong>Si elle échoue ou ne trouve pas Caïn à temps :</strong> Il reste dans sa forêt. Quand Vel'Shan brûle (CP2), un groupe de réfugiés qu'il aidait est massacré. Il disparaît. Il n'est plus recruitable.</p>
+          <div class="outcome">RÉSULTAT POSITIF → Caïn rejoint avec une méfiance active. Il sera le premier à signaler à Aldric si quelque chose ne va pas. C'est utile autant que difficile.</div>
+        </div>
+
+        <p>Ce que Seïra apprend de Caïn : <strong>les idéaux doivent avoir une architecture</strong>. Une cause sans mécanisme de contrôle est juste un pouvoir qui n'a pas encore eu l'occasion de corrompre. Elle commencera à rédiger les premières règles de la rébellion — pas pour les afficher, mais pour elle-même.</p>
+      </div>
+
+      <!-- S1.5 — THESSA -->
+      <div class="scene" id="s1-5">
+        <div class="scene-header">
+          <span class="scene-number">S.1.5</span>
+          <h3 class="scene-title">Ce que Thessa a construit</h3>
+          <span class="scene-location">Atelier secret — Ville de Mal'Heth</span>
+        </div>
+        <p>Seïra connaît Thessa depuis l'enfance. L'ingénieure en chef du palais était celle qui expliquait à la petite princesse comment fonctionnait le système d'eau, pourquoi les tours avaient telle inclinaison, comment un pont pouvait tenir sans pilier central. Thessa aimait que quelqu'un écoute.</p>
+        <p>Après la chute du palais, Thessa a disparu dans la ville. Seïra la trouve dans un atelier que l'ingénieure a monté avec ses économies, à réparer des instruments pour des marchands. Elle a refusé de fuir Élindre. Elle a aussi refusé de travailler pour Varek — jusqu'à il y a trois semaines.</p>
+        <p>Seïra entre. Thessa ne se retourne pas immédiatement. Quand elle le fait, son visage n'est pas heureux. <em>« Tu es venue me demander de fabriquer des armes. »</em> Ce n'est pas une question.</p>
+        <p>La conversation est longue. Thessa n'est pas pacifiste — elle est précise. Elle ne veut pas que ses créations soient utilisées par des gens qui ne comprennent pas ce qu'ils font. Elle a vu les soldats de Varek utiliser ses catapultes de siège sur des villes civiles. <em>Ses</em> catapultes, qu'elle avait conçues pour les fortifications.</p>
+
+        <div class="dossier">
+          <div class="dossier-header">Dossier de Recrutement</div>
+          <div class="dossier-name">THESSA — Ingénieure (Utilitaire)</div>
+          <p><strong>La rupture :</strong> Seïra n'a pas besoin de convaincre Thessa que Varek est mauvais. Thessa le sait déjà. Ce qu'elle doit convaincre, c'est que la rébellion saura mieux utiliser ce qu'elle construit. La seule façon de faire ça : lui donner un droit de veto sur les applications militaires.</p>
+          <p><strong>Le compromis de Seïra :</strong> Elle accepte. Puis elle se demande si elle respectera ce veto quand une bataille critique sera en jeu. Elle ne sait pas encore. Elle accepte quand même, parce que Thessa vaut plus que la promesse.</p>
+          <p><strong>Si elle refuse :</strong> Thessa reste dans son atelier. Elle sera capturée en Acte 2 par des agents de Varek qui veulent sa tête. Elle meurt si Seïra ne l'a pas mise en sécurité.</p>
+          <div class="outcome">RÉSULTAT POSITIF → Thessa rejoint. Elle apportera du matériel de siège, des outils de défense, et une connaissance des points faibles des fortifications de Varek — qu'elle a elle-même construites.</div>
+        </div>
+
+        <p>Ce que Seïra apprend de Thessa : <strong>une promesse conditionnelle n'est pas encore un mensonge</strong>. Elle commence à comprendre la différence entre les serments qu'elle peut tenir et ceux qu'elle fait pour acheter du temps. La ligne n'est pas tracée clairement. Elle la cherche encore en Acte 3.</p>
+      </div>
+
+      <!-- S1.6 — RAEL -->
+      <div class="scene" id="s1-6">
+        <div class="scene-header">
+          <span class="scene-number">S.1.6</span>
+          <h3 class="scene-title">Le Jeune Noble et ses Certitudes</h3>
+          <span class="scene-location">Camp de la rébellion — Intérieur</span>
+        </div>
+        <p>Rael arrive sans invitation. Vingt-deux ans, fils d'un comte du nord d'Élindre, il a traversé deux lignes de front à cheval pour se présenter à la rébellion. Il apporte des ressources — son domaine familial, inaccessible à Varek pour l'instant, peut fournir de la nourriture et des chevaux — et une conviction absolue dans la justice de la cause.</p>
+        <p>Seïra l'écoute parler pendant dix minutes. Il est brillant, courageux, et complètement incapable d'imaginer qu'il pourrait avoir tort. Il parle de la guerre comme d'une épopée dans laquelle il vient de choisir le bon côté.</p>
+        <p>La décision du joueur : <strong>jusqu'où faire confiance à Rael ?</strong></p>
+
+        <div class="dossier">
+          <div class="dossier-header">Dossier de Recrutement</div>
+          <div class="dossier-name">RAEL — Jeune Noble d'Élindre (Attaquant)</div>
+          <p><strong>Confiance totale :</strong> Il accède aux ressources stratégiques complètes de la rébellion. En Acte 2, un agent de Varek lui soutirera des informations sans qu'il s'en rende compte — son idéalisme le rend imperméable à l'idée qu'il pourrait être manipulé. Une opération coûte des vies.</p>
+          <p><strong>Confiance partielle :</strong> Seïra lui donne un rôle visible (moral pour les troupes) mais l'écarte des cercles de décision militaire. Rael le ressent. Il travaille bien quand même. Il mourra probablement en Acte 3 en chargeant là où on lui a dit de ne pas charger.</p>
+          <p><strong>Méfiance :</strong> Rael repart. Il continue à se battre seul avec ses hommes, non aligné. En Acte 3, il peut être soit une ressource imprévue, soit un obstacle selon les batailles d'Aldric.</p>
+          <div class="outcome">La leçon de Rael : il n'y a pas de bon recrutement de Rael. Il y a seulement différentes formes de complication.</div>
+        </div>
+
+        <p>Ce que Seïra apprend de Rael : <strong>l'idéalisme non tempéré est une arme dont on ne contrôle pas la direction</strong>. Il lui rappelle ce qu'elle était avant que son père meure dans la nuit de l'invasion. Elle ne sait pas si c'est triste ou utile.</p>
+      </div>
+
+      <!-- S1.7 — ORWEN -->
+      <div class="scene" id="s1-7">
+        <div class="scene-header">
+          <span class="scene-number">S.1.7</span>
+          <h3 class="scene-title">Mourir une Deuxième Fois</h3>
+          <span class="scene-location">Ferme d'Orwen — Frontière nord</span>
+        </div>
+        <p>Orwen est dans son champ quand Seïra arrive. Il a soixante-cinq ans, des mains comme des pelles, et il a été l'un des plus grands stratèges d'Élindre pendant quarante ans. Il a pris sa retraite il y a huit ans parce qu'il avait fait ce qu'il avait à faire et qu'il ne voulait pas mourir à la guerre.</p>
+        <p>Il la regarde venir. Il ne se lève pas. <em>« J'ai entendu parler de toi. Tu es la fille de Lireth. »</em> Ce n'est pas un compliment. Ce n'est pas non plus une insulte.</p>
+        <p>Seïra s'assoit en face de lui sur un rondin et ne dit rien pendant un moment. Puis : <em>« Je ne suis pas venue pour vous recruter. Je suis venue parce que j'ai besoin de savoir si mon plan de campagne du nord est viable. J'ai juste besoin d'un regard. »</em></p>
+        <p>Elle lui ment. Pas sur le plan — le plan existe, elle le lui soumet vraiment. Elle ment sur ses intentions. Elle sait que si elle lui demande directement de rejoindre la rébellion, il dira non. Alors elle lui donne quelque chose qu'il ne peut pas refuser : un problème à résoudre.</p>
+        <p>Orwen passe deux heures sur le plan. Il le démonte, le reconstruite, signale trois erreurs critiques. À la fin, il dit : <em>« Tu reviens dans une semaine. J'aurai une version correcte. »</em></p>
+        <p>Il vient de rejoindre la rébellion. Il ne le sait pas encore.</p>
+
+        <div class="dossier">
+          <div class="dossier-header">Dossier de Recrutement</div>
+          <div class="dossier-name">ORWEN — Général à la Retraite (Protecteur)</div>
+          <p><strong>Le processus :</strong> Seïra revient chaque semaine. Le plan s'améliore. Orwen commence à écrire des protocoles. Un soir, il lui dit : <em>« Je suppose que je vais avoir besoin d'une tente. »</em></p>
+          <p><strong>Ce que Seïra ne lui dit pas :</strong> La probabilité qu'Orwen survive à l'Acte 3 est faible. Elle a fait le calcul. Elle a recruté quand même. Le raisonnement : sans lui, les batailles du nord sont perdues, et personne ne survit de toute façon.</p>
+          <p><strong>Si elle échoue :</strong> Elle doit lui demander directement. Il refuse. Son domaine est occupé par Varek en Acte 2. Il est tué dans le processus — ni pour la rébellion, ni pour l'empire. Simplement parce qu'il était là.</p>
+          <div class="outcome">RÉSULTAT POSITIF → Orwen rejoint. Il sera le mentor opérationnel de la rébellion, la mémoire tactique qu'Aldric n'a pas encore.</div>
+        </div>
+
+        <p>Ce que Seïra apprend d'Orwen : <strong>manipuler quelqu'un pour le sauver n'efface pas la manipulation</strong>. Orwen le réalise au bout de quelques semaines. Il ne lui en tient pas rigueur. Ce n'est pas mieux — ça veut dire qu'elle a trouvé quelqu'un qui accepte d'être manipulé par elle, et elle ne sait pas si c'est de la confiance ou de la résignation.</p>
+      </div>
+
+      <!-- CP1 -->
+      <div class="cp-block" id="cp1">
+        <div class="cp-eyebrow">Point de Croisement 1 — Fin d'Acte I</div>
+        <div class="cp-title">La Délégation Brisée</div>
+        <p>Les quatre arcs convergent pour la première fois au palais d'Élindre — occupé par Varek mais théâtre d'une tentative de négociation diplomatique. Aldric est là comme escorte militaire de Vareth, avant sa désertion. Daven infiltre la délégation. Varek supervise depuis l'arrière. Seïra est à l'extérieur.</p>
+        <p>Elle a organisé ce qu'elle espérait être une ligne de contact diplomatique — des émissaires neutres pour tenter de négocier une zone protégée pour les civils. Elle sait que Varek n'acceptera probablement pas. Elle fait l'opération quand même, parce qu'une tentative ratée laisse un enregistrement : qui a refusé de protéger les civils, et pourquoi.</p>
+        <p>La délégation est renvoyée. Mais avant qu'ils repartent, un émissaire lui fait passer un message codé — Daven, sans le savoir, vient de créer le premier lien de son réseau de renseignement avec elle. Il ne sait pas qu'elle est à l'autre bout du fil. Elle ne sait pas qui envoie ces messages.</p>
+        <p><em>Du côté de Seïra, CP1 est le moment où elle comprend que la guerre se gagnera dans les marges — dans les informations qui passent entre les lignes, dans les gens qu'elle aura ou n'aura pas mis en sécurité avant que tout s'embrase. Aldric, elle l'entend mentionner pour la première fois ici : un chevalier de Vareth qui a refusé de frapper un émissaire désarmé. Un nom à retenir.</em></p>
+      </div>
+    </div>
+
+    <hr class="act-divider">
+
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <!-- ACTE II -->
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <div class="act-block" id="acte2">
+      <div class="act-header">
+        <span class="act-number">ACTE II</span>
+        <h2 class="act-title">Ce que le cristal fait à ceux qui savent</h2>
+        <span class="act-subtitle">~10 heures de jeu</span>
+      </div>
+
+      <!-- S2.1 -->
+      <div class="scene" id="s2-1">
+        <div class="scene-header">
+          <span class="scene-number">S.2.1</span>
+          <h3 class="scene-title">Le Dossier sans Signature</h3>
+          <span class="scene-location">Quartier général de la rébellion</span>
+        </div>
+        <p>Un courrier arrive avec un colis scellé. Pas de nom d'expéditeur. Dedans : un dossier sur Kira, avec des coordonnées précises, un résumé de ses compétences, et une note : <em>« Elle peut traverser les lignes. Vous en aurez besoin. »</em></p>
+        <p>Seïra lit le dossier deux fois. Elle a des sources de renseignement, mais aucune n'est assez bien placée pour constituer un dossier aussi précis sur une opératrice indépendante. Quelqu'un à l'intérieur du système de Varek travaille pour elle — ou du moins travaille dans la même direction.</p>
+        <p>Elle décide d'agir sur l'information ou non. Si elle n'agit pas : Kira sera capturée par des agents de Varek dans les semaines suivantes. Le dossier se fermera.</p>
+        <p>Elle ne sait pas encore que c'est Daven. Elle note que son correspondant fantôme a une logique de protection — il ne lui donne pas des informations militaires, il lui donne des <em>personnes</em>. Quelqu'un, quelque part, fait le même travail qu'elle mais sans ressources visibles.</p>
+      </div>
+
+      <!-- S2.2 — LYRIA -->
+      <div class="scene" id="s2-2">
+        <div class="scene-header">
+          <span class="scene-number">S.2.2</span>
+          <h3 class="scene-title">Ce que Lyria a vu dans les cristaux</h3>
+          <span class="scene-location">Village de Seln — Zone contaminée</span>
+        </div>
+        <p>Seïra localise Lyria via les réseaux de réfugiés — une soigneuse qui traite des blessures inhabituelles dans un village à la lisière de la zone minière. Les blessures ne viennent pas de combats. Elles viennent de l'Échorite.</p>
+        <p>Lyria a vingt-huit ans et le regard de quelqu'un qui a vu trop de choses qu'elle ne peut pas expliquer aux gens qui ne les ont pas vues. Son village est à deux kilomètres de la mine. Depuis que Varek a intensifié l'extraction, les gens du village changent — lentement, puis très vite. D'abord plus forts. Puis agressifs. Puis méconnaissables.</p>
+        <p>Elle montre à Seïra ses notes — des carnets remplis d'observations cliniques minutieuses. Lyria n'est pas qu'une soigneuse. C'est une épidémiologiste de terrain qui a tout documenté parce que personne d'autre ne le faisait.</p>
+
+        <div class="dossier">
+          <div class="dossier-header">Dossier de Recrutement</div>
+          <div class="dossier-name">LYRIA — Soigneuse (Soigneur)</div>
+          <p><strong>Facile à convaincre :</strong> Lyria veut que quelqu'un avec des ressources fasse quelque chose de ce qu'elle sait. Elle rejoint sans résistance.</p>
+          <p><strong>Le problème :</strong> Son trajet vers Aldric est à travers deux zones de contrôle de Varek. Seïra doit choisir entre une route rapide (plus risquée) et une route longue (Lyria arrive deux semaines plus tard, mais arrive).</p>
+          <div class="branches">
+            <div class="branch yes">ROUTE LONGUE → Lyria arrive. Elle soigne les compagnons d'Aldric. Sa documentation sur l'Échorite sera cruciale en Acte 3.</div>
+            <div class="branch no">ROUTE RAPIDE → 40% de chance que Lyria soit interceptée. Si elle est capturée, ses carnets tombent dans les mains de Varek. Il accélère ses recherches.</div>
+          </div>
+          <div class="outcome">Si Lyria est capturée et meurt : Seïra reçoit un rapport de terrain deux semaines plus tard. Elle lit le nom. Elle met le rapport dans un tiroir et continue à travailler. Plus tard, en privé, elle brûle le rapport — pas pour s'en débarrasser, mais parce qu'elle ne supporte pas l'idée que ça reste dans une archive.</div>
+        </div>
+
+        <div class="echorite-reveal">
+          <div class="header">Révélation — L'Échorite</div>
+          <p>Via les carnets de Lyria, Seïra apprend pour la première fois que l'Échorite n'amplifie pas au hasard. Il amplifie ce qui est déjà là — les peurs, les désirs, les loyautés, les haines. Un homme doux exposé à de petites doses devient remarquablement attentionné. Un homme violent exposé aux mêmes doses devient incontrôlable.</p>
+          <p>Seïra note : <em>Varek utilise ça depuis des années. Qu'est-ce qu'il amplifie, lui ?</em></p>
+        </div>
+      </div>
+
+      <!-- S2.3 — MIRA -->
+      <div class="scene" id="s2-3">
+        <div class="scene-header">
+          <span class="scene-number">S.2.3</span>
+          <h3 class="scene-title">Mira et l'Homme Invisible</h3>
+          <span class="scene-location">Lieu sécurisé — Identité inconnue</span>
+        </div>
+        <p>Seïra trouve Mira — ou Mira se laisse trouver, ce qui n'est pas la même chose. L'ancienne opératrice de renseignement du feu roi est vivante grâce à quelqu'un. Son visage est différent. Elle a changé de nom trois fois. Elle est méfiante d'une façon professionnelle — pas paranoïaque, juste précise.</p>
+        <p>Mira sait des choses sur la mine que Seïra ne sait pas encore. Elle refuse de les dire lors de la première rencontre. <em>« Prouvez-moi que vous pouvez garder un secret. Vous me contactez depuis combien de temps avec un canal sécurisé ? Deux semaines ? Qui l'a établi ? »</em></p>
+        <p>Seïra ne sait pas. Le canal a été établi par son correspondant fantôme.</p>
+        <p>Mira le sait, elle. Elle regarde Seïra et comprend que la princesse ne sait pas qui la protège depuis des mois. Elle décide de ne pas le dire — pas par cruauté, mais parce que si l'information échappe à Seïra, elle échappe aussi à elle.</p>
+
+        <div class="dossier">
+          <div class="dossier-header">Dossier de Recrutement</div>
+          <div class="dossier-name">MIRA — Opératrice de Renseignement (Utilitaire)</div>
+          <p><strong>Ce qu'elle apporte :</strong> Mira connaît l'emplacement d'archives du vieux roi — des documents sur des explorations préhistoriques dans la zone de la mine. Ces documents suggèrent que la mine existait avant Élindre. Peut-être avant tout le monde.</p>
+          <p><strong>Sa condition :</strong> Elle rejoindra si Seïra peut lui garantir que son identité actuelle reste protégée même des autres membres de la rébellion. C'est une demande raisonnable. C'est aussi une demande qui crée une cellule de secret à l'intérieur de la rébellion.</p>
+          <p><strong>Si Seïra refuse :</strong> Mira disparaît. Elle sera retrouvée morte six semaines plus tard. Le canal de renseignement de Daven perd son relais — les informations arrivent plus lentement, moins précisément.</p>
+          <div class="outcome">RÉSULTAT POSITIF → Mira rejoint. Elle commence à cartographier ce que Varek sait de la mine — et ce qu'il cache à ses propres généraux.</div>
+        </div>
+      </div>
+
+      <!-- S2.4 — KIRA -->
+      <div class="scene" id="s2-4">
+        <div class="scene-header">
+          <span class="scene-number">S.2.4</span>
+          <h3 class="scene-title">Kira, le Vide et la Ligne</h3>
+          <span class="scene-location">Bordure de territoire contesté</span>
+        </div>
+        <p>Kira ne ressemble pas à ce que Seïra attendait. Le dossier décrivait une opératrice. La femme devant elle est calme d'une façon qui ne ressemble pas à de la compétence — ça ressemble à de l'indifférence. Elle n'est pas de côté. Elle n'a simplement pas encore choisi.</p>
+        <p><em>« Votre contact anonyme dit que vous pouvez me faire traverser des lignes. »</em> Seïra pose ça directement. Kira hoche la tête. <em>« Mais il ne dit pas pourquoi je devrais travailler pour vous plutôt que pour Varek. »</em></p>
+        <p>Seïra lui donne la vérité : elle ne peut pas lui offrir plus que Varek sur le plan matériel. Ce qu'elle peut offrir, c'est que la rébellion n'utilise pas les mêmes méthodes que Varek. Kira demande des exemples. Seïra en donne. Kira écoute, puis dit : <em>« Je vérifierai. »</em></p>
+        <p>Elle met deux semaines à vérifier. Si ce qu'elle a entendu tient, elle rejoint. Si un élément contredit ce que Seïra lui a dit, elle repart et ne revient pas.</p>
+
+        <div class="dossier">
+          <div class="dossier-header">Dossier de Recrutement</div>
+          <div class="dossier-name">KIRA — Contact de Daven (Utilitaire/Attaquante)</div>
+          <p><strong>La condition invisible :</strong> Kira vérifie les méthodes de la rébellion sur le terrain. Si Seïra a ordonné des représailles sur des civils, a utilisé des prisonniers comme boucliers, ou a menti sur des victoires — Kira le saura et partira.</p>
+          <p><strong>Lien avec Daven :</strong> Kira connaît Daven. Elle ne le mentionnera pas par nom à Seïra — elle sait qu'il opère sous couverture et que révéler son identité pourrait le tuer. Mais si Seïra lui pose les bonnes questions, Kira laissera des pistes.</p>
+          <div class="outcome">RÉSULTAT POSITIF → Kira rejoint. Elle peut traverser les lignes de Varek, exfiltrer des personnages, et accéder à des informations qu'aucune autre recrue ne peut obtenir.</div>
+        </div>
+      </div>
+
+      <!-- CP2 -->
+      <div class="cp-block" id="cp2">
+        <div class="cp-eyebrow">Point de Croisement 2 — Milieu d'Acte II</div>
+        <div class="cp-title">Le Massacre de Vel'Shan</div>
+        <p>Vel'Shan brûle. C'est le tournant de la guerre — Varek a ordonné la destruction d'un village civil pour envoyer un message. Des milliers de morts. Aldric était là et n'a pas pu l'arrêter. Il déserte dans les jours qui suivent.</p>
+        <p>Pour Seïra, Vel'Shan arrive comme un rapport. Une liste de noms. Des villages. Des chiffres. Elle a des contacts là-bas — des gens qui faisaient partie de son réseau de réfugiés. Certains noms sur la liste sont des gens qu'elle connaissait. Pas de nombreux, mais assez.</p>
+        <p>Sa première réaction n'est pas publique. Elle est seule dans la salle des opérations quand le rapport arrive. Le joueur la voit lire, s'arrêter, reprendre. Puis elle pose le rapport et commence à rédiger une réponse stratégique — que faire du choc politique de Vel'Shan, comment le transformer en élan pour la rébellion.</p>
+        <p><em>Ce n'est pas de la froideur. C'est la seule façon qu'elle a trouvée de rendre ces morts utiles sans les trahir.</em> La scène dure longtemps. Le joueur peut rester dans la salle à ne rien faire pendant plusieurs minutes — le jeu ne la presse pas.</p>
+        <p>CP2 est aussi le moment où Seïra reçoit, via son canal fantôme, un message très court : <em>« Un déserteur de Vareth cherchera à vous contacter. Il s'appelle Aldric. Faites-lui confiance. »</em> Elle range le message. Elle ne sait pas encore quoi en faire.</p>
+      </div>
+
+      <!-- S2.5 — BRAND -->
+      <div class="scene" id="s2-5">
+        <div class="scene-header">
+          <span class="scene-number">S.2.5</span>
+          <h3 class="scene-title">Les Prisonniers de Vel'Shan</h3>
+          <span class="scene-location">Camp de rétention — Territoire de la rébellion</span>
+        </div>
+        <p>Dans les semaines qui suivent Vel'Shan, Aldric et ses compagnons capturent plusieurs soldats de Varek. Ils sont envoyés vers Seïra, qui doit décider de leur sort.</p>
+        <p>Brand est l'un d'eux. Soldat ordinaire, pas un officier, pas une source de renseignement évidente. Il est silencieux dans le camp de rétention. Il ne plaide pas pour sa vie. Seïra l'observe pendant deux jours avant de lui parler.</p>
+
+        <div class="dossier">
+          <div class="dossier-header">Dossier de Recrutement</div>
+          <div class="dossier-name">BRAND — Soldat Capturé (Variable)</div>
+          <p><strong>Si les prisonniers sont mal traités ou exécutés :</strong> Brand ne devient jamais une possibilité. D'autres soldats de Varek entendent parler du traitement des prisonniers. La désertion devient plus difficile — personne ne fuit vers une rébellion qui tue ses captifs.</p>
+          <p><strong>Si les prisonniers sont traités correctement :</strong> Brand commence à parler. Pas des informations — des observations. Il a servi à Vel'Shan. Il décrit ce qu'il a vu faire à ses propres camarades. Il ne voulait pas être là.</p>
+          <p><strong>La décision morale de Seïra :</strong> Elle peut lui offrir de rejoindre. C'est politiquement compliqué — certains membres de la rébellion, dont des survivants de Vel'Shan, ne voudront pas d'un soldat de Varek. Elle doit gérer ce conflit ou éviter le recrutement.</p>
+          <div class="outcome">RÉSULTAT POSITIF → Brand rejoint comme éclaireur. Il connaît les protocoles de Varek, les codes de communication, les points faibles des formations. C'est précieux. C'est aussi une tension permanente dans le camp.</div>
+        </div>
+      </div>
+
+      <!-- S2.6 — ECHORITE -->
+      <div class="scene" id="s2-6">
+        <div class="scene-header">
+          <span class="scene-number">S.2.6</span>
+          <h3 class="scene-title">La Mine Avant le Monde</h3>
+          <span class="scene-location">Archives de la rébellion</span>
+        </div>
+        <p>Mira apporte les archives du vieux roi. Seïra et elle passent une nuit à les dépouiller. Ce qu'elles trouvent est inattendu : les explorations de la mine remontent à plus de mille ans, bien avant Élindre, bien avant Vareth. Des inscriptions sur les murs décrits dans les rapports d'exploration — des glyphes qui ne correspondent à aucune langue connue.</p>
+        <p>Les explorateurs anciens avaient rebroussé chemin. Ils avaient laissé des notes : <em>« La roche répond à ceux qui s'en approchent. Elle ne prend pas — elle révèle. »</em></p>
+        <p>Seïra comprend que Varek ne sait pas qu'il exploite quelque chose d'ancien. Il croit avoir trouvé un avantage militaire. Il a peut-être mis la main sur quelque chose que personne n'a jamais compris.</p>
+
+        <div class="echorite-reveal">
+          <div class="header">Révélation — L'Échorite, profondeur 2</div>
+          <p>Les doses militaires que Varek utilise sur ses soldats ne font pas qu'amplifier — elles <em>creusent</em>. À haute dose, pendant longtemps, la personnalité s'érode. Il ne reste plus que les instincts les plus profonds. Les plus anciens. La civilisation disparue dans la mine avait peut-être utilisé ça délibérément — pour quoi faire, les archives ne le disent pas.</p>
+          <p>Seïra note, pour la première fois, une vraie peur de Varek. Pas de ce qu'il fait, mais de ce qu'il est peut-être en train de devenir.</p>
+        </div>
+      </div>
+
+      <!-- CP3 -->
+      <div class="cp-block" id="cp3">
+        <div class="cp-eyebrow">Point de Croisement 3 — Fin d'Acte II</div>
+        <div class="cp-title">La Désertion d'Aldric — Faire Confiance au Déserteur</div>
+        <p>Aldric se présente à la rébellion. Seïra reçoit le message de son réseau : un chevalier de Vareth demande audience. Seul. Désarmé.</p>
+        <p>Elle a le rapport de Vel'Shan sur sa table. Elle a les notes de Lyria. Elle a le message fantôme qui lui dit de lui faire confiance. Et elle a, dans ses fichiers, le nom d'Aldric — un chevalier qui a refusé de frapper un émissaire désarmé lors de la délégation brisée.</p>
+        <p><strong>Ce qui la convainc n'est pas une seule chose. C'est la convergence.</strong></p>
+        <p>Premier : la cohérence dans le temps. Elle a entendu parler d'Aldric deux fois avant ce moment — à CP1 via les témoins de la délégation, puis via le message fantôme après Vel'Shan. Un homme qui suscite des témoignages concordants sur un comportement inhabituellement humain, dans deux contextes différents, par des sources différentes — ça mérite une vérification, pas un rejet.</p>
+        <p>Deuxième : son timing. Il déserte <em>après</em> Vel'Shan, pas avant. Il aurait pu partir avant. S'il avait fui par peur ou par opportunisme, il l'aurait fait plus tôt, quand c'était plus sûr. Il a attendu d'avoir vu quelque chose d'assez insupportable pour que partir soit plus important que survivre.</p>
+        <p>Troisième : elle n'a pas les ressources pour ne pas lui faire confiance. La rébellion a besoin d'un commandant de terrain. Elle n'en a pas. Refuser Aldric n'est pas une décision prudente — c'est une décision qui coûte des vies à elle.</p>
+        <p>Seïra le reçoit dans une pièce avec deux gardes à l'extérieur et un couteau dans sa manche. Elle lui parle pendant une heure. Elle lui pose des questions qui n'ont pas de bonnes réponses — sur Vel'Shan, sur ce qu'il a fait et ce qu'il n'a pas fait, sur ce qu'il veut exactement de cette rébellion. Elle écoute comment il répond autant que ce qu'il dit.</p>
+        <p>À la fin, elle dit : <em>« Vous commanderez les opérations de terrain. Toutes les décisions sur des cibles civiles me reviennent. Si vous passez outre une seule fois, je vous renvoie — ou je vous empêche de repartir, selon ce que vous avez fait. »</em></p>
+        <p>Ce n'est pas de la confiance absolue. C'est une confiance conditionnelle avec des bornes claires. Aldric accepte. Ce moment — pas un discours inspirant, mais un contrat pragmatique entre deux personnes méfiantes qui ont besoin l'une de l'autre — est la fondation de toute leur relation.</p>
+      </div>
+    </div>
+
+    <hr class="act-divider">
+
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <!-- ACTE III -->
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <div class="act-block" id="acte3">
+      <div class="act-header">
+        <span class="act-number">ACTE III</span>
+        <h2 class="act-title">Ce que la victoire coûte à ceux qui l'ont voulue</h2>
+        <span class="act-subtitle">~7 heures de jeu</span>
+      </div>
+
+      <!-- S3.1 -->
+      <div class="scene" id="s3-1">
+        <div class="scene-header">
+          <span class="scene-number">S.3.1</span>
+          <h3 class="scene-title">La Coalition qui Tient à un Fil</h3>
+          <span class="scene-location">Quartier général — Conseil de guerre</span>
+        </div>
+        <p>L'Acte 3 s'ouvre sur une rébellion qui fonctionne. Les batailles d'Aldric avancent. Les alliances politiques de Seïra tiennent — pour l'instant. Elle est debout devant un conseil de guerre avec huit factions qui ont chacune des intérêts différents et une loyauté conditionnelle.</p>
+        <p>Le problème de l'Acte 3 n'est pas Varek. Le problème, c'est que gagner crée des questions auxquelles personne n'a de réponse : qui gouverne après ? Quelles terres reviennent à qui ? Est-ce qu'Élindre sera un royaume ou une alliance de régions autonomes ? Brennan veut être payé. Rael (s'il est là) veut une place au conseil. Brand est regardé de travers par tout le monde.</p>
+        <p>Seïra doit tenir cette coalition ensemble tout en préparant l'assaut final sur la mine.</p>
+      </div>
+
+      <!-- S3.2 -->
+      <div class="scene" id="s3-2">
+        <div class="scene-header">
+          <span class="scene-number">S.3.2</span>
+          <h3 class="scene-title">Les Alliés qui se Retournent</h3>
+          <span class="scene-location">Variable selon les décisions antérieures</span>
+        </div>
+        <p>Si Seïra a fait de mauvais choix politiques en Acte 1 ou 2 — trop promis, pas assez livré, sacrifié un allié pour un gain à court terme — des fissures apparaissent maintenant.</p>
+
+        <div class="consequence">
+          <div class="consequence-header">Conséquences possibles — Décisions antérieures</div>
+          <p><strong>Si elle a utilisé le levier "fils de Brennan" :</strong> Brennan est fiable militairement, mais il a compris sa méthode. En Acte 3, il lui fait payer — il exige le double de ce qui avait été promis, au moment le moins opportun. C'est du chantage soft, mais c'est efficace.</p>
+          <p><strong>Si Rael a eu accès aux secrets stratégiques :</strong> Une opération critique a été compromise. En Acte 3, Seïra retrouve une fuite d'information — pas par trahison, mais par naïveté. Elle doit gérer le désastre sans pouvoir blâmer publiquement Rael sans déstabiliser la coalition.</p>
+          <p><strong>Si elle a promis à Thessa un droit de veto qu'elle n'a pas respecté :</strong> Thessa part. Silencieusement, sans scène — elle est là un matin et pas le lendemain. Elle laisse un mot : <em>« Vous saviez que vous le feriez. »</em> C'est pire qu'une confrontation.</p>
+          <p><strong>Si elle a mal traité les prisonniers :</strong> Des informations circulent dans le camp de Varek. Les soldats de Varek se battent plus durement parce qu'ils savent qu'ils ne peuvent pas se rendre.</p>
+        </div>
+      </div>
+
+      <!-- S3.3 -->
+      <div class="scene" id="s3-3">
+        <div class="scene-header">
+          <span class="scene-number">S.3.3</span>
+          <h3 class="scene-title">La Vérité de Daven</h3>
+          <span class="scene-location">Camp sécurisé — Rencontre directe</span>
+        </div>
+        <p>À un moment de l'Acte 3 — déterminé par l'arc de Daven — Seïra apprend qui est son correspondant fantôme. L'homme qui protège Mira, qui lui a envoyé le dossier de Kira, qui lui a dit de faire confiance à Aldric, qui a établi le canal sécurisé : c'est un agent double à l'intérieur de la structure de Varek.</p>
+        <p>La première réaction de Seïra est une colère froide. Pas parce qu'il l'a aidée — mais parce qu'elle a pris des décisions importantes basées sur des informations dont elle ne connaissait pas la source. Elle a accepté de la confiance de la part d'un homme dont elle ignorait les motivations.</p>
+        <p><em>« Vous m'avez manipulée. »</em> Elle lui dit ça en face, sans élever la voix.</p>
+        <p>Daven répond : <em>« Non. Je vous ai donné des informations exactes. Vous avez décidé quoi en faire. »</em></p>
+        <p>Il a raison. Ce n'est pas moins problématique. La distinction entre manipulation et aide non divulguée — Seïra l'a elle-même franchie avec Orwen. Elle n'a pas de position morale propre sur ce sujet, et ils le savent tous les deux.</p>
+        <p>La résolution de cette scène dépend des actions de Seïra tout au long du jeu. Si elle a été cohérente dans ses méthodes, elle peut intégrer Daven à la structure visible de la rébellion. Si elle a fait des choix douteux, sa légitimité à lui reprocher quoi que ce soit est fragile — et ils finissent par trouver un accord sans jamais nommer ce qu'ils se sont l'un et l'autre fait.</p>
+      </div>
+
+      <!-- S3.4 -->
+      <div class="scene" id="s3-4">
+        <div class="scene-header">
+          <span class="scene-number">S.3.4</span>
+          <h3 class="scene-title">Les Noms dans le Rapport</h3>
+          <span class="scene-location">Quartier général — Salle des opérations</span>
+        </div>
+        <p>Les batailles d'Acte 3 font des morts. Certains de ces morts sont des compagnons recrutés par Seïra. Elle reçoit des rapports de terrain d'Aldric — concis, factuels, sans commentaire émotionnel parce qu'il sait que c'est ce qu'elle peut utiliser.</p>
+        <p>La façon dont Seïra réagit aux morts dépend de qui est mort et dans quelles circonstances.</p>
+
+        <div class="consequence">
+          <div class="consequence-header">Mort — Réaction de Seïra selon le personnage</div>
+          <p><strong>Lyria :</strong> Seïra relâche le rapport, regarde le plafond une seconde. Lyria était la plus facile à recruter. Elle était venue sans hésiter. Seïra pense à ça — à la facilité du recrutement — et se demande si elle aurait dû la protéger plus. Elle n'a pas de réponse. Elle archive les carnets de Lyria.</p>
+          <p><strong>Caïn :</strong> Elle relit le protocole écrit qu'elle avait inventé pour lui. Elle ne l'a pas entièrement respecté elle-même — des décisions prises sans consultation, au moins deux fois. Elle se demande si Caïn le savait. Elle pense que oui. Elle pense qu'il était quand même resté.</p>
+          <p><strong>Orwen :</strong> Elle ne dit rien pendant plusieurs heures. Orwen avait fait le calcul lui-même — il savait qu'il ne reviendrait probablement pas. Il était venu quand même. Seïra l'avait su aussi. Ils avaient tous les deux choisi de ne pas en parler. Le silence d'alors lui pèse maintenant.</p>
+          <p><strong>Thessa (si elle est partie et morte) :</strong> Ce n'est pas un rapport de terrain — c'est une information de réseau. Thessa a été capturée et exécutée. Seïra lit ça et pense au mot laissé : <em>« Vous saviez que vous le feriez. »</em> Elle pense que Thessa avait peut-être raison.</p>
+        </div>
+
+        <p>Seïra n'a pas de scène de deuil public. Elle n'est pas un personnage qui s'effondre. Mais le joueur accumule les micro-réactions — une pause, un regard au plafond, un silence dans une réunion — et comprend que tout ça reste quelque part, et que ça a un poids.</p>
+      </div>
+
+      <!-- S3.5 -->
+      <div class="scene" id="s3-5">
+        <div class="scene-header">
+          <span class="scene-number">S.3.5</span>
+          <h3 class="scene-title">Ce que Seïra sait de la Mine</h3>
+          <span class="scene-location">Opérations — Préparation de l'assaut final</span>
+        </div>
+        <p>À ce stade, Seïra a réuni toutes les pièces : les carnets de Lyria sur les effets biologiques, les archives royales via Mira sur l'histoire de la mine, les informations de Daven sur ce que Varek fait réellement dans les profondeurs, et ses propres déductions.</p>
+        <p>Elle réunit un cercle restreint — Aldric, Mira, Daven si intégré, et un ou deux autres selon les recrues survivantes — et leur présente ce qu'elle sait.</p>
+
+        <div class="echorite-reveal">
+          <div class="header">Révélation — L'Échorite, profondeur 3 — Vérité finale</div>
+          <p>La mine n'est pas un gisement. C'est une <em>infrastructure</em>. La civilisation disparue l'avait construite — pas pour extraire, mais pour contenir. Le cristal ne pousse pas : il <em>répond</em>. À la présence humaine, à l'intention, à l'émotion collective d'une population exposée.</p>
+          <p>Varek n'exploite pas un avantage militaire. Il a ouvert quelque chose qui était fermé. Et depuis des années, son extraction — ses soldats exposés, ses mines, ses laboratoires — tout ça a eu un effet sur Varek lui-même. L'Échorite amplifie ce que la personne est déjà. Varek a été exposé plus longtemps et plus intensément que n'importe qui d'autre.</p>
+          <p>Seïra note : <em>La vraie question n'est pas de savoir comment arrêter Varek. C'est de savoir ce qu'il reste de Varek à arrêter.</em></p>
+        </div>
+      </div>
+
+      <!-- CP4 -->
+      <div class="cp-block" id="cp4">
+        <div class="cp-eyebrow">Point de Croisement 4 — Fin d'Acte III — Convergence Finale</div>
+        <div class="cp-title">La Mine d'Échorite</div>
+        <p>Les quatre arcs convergent. Aldric attaque par les lignes de front. Daven a ouvert un accès depuis l'intérieur. Varek est dans les profondeurs de la mine — sa présence finale, amplifiée à l'extrême par des années d'exposition, est quelque chose que personne n'avait prévu. Seïra coordonne tout ça depuis l'extérieur, puis entre.</p>
+        <p>Sa scène finale dans la mine est une décision de ressource ultime : elle doit choisir comment terminer l'extraction. Il y a trois options, construites par ce qu'elle a appris et qui est encore vivant.</p>
+
+        <div class="moral-choice">
+          <div class="moral-header">Décision Finale — La Mine</div>
+          <p>Seïra a les moyens de détruire physiquement la mine — effondrement, ce qui tue tout le monde à l'intérieur, y compris potentiellement Aldric et Daven si les extractions n'ont pas eu lieu. Elle peut fermer la mine sans la détruire — ce qui laisse le cristal en place, accessible à quiconque viendra après. Ou elle peut tenter de comprendre ce que la civilisation disparue avait voulu <em>contenir</em>, et essayer de le refermer correctement — une option qui n'existe que si Mira et Lyria (si vivante) ont eu le temps de documenter suffisamment.</p>
+          <div class="branches">
+            <div class="branch no">DÉTRUIRE → Victoire nette. Coût humain potentiellement élevé selon les extractions. Elle a protégé Élindre. Elle a aussi détruit quelque chose qu'elle ne comprend pas, ce qui peut ne pas être une erreur.</div>
+            <div class="branch yes">FERMER → L'Échorite reste. Une autre Varek est possible dans cent ans. Mais elle n'a pas décidé à la place du monde — elle a juste réparé ce qu'un homme avait cassé.</div>
+            <div class="branch yes">COMPRENDRE → Uniquement possible avec Mira vivante et Lyria vivante. Le jeu n'a pas de bonne fin. Il a une fin <em>honnête</em> — on referme ce qui avait été fermé, on perd moins de gens pour le faire, et personne ne rentre avec des certitudes.</div>
+          </div>
+        </div>
+
+        <p>La dernière scène de Seïra n'est pas un discours. C'est elle, debout à l'entrée de la mine après que tout soit terminé, à regarder Aldric qui sort. Ils ne se disent rien de grand. Il y a une fatigue partagée qui est plus honnête que n'importe quel mot.</p>
+        <p>Ce qu'Aldric et Seïra ont construit ensemble — la confiance conditionnelle du CP3, les décisions partagées, les morts entre les deux — a abouti à quelque chose qui n'est ni de l'amour ni de l'amitié mais qui les inclut tous les deux sans qu'aucun mot existant ne le nomme bien. Le jeu ne le nomme pas. Il le montre juste.</p>
+        <p><em>Seïra regarde la mine. Elle pense à son père, à la carte brûlée cette première nuit, à Orwen qui avait dit « je suppose que je vais avoir besoin d'une tente ». Elle pense à Thessa et au mot laissé. Elle pense à Caïn et au protocole qu'elle n'a pas respecté. Elle ne sait pas si elle a bien fait. Elle sait ce qu'elle a fait. C'est peut-être suffisant.</em></p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ─── ÉCHORITE CRYSTAL CANVAS ─────────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('crystal-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let W, H, nodes, animFrame;
+  const NODE_COUNT = 48;
+  const CRYSTAL_ACCENT = [123, 94, 167];
+  const CRYSTAL_COLD = [160, 125, 212];
+  const DEEP = [30, 45, 70];
+
+  function resize() {
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    initNodes();
+  }
+
+  function initNodes() {
+    nodes = Array.from({ length: NODE_COUNT }, (_, i) => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: (Math.random() - 0.5) * 0.12,
+      r: Math.random() * 2.2 + 0.5,
+      phase: Math.random() * Math.PI * 2,
+      speed: Math.random() * 0.008 + 0.004
+    }));
+  }
+
+  function rgba(rgb, a) {
+    return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`;
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    // Deep gradient background
+    const bg = ctx.createLinearGradient(0, 0, W * 0.6, H);
+    bg.addColorStop(0, '#0d1117');
+    bg.addColorStop(0.45, '#10141e');
+    bg.addColorStop(1, '#0d1117');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Update nodes
+    for (const n of nodes) {
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0) n.x = W;
+      if (n.x > W) n.x = 0;
+      if (n.y < 0) n.y = H;
+      if (n.y > H) n.y = 0;
+      n.phase += n.speed;
+    }
+
+    // Draw crystal edges (triangulated look)
+    const EDGE_DIST = 120;
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d > EDGE_DIST) continue;
+        const alpha = (1 - d / EDGE_DIST) * 0.22;
+        const pulse = 0.5 + 0.5 * Math.sin(a.phase + b.phase);
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = rgba(CRYSTAL_ACCENT, alpha * (0.6 + 0.4 * pulse));
+        ctx.lineWidth = 0.5 + pulse * 0.6;
+        ctx.stroke();
+      }
+    }
+
+    // Draw nodes with glow
+    for (const n of nodes) {
+      const pulse = 0.5 + 0.5 * Math.sin(n.phase);
+      const radius = n.r * (1 + 0.4 * pulse);
+
+      // outer glow
+      const grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, radius * 5);
+      grd.addColorStop(0, rgba(CRYSTAL_COLD, 0.18 * pulse));
+      grd.addColorStop(1, rgba(CRYSTAL_ACCENT, 0));
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, radius * 5, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      // core
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = rgba(CRYSTAL_COLD, 0.7 + 0.3 * pulse);
+      ctx.fill();
+    }
+
+    // Central bloom
+    const bloom = ctx.createRadialGradient(W * 0.5, H * 0.38, 0, W * 0.5, H * 0.38, H * 0.55);
+    bloom.addColorStop(0, rgba(CRYSTAL_ACCENT, 0.09));
+    bloom.addColorStop(0.4, rgba(CRYSTAL_ACCENT, 0.04));
+    bloom.addColorStop(1, rgba(CRYSTAL_ACCENT, 0));
+    ctx.fillStyle = bloom;
+    ctx.fillRect(0, 0, W, H);
+
+    // Bottom fade to ground
+    const fade = ctx.createLinearGradient(0, H * 0.55, 0, H);
+    fade.addColorStop(0, 'rgba(13,17,23,0)');
+    fade.addColorStop(1, 'rgba(13,17,23,1)');
+    ctx.fillStyle = fade;
+    ctx.fillRect(0, 0, W, H);
+
+    animFrame = requestAnimationFrame(draw);
+  }
+
+  const mo = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function start() {
+    resize();
+    if (mo.matches) {
+      draw(0);
+      cancelAnimationFrame(animFrame);
+    } else {
+      animFrame = requestAnimationFrame(draw);
+    }
+  }
+
+  window.addEventListener('resize', () => { cancelAnimationFrame(animFrame); resize(); start(); });
+  start();
+})();
+</script>
+</body>
+</html>

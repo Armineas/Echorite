@@ -1,0 +1,1232 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible Narrative — Varek &amp; Daven</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:wght@300;400;500&display=swap');
+
+  :root {
+    --ground: #0E1218;
+    --ground-2: #151C25;
+    --ground-3: #1C2535;
+    --text: #C8CDD6;
+    --text-dim: #6B7585;
+    --text-faint: #3A4150;
+    --accent: #B8922A;
+    --accent-dim: #7A601C;
+    --accent-glow: rgba(184,146,42,0.12);
+    --accent2: #3A7A7C;
+    --accent2-dim: #275455;
+    --accent2-glow: rgba(58,122,124,0.12);
+    --danger: #8B2E2E;
+    --border: #232D3E;
+    --border-bright: #2E3D52;
+    --font-display: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+    --font-body: 'Courier New', 'Lucida Console', monospace;
+    --font-ui: 'Barlow', Arial, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ground);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.75;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  nav {
+    width: 260px;
+    min-width: 260px;
+    background: var(--ground-2);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  nav::-webkit-scrollbar { width: 4px; }
+  nav::-webkit-scrollbar-track { background: transparent; }
+  nav::-webkit-scrollbar-thumb { background: var(--border-bright); }
+
+  .nav-header {
+    padding: 28px 20px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-title {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .nav-subtitle {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .nav-section { padding: 16px 0 8px; }
+  .nav-section-label {
+    font-family: var(--font-display);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 0 20px 8px;
+    display: block;
+  }
+  .nav-section-label.varek { color: var(--accent-dim); }
+  .nav-section-label.daven { color: var(--accent2-dim); }
+  .nav-section-label.shared { color: var(--text-faint); }
+
+  .nav-link {
+    display: block;
+    padding: 6px 20px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .nav-link:hover { color: var(--text); background: var(--ground-3); }
+  .nav-link.varek:hover { border-left-color: var(--accent); color: var(--accent); }
+  .nav-link.daven:hover { border-left-color: var(--accent2); color: var(--accent2); }
+  .nav-link .act-tag { font-size: 9px; letter-spacing: 0.1em; opacity: 0.5; margin-right: 6px; }
+
+  /* MAIN */
+  main { margin-left: 260px; flex: 1; min-width: 0; }
+  main::-webkit-scrollbar { width: 6px; }
+  main::-webkit-scrollbar-track { background: transparent; }
+  main::-webkit-scrollbar-thumb { background: var(--border-bright); }
+
+  /* HERO */
+  .hero {
+    padding: 80px 60px 60px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(14,18,24,0.4) 2px, rgba(14,18,24,0.4) 4px);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    position: relative;
+    margin-bottom: 28px;
+  }
+  .hero-title .varek-name { color: var(--accent); }
+  .hero-title .daven-name { color: var(--accent2); }
+  .hero-title .separator {
+    color: var(--text-faint);
+    font-weight: 300;
+    display: block;
+    font-size: 0.35em;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin: 8px 0;
+  }
+  .hero-meta { display: flex; gap: 40px; position: relative; }
+  .hero-stat { display: flex; flex-direction: column; gap: 2px; }
+  .hero-stat-value { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--text); }
+  .hero-stat-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); }
+  .hero-divider { width: 1px; background: var(--border); align-self: stretch; }
+
+  /* CHARACTER HEADER */
+  .char-header { padding: 48px 60px 36px; border-bottom: 1px solid var(--border); }
+  .char-header.varek { background: linear-gradient(90deg, var(--accent-glow), transparent 60%); }
+  .char-header.daven { background: linear-gradient(90deg, var(--accent2-glow), transparent 60%); }
+  .char-id { font-family: var(--font-display); font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 10px; }
+  .char-id.varek { color: var(--accent-dim); }
+  .char-id.daven { color: var(--accent2-dim); }
+  .char-name { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); font-weight: 800; line-height: 1; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .char-name.varek { color: var(--accent); }
+  .char-name.daven { color: var(--accent2); }
+  .char-role { font-family: var(--font-display); font-size: 14px; font-weight: 400; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 24px; }
+  .char-profile { max-width: 720px; font-size: 13px; line-height: 1.8; color: var(--text); border-left: 3px solid; padding-left: 20px; margin-top: 20px; }
+  .char-profile.varek { border-color: var(--accent); }
+  .char-profile.daven { border-color: var(--accent2); }
+  .char-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .tag { font-family: var(--font-display); font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border: 1px solid; }
+  .tag.varek { border-color: var(--accent-dim); color: var(--accent-dim); }
+  .tag.daven { border-color: var(--accent2-dim); color: var(--accent2-dim); }
+  .tag.danger { border-color: var(--danger); color: var(--danger); }
+  .tag.neutral { border-color: var(--text-faint); color: var(--text-faint); }
+
+  /* ACT SECTION */
+  .act-section { padding: 48px 60px 0; }
+  .act-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .act-number { font-family: var(--font-display); font-size: 56px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; opacity: 0.15; }
+  .act-number.varek { color: var(--accent); }
+  .act-number.daven { color: var(--accent2); }
+  .act-info { flex: 1; }
+  .act-label { font-family: var(--font-display); font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-faint); display: block; margin-bottom: 4px; }
+  .act-title { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+  .act-duration { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+  .act-intro { max-width: 700px; margin-bottom: 36px; color: var(--text-dim); font-size: 12px; line-height: 1.85; }
+
+  /* SCENE CARDS */
+  .scenes { display: flex; flex-direction: column; gap: 2px; margin-bottom: 48px; }
+  .scene {
+    background: var(--ground-2);
+    border: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .scene::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.015) 3px, rgba(255,255,255,0.015) 4px);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .scene:hover::after { opacity: 1; }
+  }
+  .scene.varek { border-left-color: var(--accent-dim); }
+  .scene.daven { border-left-color: var(--accent2-dim); }
+  .scene.cp { border-left-color: var(--danger); }
+  .scene.varek:hover { background: color-mix(in srgb, var(--ground-2) 88%, var(--accent) 12%); border-color: var(--accent-dim); }
+  .scene.daven:hover { background: color-mix(in srgb, var(--ground-2) 88%, var(--accent2) 12%); border-color: var(--accent2-dim); }
+  .scene.cp:hover { background: color-mix(in srgb, var(--ground-2) 88%, var(--danger) 12%); border-color: var(--danger); }
+
+  .scene-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; user-select: none; }
+  .scene-code { font-family: var(--font-display); font-size: 9px; font-weight: 700; letter-spacing: 0.2em; min-width: 70px; opacity: 0.5; }
+  .scene-title { font-family: var(--font-display); font-size: 16px; font-weight: 600; letter-spacing: 0.02em; flex: 1; color: var(--text); }
+  .scene-type { font-family: var(--font-display); font-size: 8px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; padding: 3px 8px; border: 1px solid; }
+  .scene-type.narrative { border-color: var(--text-faint); color: var(--text-faint); }
+  .scene-type.gameplay { border-color: var(--accent2-dim); color: var(--accent2-dim); }
+  .scene-type.decision { border-color: var(--accent-dim); color: var(--accent-dim); }
+  .scene-type.cp { border-color: var(--danger); color: var(--danger); }
+  .scene-toggle { font-size: 10px; color: var(--text-faint); transition: transform 0.2s; }
+
+  .scene-body { padding: 0 20px 20px 104px; display: none; }
+  .scene-body.open { display: block; }
+  .scene-desc { font-size: 13px; line-height: 1.85; color: var(--text); margin-bottom: 16px; max-width: 680px; }
+
+  .scene-stakes { margin-top: 14px; padding: 12px 16px; background: var(--ground-3); border-left: 2px solid var(--text-faint); }
+  .scene-stakes-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
+  .scene-stakes p { font-size: 12px; line-height: 1.7; color: var(--text-dim); }
+
+  .decision-block { margin-top: 14px; padding: 12px 16px; background: var(--ground-3); border-left: 2px solid var(--accent-dim); }
+  .decision-block.daven { border-left-color: var(--accent2-dim); }
+  .decision-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-dim); margin-bottom: 8px; }
+  .decision-label.daven { color: var(--accent2-dim); }
+  .decision-option { font-size: 12px; line-height: 1.7; color: var(--text-dim); padding-left: 12px; border-left: 1px solid var(--border-bright); margin-bottom: 6px; }
+  .decision-option strong { color: var(--text); font-weight: 500; }
+
+  /* COURT BLOCK */
+  .court-block { margin: 32px 0 48px; padding: 24px 28px; background: var(--ground-2); border: 1px solid var(--border); max-width: 820px; }
+  .court-label { font-family: var(--font-display); font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent-dim); margin-bottom: 16px; }
+  .court-member { display: grid; grid-template-columns: 160px 1fr; gap: 12px 20px; padding: 12px 0; border-top: 1px solid var(--border); }
+  .court-member:first-of-type { border-top: none; }
+  .court-member-name { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--accent); }
+  .court-member-desc { font-size: 12px; line-height: 1.7; color: var(--text-dim); }
+
+  /* DIVIDER */
+  .section-divider { height: 1px; background: var(--border); margin: 0 60px; }
+
+  /* FOOTER */
+  footer { padding: 40px 60px; border-top: 1px solid var(--border); margin-top: 60px; }
+  .footer-text { font-size: 11px; color: var(--text-faint); letter-spacing: 0.08em; }
+
+  /* FOCUS */
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { width: 200px; min-width: 200px; }
+    main { margin-left: 200px; }
+    .hero, .char-header, .act-section { padding-left: 32px; padding-right: 32px; }
+    .section-divider { margin: 0 32px; }
+    .scene-body { padding-left: 32px; }
+    footer { padding-left: 32px; padding-right: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-header">
+    <div class="nav-title">Bible Narrative</div>
+    <div class="nav-subtitle">Varek<br>&amp; Daven</div>
+  </div>
+  <div class="nav-section">
+    <span class="nav-section-label shared">Points de croisement</span>
+    <a href="#cp1" class="nav-link">CP1 — La Délégation Brisée</a>
+    <a href="#cp2" class="nav-link">CP2 — Vel'Shan</a>
+    <a href="#cp3" class="nav-link">CP3 — La Désertion</a>
+    <a href="#cp4-varek" class="nav-link">CP4 — La Mine</a>
+  </div>
+  <div class="nav-section">
+    <span class="nav-section-label varek">Varek — Actes</span>
+    <a href="#varek-acte1" class="nav-link varek"><span class="act-tag">I</span>La Mécanique du Monde</a>
+    <a href="#varek-acte2" class="nav-link varek"><span class="act-tag">II</span>Le Coût de la Clarté</a>
+    <a href="#varek-acte3" class="nav-link varek"><span class="act-tag">III</span>Ce Que L'Échorite Révèle</a>
+  </div>
+  <div class="nav-section">
+    <span class="nav-section-label daven">Daven — Actes</span>
+    <a href="#daven-acte1" class="nav-link daven"><span class="act-tag">I</span>L'Opérateur Propre</a>
+    <a href="#daven-acte2" class="nav-link daven"><span class="act-tag">II</span>Ce Qu'on Ne Peut Pas Défaire</a>
+    <a href="#daven-acte3" class="nav-link daven"><span class="act-tag">III</span>Le Poids du Secret</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Vareth Chronicles — Bible Narrative Interne — Accès Restreint</div>
+  <h1 class="hero-title">
+    <span class="varek-name">VAREK</span>
+    <span class="separator">— &amp; —</span>
+    <span class="daven-name">DAVEN</span>
+  </h1>
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <span class="hero-stat-value">3</span>
+      <span class="hero-stat-label">Actes chacun</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4</span>
+      <span class="hero-stat-label">Points de croisement</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">~22h</span>
+      <span class="hero-stat-label">Durée de jeu totale</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">0</span>
+      <span class="hero-stat-label">Antagonistes caricaturaux</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ VAREK ═══════════════════════════ -->
+
+<section class="char-header varek" id="varek">
+  <div class="char-id varek">DOSSIER / ANTAGONISTE-PROTAGONISTE / GAMEPLAY 4X</div>
+  <h2 class="char-name varek">VAREK</h2>
+  <div class="char-role">Empereur de Vareth — Architecte du Monde Juste</div>
+  <p class="char-profile varek">
+    Varek ne se ment pas. C'est ce qui le rend dangereux. Sa philosophie — le monde appartient aux forts, les autres systèmes sont des fictions consolantes — n'est pas une rationalisation après coup. C'est une conclusion qu'il a tirée tôt, vérifiée méthodiquement, et dont l'Échorite a progressivement effacé les derniers doutes résiduels. Il a toujours raison sur les faits. Ce qu'il ne voit pas, c'est que l'exactitude des faits ne fonde pas la légitimité des actes. Le joueur, en jouant Varek, prend des décisions stratégiques brillantes. Il devient complice.
+  </p>
+  <div class="char-tags">
+    <span class="tag varek">4X Stratégique</span>
+    <span class="tag varek">Philosophie sans affect</span>
+    <span class="tag danger">Amplification Échorite</span>
+    <span class="tag neutral">Protagoniste jouable</span>
+    <span class="tag neutral">Jamais caricatural</span>
+  </div>
+</section>
+
+<!-- SA COUR -->
+<section class="act-section" id="varek-cour">
+  <div class="court-block">
+    <div class="court-label">La Cour de Vareth — Personnages Secondaires Clés</div>
+    <div class="court-member">
+      <div class="court-member-name">Général Orveth</div>
+      <div class="court-member-desc">Le bras armé zélé. Orveth interprète les ordres de Varek à leur limite maximale — souvent au-delà. Il ne commet pas d'atrocités par sadisme, mais par conviction que l'efficacité absolue est la seule loyauté qui compte. Varek lui sert de couverture morale sans le lui avoir demandé. Le joueur devra décider, en Acte 2, comment gérer Vel'Shan — dont Orveth sera l'exécutant zélé.</div>
+    </div>
+    <div class="court-member">
+      <div class="court-member-name">Maître Sehn</div>
+      <div class="court-member-desc">Le conseiller qui censure. Sehn reçoit les rapports du laboratoire Échorite avant Varek. Il en filtre certains par loyauté préventive, convaincu que Varek ne doit pas être distrait par des hypothèses non confirmées. En Acte 3, ce filtrage deviendra le nœud d'une crise : Varek apprend qu'on lui a caché des données. Sa réaction dira tout sur qui il est devenu.</div>
+    </div>
+    <div class="court-member">
+      <div class="court-member-name">Lireth</div>
+      <div class="court-member-desc">Le neveu qui observe. Fils du frère de Varek, mort en campagne il y a douze ans. Lireth a grandi à la cour, éduqué par Varek lui-même. Il commence l'Acte 2 à poser des questions — pas de rébellion ouverte, des questions précises sur des décisions précises. Pour Varek, c'est à la fois une trahison et la preuve qu'il a bien éduqué quelqu'un.</div>
+    </div>
+    <div class="court-member">
+      <div class="court-member-name">Veyra</div>
+      <div class="court-member-desc">La scientifique de la mine. Elle étudie l'Échorite depuis sept ans sous mandat impérial. En Acte 3, elle découvre ce que Daven sait depuis longtemps — l'origine non-naturelle du gisement. Elle ne sait pas si elle doit le dire à l'Empereur. Elle le dit. Ce qui arrive ensuite dépend de la trajectoire de Varek.</div>
+    </div>
+  </div>
+</section>
+
+<!-- VAREK ACTE 1 -->
+<section class="act-section" id="varek-acte1">
+  <div class="act-header">
+    <div class="act-number varek">I</div>
+    <div class="act-info">
+      <span class="act-label">Varek — Acte Premier</span>
+      <div class="act-title">La Mécanique du Monde</div>
+      <div class="act-duration">~5h · Gameplay 4X : mobilisation, diplomatie, fondations économiques</div>
+    </div>
+  </div>
+  <p class="act-intro">Varek gagne. Non pas par chance — par méthode. L'Acte 1 est la démonstration que son système fonctionne exactement comme il l'a prévu. Le joueur apprend les mécaniques 4X en les faisant fonctionner à plein régime. Aucune résistance sérieuse. Aucun doute. La seule tension est intérieure : la cour commence à avoir peur de lui, et cette peur est pour lui de l'information, pas de l'inconfort.</p>
+
+  <div class="scenes">
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-1.1</span>
+        <span class="scene-title">Le Rapport du Matin</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek reçoit ses rapports debout, face à une carte stratégique. Le tutoriel 4X s'intègre directement dans ce rituel — gestion des ressources en Échorite, mobilisation des garnisons, état des routes commerciales. Il n'y a aucune cinématique d'introduction. On est déjà dans le rôle. La première décision du joueur : allouer la production de trois provinces. Les trois options sont raisonnables. Varek commente sobrement chaque choix, sans jamais signaler qu'il y aurait une "bonne" réponse. Il y a une réponse plus efficace. Elle n'est pas forcément la plus humaine.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Introduction aux mécaniques économiques sans vernis pédagogique. Établit le ton : Varek ne doute pas, le joueur non plus — encore. Les choix d'allocation affecteront la vitesse de la campagne militaire en Acte 2.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-1.2</span>
+        <span class="scene-title">La Diplomatie Est du Théâtre</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Une délégation d'Élindre arrive — la dernière tentative diplomatique avant la guerre. Varek les reçoit dans la salle du trône, assis, sans se lever. Il écoute leur argumentation pendant sept minutes exactement — le temps qu'il a alloué mentalement avant qu'ils entrent. Puis il répond en trois phrases. Ses réponses ne contredisent pas leurs arguments : elles les rendent non-pertinents. Le dialogue est écrit de sorte que le joueur comprend que Varek a raison sur les rapports de force — et ressent un malaise à le comprendre. La délégation repart sans avoir été insultée, sans avoir été écoutée non plus.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Établit la caractérisation centrale : Varek n'est pas cruel avec les individus, il est indifférent à leur existence en tant que personnes. La délégation est une abstraction diplomatique. C'est plus inquiétant que la cruauté.</p>
+        </div>
+        <div class="decision-block">
+          <div class="decision-label">Décision 4X</div>
+          <div class="decision-option"><strong>Accord factice :</strong> Varek signe un traité de façade. Gagne du temps, réduit la résistance initiale, mais affaiblit la pression économique sur Élindre à court terme.</div>
+          <div class="decision-option"><strong>Refus net :</strong> Clôt les négociations immédiatement. Pression diplomatique internationale accrue, mais Vareth mobilise plus vite. Varek préfère cette option — elle est honnête sur ses intentions.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-1.3</span>
+        <span class="scene-title">Orveth Rentre de Campagne</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Le Général Orveth rentre d'une opération de pacification dans une province récemment annexée. Il présente ses résultats avec la précision d'un rapport comptable : nombre de foyers déplacés, résistance éliminée, rendement agricole projeté. Il mentionne, en passant, que trois villages ont été "neutralisés" — terme qu'il emploie sans explication supplémentaire. Varek ne pose pas de questions sur les villages. Il note le rendement agricole. Ce silence est le premier moment où le joueur perçoit la différence entre l'efficacité de Varek et celle d'Orveth : Varek n'a pas ordonné les villages. Orveth les a inclus dans sa propre définition de l'ordre.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Introduit Orveth et la dynamique de délégation qui posera problème en Acte 2. Varek ne questionne pas — mais ne valide pas non plus explicitement. Le joueur n'a pas été consulté non plus.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-1.4</span>
+        <span class="scene-title">La Mine Produit</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Premier rapport de la mine d'Échorite — production record, qualité cristalline supérieure aux prévisions. Varek reçoit le rapport de Veyra en personne. C'est l'une des rares fois où il écoute quelqu'un parler plus de deux minutes sans l'interrompre. Veyra mentionne des lectures instrumentales anormales — des résonances qui ne correspondent à aucun minéral référencé. Varek l'écoute, note le point, le classe dans une catégorie mentale intitulée "à surveiller" — et alloue immédiatement la production à l'armement du 7ème régiment. Sehn, présent, ne relève pas les lectures anormales dans son propre compte-rendu.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Premier dépôt narratif sur la vraie nature de la mine. Sehn commence à filtrer. Varek ne fait pas encore le lien. Le joueur peut remarquer l'omission de Sehn — mais n'a aucun moyen d'y répondre encore.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-1.5</span>
+        <span class="scene-title">Lireth Pose une Question</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Dîner privé entre Varek et Lireth — une tradition hebdomadaire depuis l'enfance du neveu. Lireth a dix-neuf ans. Il revient d'une inspection de garnison et pose une question simple : pourquoi les soldats du 7ème régiment ont-ils des yeux différents depuis qu'on leur distribue l'Échorite concentré ? Varek répond sans hésiter : adaptation physiologique normale, documentée, sans danger. Lireth hoche la tête. Il ne croit pas la réponse. Varek le voit. Ce dîner sera la dernière fois qu'ils parlent de quelque chose de vrai pendant longtemps.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Introduit Lireth comme conscience émergente et comme seule relation affective réelle de Varek. Les "yeux différents" sont le premier symptôme visible des effets de l'Échorite à haute dose. Varek a menti à Lireth. C'est peut-être la seule chose qu'il fait avec une intention de protection.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek cp" id="cp1">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">CP1</span>
+        <span class="scene-title">La Délégation Brisée — Perspective Varek</span>
+        <span class="scene-type cp">Point de Croisement</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek apprend l'échec des négociations à Élindre — les faux documents plantés par Daven ont fonctionné exactement comme prévu. Il reçoit le rapport avec la même attention qu'un bilan comptable. Pour lui, c'est une confirmation de méthode, pas un triomphe. Il note que l'opération a nécessité six mois de présence de Daven à la cour d'Élindre — investissement lourd, mais rendement propre. Il dicte immédiatement l'ordre de mobilisation complète. La guerre commence. Varek ne dit pas qu'il est satisfait. Il dit : "La séquence est en ordre."</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux — Croisement narratif</div>
+          <p>Le joueur voit ici la même scène que Daven vient de jouer — mais depuis l'autre bout de la chaîne de commandement. La froideur de Varek n'est pas de l'indifférence à Daven : il lui fait confiance. C'est plus perturbant que s'il l'ignorait.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-1.7</span>
+        <span class="scene-title">Le Premier Régiment Traité</span>
+        <span class="scene-type decision">Décision</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek autorise la première distribution d'Échorite concentré au 7ème régiment — dosage expérimental, deux fois supérieur au standard thérapeutique. Le rapport de Veyra indique des résultats militaires spectaculaires lors des simulations : endurance doublée, seuil de douleur effacé, agressivité accrue. Le rapport ne mentionne pas les comportements observés hors simulation. Sehn a retiré ces passages avant de le transmettre. Varek signe l'ordre. Pour lui, c'est une décision rationnelle fondée sur des données probantes. C'est également irréversible.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Le joueur signe cet ordre. Il n'y a pas de popup d'avertissement. C'est une décision 4X comme les autres — amélioration des unités militaires. La conséquence ne sera visible qu'en Acte 2, puis en crise totale en Acte 3.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VAREK ACTE 2 -->
+<div class="section-divider"></div>
+<section class="act-section" id="varek-acte2">
+  <div class="act-header">
+    <div class="act-number varek">II</div>
+    <div class="act-info">
+      <span class="act-label">Varek — Acte Second</span>
+      <div class="act-title">Le Coût de la Clarté</div>
+      <div class="act-duration">~10h · Gameplay 4X : gestion de front de guerre, politique intérieure, crises émergentes</div>
+    </div>
+  </div>
+  <p class="act-intro">La guerre avance mais génère des frictions imprévues. Ce n'est pas un revirement — c'est une résistance réelle que Varek intègre comme variable. La cour devient moins silencieuse. Lireth pose d'autres questions. Sehn filtre plus agressivement. Orveth s'emballe. Et le 7ème régiment commence à sortir des paramètres prévus. Varek gère tout ça. Il gère toujours. C'est ça qui devient inquiétant.</p>
+
+  <div class="scenes">
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-2.1</span>
+        <span class="scene-title">Le Front se Stabilise — Trop Lentement</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek reçoit les projections de progression militaire : la résistance d'Élindre est plus organisée que prévu. Seïra a recruté, restructuré, tenu. Varek passe trente minutes à analyser les données. Sa conclusion n'est pas la colère — c'est un recalibrage. Il augmente la pression économique sur trois provinces frontalières, réduit les effectifs dans deux zones peu stratégiques, réoriente deux régiments vers un corridor précis. C'est brillant. C'est également ce qui conduit le corridor choisi vers Vel'Shan.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Le gameplay 4X amène naturellement le joueur à identifier Vel'Shan comme objectif stratégique logique. La ville n'est pas ciblée pour punir — elle est ciblée parce qu'elle est un nœud logistique. L'horreur à venir a une origine purement mécanique.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-2.2</span>
+        <span class="scene-title">Le Rapport Censuré</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Veyra soumet un rapport complet sur les effets secondaires observés chez les soldats du 7ème régiment : comportements dissociatifs, incapacité à distinguer cibles combattantes et non-combattantes hors situation de stress codifiée, et une modification progressive de la structure cristalline de leurs os, visible à l'examen. Sehn retire les trois dernières pages avant de transmettre. Varek reçoit un rapport propre signalant une "adaptation physiologique dans les marges attendues". Il note qu'il faudra surveiller les données sur le long terme. Sehn note dans son journal privé qu'il a "protégé la décision".</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Le joueur voit les deux documents — le rapport de Veyra complet et la version transmise à Varek. Première fois que le gameplay révèle explicitement que Varek prend des décisions sur des informations fausses. Cela ne l'innocente pas — il a créé un système où ce filtrage était possible et rentable pour Sehn.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-2.3</span>
+        <span class="scene-title">Lireth Demande à Partir</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Lireth demande à Varek l'autorisation de rejoindre une mission humanitaire dans les provinces du nord — territoire sous contrôle Vareth mais dévasté par les opérations d'Orveth. Sa demande est formulée avec précision : il cite des données, des rapports médicaux, des projections de mortalité infantile. Il parle comme Varek lui a appris à parler. Varek écoute. Puis refuse. Sa raison : Lireth est trop visible, sa présence dans les provinces serait interprétée comme un signal politique. Ce qui est vrai. Ce qui est aussi un prétexte. Varek ne veut pas que Lireth voie ce que les provinces sont devenues.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Premier acte de protection active de Lireth par Varek — qui prend la forme d'un contrôle. Varek commence à avoir peur de quelque chose. Il ne nomme pas cette peur.</p>
+        </div>
+        <div class="decision-block">
+          <div class="decision-label">Décision — Impact narratif</div>
+          <div class="decision-option"><strong>Refus sec :</strong> Lireth part en silence. Leur relation se fissure irréparablement. En Acte 3, il sera du côté de la rébellion.</div>
+          <div class="decision-option"><strong>Refus avec explication partielle :</strong> Varek lui dit une vérité incomplète. Lireth reste — mais cherche d'autres canaux d'information. En Acte 3, il sera un allié ambigu.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-2.4</span>
+        <span class="scene-title">Orveth Présente Son Plan pour Vel'Shan</span>
+        <span class="scene-type decision">Décision</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Orveth présente le plan opérationnel pour Vel'Shan. L'objectif militaire est légitime : neutraliser le carrefour logistique qui alimente la résistance du flanc est. Son plan inclut, sous l'intitulé "neutralisation civile préventive", l'évacuation forcée de la population — et si l'évacuation rencontre une résistance, "résolution ferme". Varek lit le plan. Il ne supprime pas la clause. Il ajoute une note en marge : "Minimiser les pertes non-combattantes dans la mesure du possible." Cette note est réelle. Elle est insuffisante. Il le sait. Il signe.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Le joueur signe l'ordre avec la note. La note est là pour le rassurer — et pour montrer que Varek sait exactement ce qu'il fait, et choisit de le faire quand même. C'est le sommet de sa complicité active.</p>
+        </div>
+        <div class="decision-block">
+          <div class="decision-label">Décision — Variantes</div>
+          <div class="decision-option"><strong>Signer sans modification :</strong> Varek délègue entièrement à Orveth. Le massacre sera total. Sa responsabilité est directe.</div>
+          <div class="decision-option"><strong>Signer avec la note :</strong> Varek tente de contenir Orveth via une directive ambiguë. Vel'Shan sera quand même détruit — mais Varek se sera accordé une sortie narrative qu'il utilisera en Acte 3.</div>
+          <div class="decision-option"><strong>Modifier le plan :</strong> Impossible dans le gameplay — la pression militaire sur ce flanc est trop forte. Le jeu ne laisse pas cette option viable. Le choix est toujours entre deux façons de signer.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek cp" id="cp2">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">CP2</span>
+        <span class="scene-title">Le Massacre de Vel'Shan — Perspective Varek</span>
+        <span class="scene-type cp">Point de Croisement</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek reçoit le rapport de Vel'Shan à l'aube, dans son bureau. Il n'y a pas de cinématique. Un document arrive dans l'interface 4X — rapport d'opération standard, chiffres, statut. Les pertes civiles sont dans le rapport. Varek les lit. Il ne dit rien. Le joueur n'a aucune action disponible. Pendant vingt secondes, le jeu ne propose rien à faire. Puis Varek ferme le rapport et ouvre le suivant. Le chiffre restera dans l'interface — une ligne dans le tableau de bord — jusqu'à la fin du jeu.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux — Croisement narratif</div>
+          <p>Le silence de vingt secondes est la chose la plus dérangeante que le jeu fait avec Varek. Le joueur vient de jouer Daven à Vel'Shan — il sait ce qu'il y avait dans les rues. Varek lit un chiffre. C'est tout. Cette divergence de perspective est le cœur du dispositif émotionnel du jeu.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-2.5</span>
+        <span class="scene-title">Le 7ème Régiment Dépasse ses Paramètres</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek reçoit un rapport de terrain : une unité du 7ème régiment a "dévié de ses objectifs". Dévié signifie : massacré ses propres officiers de liaison, traversé trois villages alliés sans s'arrêter, et ne répond plus aux ordres radio. Les soldats ne sont pas morts. Ils continuent à avancer. Vers l'ouest, sans direction donnée. Varek étudie le rapport pendant une heure. Sa conclusion est froide et correcte : l'Échorite à haute dose a supprimé la capacité de délibération — les soldats répondent à des stimuli directs, pas à des chaînes de commandement. Il classe le rapport confidentiel. Il demande à Sehn si Veyra a des recommandations. Sehn dit qu'il va vérifier. Sehn ne vérifie pas.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Le 7ème régiment est la conséquence directe d'une décision que le joueur a prise en Acte 1. Cette scène n'accuse pas — elle informe. Varek gère. Il va gérer jusqu'au bout. La question devient : à quel coût ?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-2.6</span>
+        <span class="scene-title">Orveth est Utile, Donc il Reste</span>
+        <span class="scene-type decision">Décision</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">La cour presse Varek de sanctionner Orveth pour Vel'Shan — diplomatiquement, pour atténuer la pression internationale. Varek écoute les arguments. Il reconnaît leur validité tactique. Puis il écarte la sanction. Sa raison, dite calmement à Sehn : "Orveth obtient des résultats. Le punir pour avoir été trop efficace enverrait un mauvais message à mes autres généraux." C'est une phrase qui se tient. Elle est aussi une ligne morale franchie explicitement, à voix haute, sans affect.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Le joueur peut influencer cette décision via des actions 4X antérieures. Mais le jeu ne garantit pas que la "bonne" décision soit disponible. Varek a sa propre logique. Le joueur est son conseiller stratégique, pas son arbitre moral.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek cp" id="cp3-varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">CP3</span>
+        <span class="scene-title">La Désertion d'Aldric — Perspective Varek</span>
+        <span class="scene-type cp">Point de Croisement</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek apprend la désertion d'Aldric par rapport — trois jours après les faits. Ce délai est lui-même une information : quelqu'un a retardé le rapport. Son analyse est immédiate : un chevalier de haut rang qui déserte vers la rébellion est un signal politique dangereux. Puis il croise les données et comprend : l'éclaireur qui l'a laissé passer était Daven. Varek s'assoit. Il reste immobile pendant quelque chose que le jeu mesure. Puis il dicte un ordre : retrouver Daven, vivant. Pas pour le punir. Pour comprendre.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux — Croisement narratif</div>
+          <p>Varek comprend la trahison de Daven non pas comme une trahison, mais comme un signal — quelque chose a changé dans son opérateur le plus fiable. Il veut savoir quoi. Cette curiosité froide est plus menaçante que la colère.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VAREK ACTE 3 -->
+<div class="section-divider"></div>
+<section class="act-section" id="varek-acte3">
+  <div class="act-header">
+    <div class="act-number varek">III</div>
+    <div class="act-info">
+      <span class="act-label">Varek — Acte Final</span>
+      <div class="act-title">Ce Que L'Échorite Révèle</div>
+      <div class="act-duration">~7h · Crise systémique, découverte, choix terminal</div>
+    </div>
+  </div>
+  <p class="act-intro">Pour la première fois, des choses échappent à Varek. Non pas parce qu'il est devenu moins capable — mais parce que les conséquences de ses décisions atteignent une échelle où le contrôle individuel devient impossible. Le 7ème régiment est incontrôlable. Sehn lui a caché des données. Daven l'a trahi. Lireth est parti. Et la mine révèle quelque chose que personne n'avait prévu. Varek continue à fonctionner. C'est le dernier acte d'un homme qui ne sait pas s'arrêter.</p>
+
+  <div class="scenes">
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-3.1</span>
+        <span class="scene-title">Ce Que Sehn a Caché</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek découvre les rapports originaux de Veyra — les versions complètes que Sehn avait archivées "pour plus tard". Il les lit tous en une nuit. Ce n'est pas une révélation émotionnelle. C'est une mise à jour des données. Il recalcule rétrospectivement chaque décision prise sur les informations filtrées. La liste des décisions qu'il aurait prises différemment est courte. Ce détail est le plus révélateur de son arc : même avec les bonnes données, il aurait probablement fait la même chose. Il convoque Sehn. L'entretien est bref. Sehn comprend que sa "protection" n'était pas utile — parce que Varek n'avait pas besoin d'être protégé. Il avait besoin d'être informé. Ce n'est pas la même chose.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Cette scène refuse la facilité narrative qui ferait de Sehn le vrai responsable. Varek ne se saisit pas de cette échappatoire. Il sanctionne Sehn — mais il ne se blanchit pas. C'est le moment où le joueur comprend que Varek a une forme d'intégrité, tordue mais réelle.</p>
+        </div>
+        <div class="decision-block">
+          <div class="decision-label">Décision — Sort de Sehn</div>
+          <div class="decision-option"><strong>Rétrogradation :</strong> Sehn perd son poste. Varek garde un ennemi capable et informé dans sa structure. Risque politique, mais cohérent avec sa logique : on ne gaspille pas une ressource.</div>
+          <div class="decision-option"><strong>Exil :</strong> Sehn est envoyé en province. Varek purge sans détruire. Option la plus froide — et la plus caractéristique.</div>
+          <div class="decision-option"><strong>Élimination :</strong> Disponible, mais le jeu note que Varek l'envisage puis l'écarte. Sehn a agi par loyauté mal calibrée, pas par trahison. Même Varek fait cette distinction.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-3.2</span>
+        <span class="scene-title">Le 7ème Régiment — Varek Signe l'Ordre d'Élimination</span>
+        <span class="scene-type decision">Décision</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Le 7ème régiment est en territoire neutre, avançant vers une zone peuplée sans commandement opérationnel. Ses hommes ne peuvent plus être rappelés. Varek reçoit l'analyse militaire : neutralisation chirurgicale impossible vu la dispersion des unités. La seule option efficace est une frappe d'artillerie massive. Il s'agit d'éliminer environ huit cents hommes de Vareth. Varek demande combien de temps avant qu'ils atteignent la première zone civile. Réponse : quarante-huit heures. Il signe. Pendant la séquence gameplay qui suit — gérer les conséquences diplomatiques, allouer du soutien aux généraux, réorienter les lignes — le joueur ne peut pas ne pas penser aux huit cents noms qui n'apparaissent dans aucune interface.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Varek tue ses propres soldats — ceux que le joueur a dopés à l'Échorite en Acte 1. La boucle se ferme. Ce n'est pas présenté comme une rédemption, ni comme un effondrement : c'est une décision militaire logique, avec des données correctes cette fois. L'horreur vient de la cohérence.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-3.3</span>
+        <span class="scene-title">Veyra Lui Montre les Dessins</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Veyra convoque Varek — fait extraordinaire, c'est elle qui demande l'audience. Elle lui montre ce qu'elle a trouvé dans les strates profondes de la mine : des structures architecturales non naturelles, gravées à l'intérieur même du gisement d'Échorite. Des chambres. Des inscriptions dans un langage qui ne correspond à aucune langue connue. Des schémas qui ressemblent à des circuits, ou à des anatomies, selon l'angle. La mine n'est pas un gisement. C'est une construction. Varek regarde les dessins longtemps. Il demande depuis quand elle sait. Elle dit : trois mois. Il demande pourquoi elle ne l'a pas dit avant. Elle dit : parce qu'elle ne savait pas ce que ça voulait dire. Elle le dit maintenant parce que le régiment vient de se passer quelque chose qu'elle a vu dans les inscriptions.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Première fois que Varek rencontre quelque chose qu'il ne peut pas classer immédiatement. Une ancienne civilisation a construit la mine. L'Échorite n'est pas un minéral — c'est un outil, ou un organe, ou autre chose. Varek part pour la mine dans les heures qui suivent.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-3.4</span>
+        <span class="scene-title">Lireth à la Porte</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">La veille de son départ pour la mine, Lireth revient — seul, sans escorte, en évitant les gardes. Il a rejoint la résistance d'Élindre pendant un mois, puis est reparti. Il n'est ni espion ni ennemi. Il est juste revenu. Il dit à Varek une seule chose : "J'ai vu ce que vous avez construit. Je comprends comment vous avez pensé. Et je refuse." Varek ne répond pas tout de suite. Quand il répond, ce n'est pas pour convaincre. Il dit : "Je sais." C'est la seule fois dans le jeu où Varek reconnaît que quelqu'un peut voir ce qu'il voit et choisir autrement. Cette reconnaissance ne change pas ce qu'il va faire.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>La relation avec Lireth se conclut ici selon les décisions prises en Actes 1 et 2. Dans toutes les variantes, Lireth repart vivant. C'est le seul geste que Varek fait qui ressemble à de la grâce — et il ne le revendique pas comme tel.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">VRK-3.5</span>
+        <span class="scene-title">Le Chemin vers la Mine</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek voyage vers la mine avec une escorte minimale. Le gameplay change de registre : plus de gestion impériale, mais une exploration directe des galeries. Il voit les mêmes cristaux que Veyra lui a décrits. Il les touche. Pour la première fois dans le jeu, on montre un effet physique de l'Échorite sur Varek lui-même — une légère déformation de sa vision périphérique, une clarté accrue des idées qui est aussi une rigidité accrue. Il ne le note pas comme un symptôme. Il le note comme de l'information. Ce geste — classer un symptôme comme donnée — est la dernière illustration de qui il est.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Le joueur, qui a joué Daven, sait ce que la mine contient réellement. Varek l'apprend en temps réel, par lui-même. La question "pourquoi est-il là" commence à prendre sa forme : il vient vérifier quelque chose que personne d'autre ne peut vérifier à sa place.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene varek cp" id="cp4-varek">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">CP4</span>
+        <span class="scene-title">La Mine d'Échorite — Perspective Varek / Convergence Finale</span>
+        <span class="scene-type cp">Point de Croisement</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Varek est dans la chambre centrale de la mine quand les autres protagonistes arrivent. Il les a entendus venir. Il ne s'est pas caché. Il attend, debout, face aux inscriptions de la paroi. Quand Aldric, Seïra et Daven entrent, Varek dit : "Vous êtes en retard." Ce n'est pas une menace. C'est un constat. Il a lu les inscriptions — ou il a commencé à les lire. Il sait ce qu'elles signifient suffisamment pour que sa posture change. La question que le joueur a portée depuis le début — est-il là pour détruire ou protéger ? — se résout ici différemment selon les choix de l'Acte 3.</p>
+        <p class="scene-desc" style="margin-top:12px;"><strong style="color:var(--accent)">Variante A — Varek détruit :</strong> Il a conclu que la mine est une arme et que personne d'autre ne doit y accéder. Il veut la sceller définitivement. Son geste destructeur est un acte de contrôle — la dernière décision souveraine d'un homme qui ne peut pas partager le pouvoir même avec l'histoire.</p>
+        <p class="scene-desc" style="margin-top:8px;"><strong style="color:var(--accent2)">Variante B — Varek protège :</strong> Il a conclu que la mine est quelque chose qui ne doit pas être utilisé — ni par lui, ni par personne. Il ne le dit pas comme une conversion morale. Il le dit comme une conclusion technique : l'Échorite amplifie. Amplifier l'humanité entière vers son instinct dominant serait la fin de la délibération. Et sans délibération, même son système ne fonctionne plus.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux — Ambiguïté finale</div>
+          <p>Dans les deux variantes, Varek n'est pas sauvé et pas condamné. Il est cohérent avec lui-même jusqu'au bout. Ce que le joueur emporte, c'est la question de savoir si cette cohérence est une forme de noblesse ou la preuve irréfutable d'une philosophie close sur elle-même.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════ DAVEN ═══════════════════════════ -->
+<div class="section-divider" style="margin-top:60px;"></div>
+
+<section class="char-header daven" id="daven">
+  <div class="char-id daven">DOSSIER / AGENT DOUBLE / GAMEPLAY INFILTRATION</div>
+  <h2 class="char-name daven">DAVEN</h2>
+  <div class="char-role">Opérateur de Vareth — Six ans de service — Retournement progressif</div>
+  <p class="char-profile daven">
+    Daven n'est pas un héros qui s'ignore. Il a su depuis le début pour qui il travaillait et ce que ça impliquait. Ce qui change, ce n'est pas une prise de conscience soudaine — c'est la disparition progressive d'une distance psychologique qu'il maintenait entre ses actes et leurs conséquences. Il pouvait ne pas regarder. Il a regardé à Vel'Shan. Et ce qu'il a vu ne peut pas être remis derrière la vitre. Son arc n'est pas une rédemption — c'est la lente acceptation que certains choix passés ne peuvent pas être défaits, et que ça ne dispense pas d'en faire de meilleurs maintenant.
+  </p>
+  <div class="char-tags">
+    <span class="tag daven">Infiltration sociale</span>
+    <span class="tag daven">Double jeu</span>
+    <span class="tag danger">Connait le secret de la mine</span>
+    <span class="tag neutral">6 ans de service Vareth</span>
+    <span class="tag neutral">Poids des choix passés</span>
+  </div>
+</section>
+
+<!-- DAVEN ACTE 1 -->
+<section class="act-section" id="daven-acte1">
+  <div class="act-header">
+    <div class="act-number daven">I</div>
+    <div class="act-info">
+      <span class="act-label">Daven — Acte Premier</span>
+      <div class="act-title">L'Opérateur Propre</div>
+      <div class="act-duration">~5h · Infiltration, gestion de couverture, missions de terrain</div>
+    </div>
+  </div>
+  <p class="act-intro">Daven est professionnel. Son travail à Élindre depuis six mois a été méthodique, invisible, efficace. Il n'aime pas tout ce qu'il fait, mais il a construit une architecture mentale qui sépare le jugement de l'exécution. Cette architecture tient encore en Acte 1. Elle tient parce qu'il n'a pas encore vu les conséquences directes de ses opérations sur des visages qu'il connaît.</p>
+
+  <div class="scenes">
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-1.1</span>
+        <span class="scene-title">Six Mois à Élindre</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Le jeu commence avec Daven en milieu d'opération — pas au début. Il est installé à Élindre sous couverture de marchand de cartes géographiques depuis six mois. Sa couverture est solide : il a de vrais clients, une vraie boutique, une vraie réputation dans le quartier des marchands. Le tutoriel infiltration consiste à maintenir la couverture lors d'une interaction banale qui révèle que ses papiers ont été vérifiés par la garde d'Élindre — routine, pas de suspicion. Daven gère ça en moins de trois minutes, avec l'aisance de quelqu'un qui l'a fait cent fois. Le jeu ne romantise pas cette habileté : elle est froide, automatisée, légèrement triste.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Établit Daven comme opérateur compétent et intégré — pas un infiltré nerveux. La tension viendra de l'intérieur, pas de la menace externe. Introduction des mécaniques de gestion de couverture : jauge de suspicion, réseaux de contacts, ressources cachées.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-1.2</span>
+        <span class="scene-title">Observer Aldric</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Une de ses missions de routine consiste à cartographier les mouvements de la garde rapprochée du palais. Aldric est l'officier de sécurité de la délégation Vareth — il est dans son radar professionnel. Daven l'observe pendant plusieurs jours. Ce qu'il note dans son rapport : Aldric est discipliné, fidèle au protocole, mais il a des hésitations — de légères pauses avant d'exécuter des ordres qui lui semblent discutables. Daven connaît cette hésitation. Il l'a eue aussi, il y a longtemps. Il ne l'inclut pas dans son rapport. Il l'inclut dans sa mémoire.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Premier contact entre Daven et Aldric — entièrement unilatéral. Daven voit en Aldric une version antérieure de lui-même. Cette reconnaissance naissante sera le fondement de sa décision en CP3.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-1.3</span>
+        <span class="scene-title">Protéger Mira</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven reçoit une information de Vareth : une opératrice indépendante nommée Mira est identifiée comme contact de la résistance d'Élindre. Vareth veut son identité complète pour neutralisation. Daven a cette information — il sait où elle loge, ce qu'elle fait, comment la trouver. La mission de Vareth est de la livrer. Daven fait autre chose : il la prévient, de manière indirecte et non traçable, via un message anonyme qui change ses horaires. Mira n'est pas capturée. Daven envoie un rapport disant qu'il n'a pas pu confirmer son identité. Ce n'est pas sa première déviation. C'est la première fois que le joueur en est témoin.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Si Daven échoue à protéger Mira, elle est capturée. Elle n'apparaît pas comme recrue pour Seïra en Acte 2. Les conséquences sont silencieuses mais réelles : la résistance est plus faible, une scène de recrutement de Seïra n'existe pas.</p>
+        </div>
+        <div class="decision-block daven">
+          <div class="decision-label daven">Conséquence de mission</div>
+          <div class="decision-option"><strong>Succès :</strong> Mira échappe, rejoint la résistance, devient unité de renseignement de Seïra.</div>
+          <div class="decision-option"><strong>Échec partiel :</strong> Mira est capturée mais pas exécutée. Elle sera dans une prison de Vareth — potentiellement libérable en Acte 3.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-1.4</span>
+        <span class="scene-title">Planter les Faux Documents</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">La mission principale de l'Acte 1 : introduire des documents falsifiés dans les archives diplomatiques du palais d'Élindre avant la délégation de négociation. Les documents suggèrent que Élindre a secrètement conclu un accord militaire avec un empire rival de Vareth. C'est faux. Mais ça le deviendra, politiquement, dès que Varek les recevra. La mission d'infiltration physique est la plus longue et complexe de l'Acte — plusieurs chemins possibles dans le palais, gestion de la vigilance des gardes en temps réel, fenêtres temporelles. Daven réussit. Il sort par les toits sous la pluie. Dans le couloir qu'il vient de quitter, une femme de chambre referme une fenêtre. Elle n'a rien vu. Il se demande ce qu'elle ferait si elle savait.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>La qualité d'exécution affecte la rapidité avec laquelle les faux documents sont découverts par Élindre en Acte 2 — et donc la pression sur la couverture de Daven. Un travail parfait laisse une trace presque invisible. Un travail précipité laisse une question dans une archive.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven cp">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">CP1</span>
+        <span class="scene-title">La Délégation Brisée — Perspective Daven</span>
+        <span class="scene-type cp">Point de Croisement</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Les négociations éclatent. Daven est dans la galerie haute du palais — observateur, invisible — quand la délégation Vareth quitte la salle. Il voit les visages des diplomates d'Élindre. Pas de la colère. De la confusion, d'abord. Puis quelque chose qui ressemble à de la résignation. La princesse Seïra sort en dernier. Elle ne pleure pas. Elle regarde la porte fermée pendant trois secondes. Daven a vu des dizaines de missions réussir. Il n'a jamais regardé le visage de ceux qui perdaient. Il s'en ira avant qu'elle lève les yeux.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux — Croisement narratif</div>
+          <p>C'est le même événement que dans l'arc de Varek — mais vu de l'intérieur, avec le visage de Seïra. Ce détail — trois secondes, la porte fermée — ne change rien à la mission. Il commence à changer Daven.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-1.6</span>
+        <span class="scene-title">Avertir Lyria</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven intercepte un ordre de Vareth concernant des opérations de terreur économique dans le village de Lyria — une commune frontalière qui sert de point de transit à la résistance naissante. L'ordre prévoit une destruction de leurs réserves alimentaires et une arrestation préventive des hommes valides. Daven a deux jours. Il ne peut pas annuler l'ordre. Il peut prévenir. Il organise une chaîne de messages via deux intermédiaires qu'il n'a jamais rencontrés en personne, avec un délai de 36 heures. Lyria évacue les hommes à temps. Les réserves sont perdues, mais personne n'est arrêté. Daven envoie un rapport à Vareth indiquant que Lyria était déjà évacuée — "information de renseignement périmée".</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Si la chaîne de messages échoue ou arrive trop tard, les hommes de Lyria sont arrêtés. Ils rejoindront le camp de prisonniers de Vareth — un statut qui pèsera sur l'arc de Seïra et sur la culpabilité de Daven en Acte 2.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-1.7</span>
+        <span class="scene-title">Le Secret de la Mine — Ce Que Daven Sait Déjà</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Scène de journal intime — rendue sous forme de texte que Daven lit dans sa tête, sans voix off, juste des mots sur l'écran la nuit. Daven est originaire des Terres Grises, une région proche de la mine. Son grand-père lui a raconté des choses sur le gisement — pas des rumeurs, des souvenirs directs : des galeries qui existaient avant que Vareth arrive, des marques sur les parois dans un langage inconnu, des chambres où les torches brûlaient différemment. Varek l'a recruté il y a six ans en partie pour ça. Daven lui a dit tout ce qu'il savait. Ce faisant, il a aussi compris que sa valeur pour Varek tenait à cette information — et que le lien entre sa survie et son utilité était le vrai contrat qui le liait à l'empire.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Exposition du secret central et de la dynamique de pouvoir entre Varek et Daven. La loyauté de Daven à Vareth n'a jamais été idéologique — elle était contractuelle, au sens littéral de survie. Ce qui change quand il commence à saboter, c'est qu'il accepte de ne plus être utile.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DAVEN ACTE 2 -->
+<div class="section-divider"></div>
+<section class="act-section" id="daven-acte2">
+  <div class="act-header">
+    <div class="act-number daven">II</div>
+    <div class="act-info">
+      <span class="act-label">Daven — Acte Second</span>
+      <div class="act-title">Ce Qu'on Ne Peut Pas Défaire</div>
+      <div class="act-duration">~10h · Double jeu, sabotage, Vel'Shan, CP3</div>
+    </div>
+  </div>
+  <p class="act-intro">Daven opère toujours pour Vareth — mais il sabote maintenant de manière systématique. Chaque mission exécutée a une version officielle et une version réelle. Il gère le mensonge comme une infrastructure, avec la même compétence que sa couverture. Ce qui change avec Vel'Shan, c'est qu'il ne peut plus attribuer les conséquences à quelqu'un d'autre. Il était là. Il avait l'information. Et il a laissé faire.</p>
+
+  <div class="scenes">
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-2.1</span>
+        <span class="scene-title">Kira s'est Retournée</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Kira était l'une des contacts de Daven à Élindre — une informatrice qui vendait des renseignements à Vareth depuis deux ans. Elle s'est retournée : elle fournit maintenant la résistance, et Vareth le sait. Elle est en fuite dans la ville haute d'Élindre, traquée par deux agents de Vareth que Daven connaît personnellement. Daven reçoit l'ordre de la neutraliser s'il la localise. Il la localise. Il lui donne une heure d'avance et change la route de patrouille des agents via une fausse information d'interception. Kira passe. Ce soir-là, Daven boit seul et réfléchit à combien de temps ce jeu peut durer avant que quelqu'un à Vareth commence à voir le motif dans ses "échecs".</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Kira rejoint la résistance de Seïra si Daven réussit. Si Daven échoue — mauvais choix de timing — Kira est capturée et interrogée. Elle donne des informations sur Daven sous pression. En Acte 3, sa découverte arrive plus tôt.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-2.2</span>
+        <span class="scene-title">Canal Anonyme vers Seïra</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven établit un canal de communication à sens unique vers la résistance d'Élindre. Il ne signe pas ses messages. Il ne demande rien en échange. Les informations qu'il envoie sont précises — mouvements de troupes Vareth, dates d'opérations, noms d'agents. Seïra les reçoit via un intermédiaire et les utilise sans savoir d'où elles viennent. Dans l'arc de Seïra, ces informations arrivent comme des "renseignements de source inconnue fiable" — une mécanique de jeu qui donne des bonus de résistance. Dans l'arc de Daven, on voit l'autre côté : lui, seul, qui prépare chaque message avec autant de soin qu'une mission officielle. Ce n'est pas de la générosité. C'est de la rigueur appliquée à autre chose.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>La qualité des informations transmises affecte directement la capacité de Seïra à résister. Daven ne le sait pas concrètement — il n'a pas de retour. Il envoie dans le vide. C'est le premier acte désintéressé de son arc.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-2.3</span>
+        <span class="scene-title">La Veille de Vel'Shan</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven est à Vel'Shan la veille de l'opération. Il y est pour une mission de reconnaissance qui précède l'avancée militaire. Dans le cadre de cette mission, il a intercepté — il y a 72 heures — un message indiquant clairement que le plan d'Orveth incluait la "neutralisation civile préventive". Il avait l'information. Il ne l'a pas transmise à la résistance. Il ne l'a pas sabotée. Il a calculé qu'une interférence aurait exposé sa couverture à un moment où il pensait être plus utile en restant en place. Ce calcul était peut-être rationnel. Cette nuit-là, à Vel'Shan, dans une auberge dont il connaît la propriétaire, il mange un repas qu'elle lui prépare. Il l'entend parler de sa fille à la table d'à côté.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Cette scène n'accuse pas Daven avec de la musique dramatique. Elle expose simplement les faits. Le joueur porte ce que Daven a décidé. Le lendemain matin arrive.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven cp" id="cp2-daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">CP2</span>
+        <span class="scene-title">Le Massacre de Vel'Shan — Perspective Daven</span>
+        <span class="scene-type cp">Point de Croisement</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven est dans la ville quand l'opération commence. Le jeu lui donne des actions : se cacher, fuir, aider. Le temps est compté. Les choses qu'il peut faire — protéger quelques personnes, barricader une rue — sont réelles, mais insuffisantes. Il ne sauve pas Vel'Shan. Il sauve peut-être la propriétaire de l'auberge. Peut-être pas, selon les décisions du joueur. Quand il sort de la ville à l'aube, il est intact physiquement. La phrase qu'il note dans son journal ce jour-là est courte : "J'avais l'information. Je n'ai pas agi. Ce n'est pas Orveth qui a choisi de ne pas agir. C'est moi."</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux — Croisement narratif</div>
+          <p>Moment le plus sombre de l'arc de Daven. Il n'y a pas de musique triomphante si le joueur réussit à sauver la propriétaire — juste le silence de la ville qui brûle. Ce CP est la fracture irréparable. Tout ce que Daven fait ensuite est une réponse à cette phrase dans son journal.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-2.4</span>
+        <span class="scene-title">Sabotages Systématiques</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Après Vel'Shan, Daven ne calcule plus de la même façon. Il sabote maintenant sans peser la valeur de sa couverture contre le bénéfice du sabotage — il sabote parce que ne pas le faire est devenu inacceptable pour lui. Une ligne de ravitaillement retardée. Un agent de Vareth dont il prévient la cible. Un rapport de renseignement qui omet une information critique sur une position de la résistance. Mécaniquement : le joueur gère un "niveau de compromission" qui monte avec chaque sabotage. Trop haut, et Vareth commence à enquêter. Pas assez de sabotages, et la résistance prend plus de pertes. C'est un équilibre que Daven ne peut plus optimiser — il ne cherche plus à survivre à tout prix.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>La mécanique de compromission est la représentation ludique de son choix moral : chaque décision de saboter est un pas vers être découvert. Le joueur choisit le rythme de la chute de Daven.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-2.5</span>
+        <span class="scene-title">Rencontrer Aldric Sans Lui Parler</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven est en mission de surveillance dans une zone de repli — et croise Aldric dans une taverne de passage, ni l'un ni l'autre dans leur rôle officiel. Ils ne se connaissent pas. Ils parlent pendant vingt minutes, de rien — la route, le vin, la fatigue. Daven observe comment Aldric parle des gens qu'il a croisés : avec des noms, avec des détails, avec une attention qui n'est pas stratégique. Daven pense à la propriétaire de l'auberge de Vel'Shan. Il paye les deux verres et repart avant qu'Aldric puisse lui demander son nom.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Scène de transition — pas d'enjeu gameplay direct. Elle pose la relation Daven-Aldric comme quelque chose qui précède CP3, donne une humanité à la fraternité asymétrique qui va se former.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven cp" id="cp3">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">CP3</span>
+        <span class="scene-title">La Désertion d'Aldric — Perspective Daven</span>
+        <span class="scene-type cp">Point de Croisement</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven est l'éclaireur désigné pour intercepter Aldric qui fuit après Vel'Shan. C'est son ordre : le ramener ou le neutraliser. Daven le trouve dans une gorge forestière, à l'aube, les mains encore tremblantes de ce qu'il a vu. Il reconnaît le tremblement. Pas comme quelqu'un qui a peur — comme quelqu'un qui a encore une conscience qui fonctionne. Daven dit à Aldric, à voix basse, dans le brouillard : "Il y a un chemin à l'ouest. Les gardes que tu vas croiser — je m'en occupe dans dix minutes. Après, tu n'as plus rien de moi et je n'ai plus rien de toi." Aldric le regarde. Il ne demande pas pourquoi. Daven n'expliquerait pas de toute façon.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux — Croisement narratif</div>
+          <p>Dans l'arc d'Aldric, cette scène se joue du point de vue d'Aldric — il entend une voix dans le brouillard, voit une silhouette qui s'éloigne. Dans l'arc de Daven, on voit toute la séquence. Daven sait que cet acte va accélérer sa propre découverte. Il le fait quand même.</p>
+        </div>
+        <div class="decision-block daven">
+          <div class="decision-label daven">Décision de Daven</div>
+          <div class="decision-option"><strong>Laisser passer Aldric :</strong> Choix principal. Daven gère les gardes avec une distraction soigneusement préparée. Aldric passe. La compromission de Daven monte significativement.</div>
+          <div class="decision-option"><strong>Ne rien faire :</strong> Option disponible. Si le joueur n'intervient pas, Aldric est capturé. Daven reçoit une commendation de Varek. Le jeu ne commente pas. Mais Daven ferme son journal ce soir-là sans écrire dedans.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DAVEN ACTE 3 -->
+<div class="section-divider"></div>
+<section class="act-section" id="daven-acte3">
+  <div class="act-header">
+    <div class="act-number daven">III</div>
+    <div class="act-info">
+      <span class="act-label">Daven — Acte Final</span>
+      <div class="act-title">Le Poids du Secret</div>
+      <div class="act-duration">~7h · Traqué, révélation, décision terminale</div>
+    </div>
+  </div>
+  <p class="act-intro">Daven est découvert. Les deux camps le cherchent — Vareth parce qu'il est un traître, Élindre parce qu'ils ne savent pas encore s'il en est un. Il n'a plus de couverture, plus de structure, plus d'infrastructure. Ce qu'il a, c'est le secret de la mine — la seule information qui peut encore changer l'issue de la guerre. La question de son arc final : à qui la donner, quand la donner, et est-ce qu'une bonne décision maintenant change ce qui s'est passé avant.</p>
+
+  <div class="scenes">
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-3.1</span>
+        <span class="scene-title">Découverte — Par Qui</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">La couverture de Daven tombe selon la trajectoire de l'Acte 2. Si Kira a été capturée et interrogée : Vareth sait d'abord, et envoie une équipe d'élimination silencieuse. Si le niveau de compromission est trop élevé : un analyste de Vareth fait le recoupement des "coïncidences" et déclenche une enquête interne. Dans tous les cas, Élindre apprend l'existence de Daven via un rapport de Vareth que la résistance intercepte — ils découvrent un agent double, sans savoir encore de quel côté il penche. La première scène de l'Acte 3 de Daven est différente selon ce chemin — mais elle se termine au même endroit : Daven seul, en fuite, avec quelques heures d'avance.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>La manière dont il est découvert détermine qui arrive à le trouver en premier — un agent de Vareth ou un émissaire de Seïra. Cette différence affecte le registre émotionnel de sa situation initiale : traître traqué par les siens, ou inconnu soupçonné par des ennemis potentiels.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-3.2</span>
+        <span class="scene-title">Aldric le Trouve</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Aldric a entendu parler d'un agent double en fuite — description vague, correspondant à la silhouette dans le brouillard. Il le cherche. Pas parce que Seïra lui a dit de le faire — parce qu'il doit vérifier sa propre dette. Il trouve Daven dans une grange abandonnée, blessé légèrement à l'épaule, en train de brûler ses derniers documents d'identité. Daven l'entend arriver et ne se lève pas. "Tu aurais dû amener des gens," dit-il. Aldric dit : "Je suis venu seul parce que tu m'as laissé partir seul." Il y a un long silence. Daven dit finalement : "Je connais quelque chose sur la mine. Je ne sais pas encore à qui le dire."</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Premier contact direct entre les deux personnages. La fraternité asymétrique qui s'était construite par observation et geste unilatéral devient enfin réciproque. Aldric ne pardonne pas — il n'est pas en position de le faire. Il reconnaît une dette et ne l'efface pas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-3.3</span>
+        <span class="scene-title">Ce Que Daven Sait sur la Mine</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven explique à Aldric — et, via lui, au joueur — ce que son grand-père lui a transmis sur la mine, et ce que six ans de service à Varek lui ont appris de plus. Les chambres inscrites. L'Échorite non pas comme un minéral mais comme une substance qui a été conçue — synthétisée ou cultivée par une civilisation dont il ne reste que les murs. La propriété centrale : elle amplifie ce qui est déjà là. Elle ne transforme pas — elle révèle, à dose croissante, jusqu'à ce qu'il ne reste plus rien d'autre. Son grand-père appelait ça "le miroir de pierre". Il disait que les gens des Terres Grises évitaient la mine depuis des générations non par peur — par prudence. Ils savaient ce que le miroir montrait.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Révélation centrale du jeu sur la nature de l'Échorite, livrée par Daven avec la gravité de quelqu'un qui a porté cette information seul depuis le début. La métaphore du "miroir de pierre" est la clé narrative — et rétrospectivement, elle relit tout l'arc de Varek.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-3.4</span>
+        <span class="scene-title">Traqué sur Deux Fronts</span>
+        <span class="scene-type gameplay">Gameplay</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven doit traverser un territoire en partie contrôlé par Vareth pour atteindre la mine avec Aldric. L'arc de gameplay d'Acte 3 est une infiltration sous pression maximale : plus de couverture fixe, improvisation constante, ressources limitées. Les agents de Vareth ont sa description. Certains agents d'Élindre ne savent pas encore s'il est allié ou ennemi. Il doit naviguer les deux. La mécanique change : au lieu d'une jauge de couverture, c'est une jauge de "confiance accumulée" — chaque action vers la résistance monte la confiance d'Élindre en lui, mais expose aussi sa position. Le jeu laisse le joueur choisir à quelle vitesse Daven "se révèle".</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>La révélation de son identité à la résistance est irréversible et change ses ressources disponibles. Trop tôt : Vareth le localise via les communications d'Élindre. Trop tard : il arrive à la mine sans appui.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">DVN-3.5</span>
+        <span class="scene-title">Seïra et la Question Sans Réponse Facile</span>
+        <span class="scene-type narrative">Narratif</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven rencontre Seïra pour la première fois en face à face. Elle sait que les informations anonymes venaient de lui — Aldric lui a dit. Elle sait aussi qu'il a planté les faux documents qui ont fait éclater les négociations de paix. Elle lui pose la question directement : "Combien de personnes sont mortes entre CP1 et maintenant parce que tu as fait ton travail ?" Daven ne répond pas avec un nombre. Il ne répond pas avec des excuses. Il dit : "Je ne sais pas. Et c'est la bonne question." Ce n'est pas une réponse satisfaisante. Seïra ne lui dit pas que c'est suffisant. Mais elle lui dit qu'il peut aller à la mine.</p>
+        <div class="scene-stakes">
+          <div class="scene-stakes-label">Enjeux</div>
+          <p>Seïra ne l'absout pas et ne le condamne pas — elle fait ce que le jeu refuse de faire pour le joueur : laisser la question ouverte et avancer quand même. C'est la définition de ce que Daven doit faire.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene daven cp" id="cp4-daven">
+      <div class="scene-header" onclick="toggleScene(this)">
+        <span class="scene-code">CP4</span>
+        <span class="scene-title">La Mine d'Échorite — Perspective Daven / Décision Finale</span>
+        <span class="scene-type cp">Point de Croisement</span>
+        <span class="scene-toggle">▼</span>
+      </div>
+      <div class="scene-body">
+        <p class="scene-desc">Daven entre dans la mine pour la première fois de sa vie adulte. Son grand-père lui avait interdit d'y aller. Il voit les chambres, les inscriptions. Il reconnaît certains motifs que le vieillard lui avait décrits de mémoire — il les avait imaginés imprécis, déformés par les années. Ils sont exacts. Quand il trouve Varek dans la chambre centrale, il s'arrête. Six ans de service. Un homme qu'il comprend mieux que n'importe qui dans cette pièce. Varek dit : "Tu as eu raison de venir." Ce n'est pas de la bienveillance — c'est une évaluation. Varek pense toujours que Daven est la personne la plus qualifiée pour comprendre ce qu'ils regardent tous les deux.</p>
+        <p class="scene-desc" style="margin-top:12px;">La décision finale de Daven ne porte pas sur ce qu'il dit à Varek. Elle porte sur ce qu'il fait de ce qu'il sait, et avec qui :</p>
+        <div class="decision-block daven">
+          <div class="decision-label daven">Décision terminale — Le Secret de la Mine</div>
+          <div class="decision-option"><strong>Révéler à tous :</strong> Daven prononce ce qu'il sait devant Varek, Aldric et Seïra simultanément. L'information ne peut plus être contrôlée par personne. C'est le choix le plus dangereux pour lui personnellement — Vareth le considérera ennemi d'état. C'est aussi le seul qui ne reproduit pas la logique de contrôle de l'information qui a fait Vel'Shan.</div>
+          <div class="decision-option"><strong>Révéler à Seïra seulement :</strong> Il donne l'information à la résistance et la laisse décider. Plus sûr stratégiquement. Mais Daven confie à Seïra le même type de décision unilatérale qu'il a reprochée à Varek. Le jeu ne commente pas.</div>
+          <div class="decision-option"><strong>Détruire le secret avec la mine :</strong> Si Varek choisit de détruire la mine, Daven peut choisir de ne rien dire et de laisser faire — parce qu'une mine détruite résout la question sans que personne ait à en porter la responsabilité. Ce choix lui ressemble trop à Vel'Shan pour être confortable. Il le sait.</div>
+        </div>
+        <div class="scene-stakes" style="margin-top:14px;">
+          <div class="scene-stakes-label">Enjeux — Clôture de l'arc</div>
+          <p>Quelle que soit la décision, Daven n'est pas pardonné — ni par le jeu, ni par les autres personnages, ni par lui-même. Ce qu'il fait dans la mine, c'est choisir quel type de personne il est maintenant, indépendamment de qui il était avant. C'est tout ce que le jeu lui offre. C'est suffisant pour qu'il le fasse.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p class="footer-text">Bible Narrative Interne — Vareth Chronicles — Document de travail — Usage équipe uniquement</p>
+</footer>
+
+</main>
+
+<script>
+  function toggleScene(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.scene-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    toggle.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  }
+
+  document.querySelectorAll('.act-section').forEach(act => {
+    const firstScene = act.querySelector('.scene-body');
+    if (firstScene) {
+      firstScene.classList.add('open');
+      const toggle = firstScene.previousElementSibling.querySelector('.scene-toggle');
+      if (toggle) toggle.style.transform = 'rotate(180deg)';
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "id": "mira",
+  "name": { "fr": "Mira" },
+  "role": { "fr": "Archiviste royale, gardienne du secret du roi mort" },
+  "description": {
+    "fr": "Archiviste sous le roi précédent, celui qui a interdit la mine il y a trente ans. Elle cache l'édit royal dans les archives de Seïra et attend que quelqu'un pose la bonne question. Ce n'est pas de la passivité — elle a survécu en attendant le bon moment."
+  },
+
+  "recruitment": {
+    "character": "seira",
+    "act": 1,
+    "condition": { "flag": 0 },
+    "cost": { "intel": 0 },
+    "scene_id": "seira_a1_mira_archive",
+    "note": "Mira rejoint après que Seïra la protège (flag 0 = MIRA_PROTECTED). Pas de coût — elle offre quelque chose de plus précieux que de l'or."
+  },
+
+  "stats": {
+    "atk": 1,
+    "def": 3,
+    "hp": 25,
+    "special": "acces_archives"
+  },
+
+  "special_ability": {
+    "id": "acces_archives",
+    "name": { "fr": "Accès aux archives" },
+    "description": { "fr": "Débloque les scènes d'archives dans les zones gouvernementales. Permet de lire le registre royal sur la mine (seira_a2_s3)." },
+    "passive": true
+  },
+
+  "royal_document": {
+    "id": "edit_royal_mine",
+    "unlocked_by": "mira_recruited",
+    "content": {
+      "fr": "Registre royal, année 1047 : La mine dite de l'Échorite est par la présente interdite d'extraction active. La substance extraite présente un danger d'ordre moral et physiologique que ce royaume n'a ni les moyens ni l'éthique d'assumer."
+    },
+    "flag_on_discovery": 42
+  },
+
+  "echorite_exposure": {
+    "initial": 0,
+    "rate_per_mine_visit": 5,
+    "note": "Mira n'a jamais approché la mine. Exposition nulle — ce qui rend son témoignage d'autant plus net."
+  },
+
+  "key_dialogues": [
+    {
+      "scene": "seira_a1_mira_archive",
+      "node": "mira_attend_question",
+      "text": { "fr": "— J'attendais que quelqu'un me demande ce que je savais sur la mine. Pas ce que l'empire dit sur la mine. Ce que le roi d'avant savait." }
+    },
+    {
+      "scene": "seira_a2_s3_mira_histoire_mine",
+      "node": "mira_lit_le_registre",
+      "text": { "fr": "— 'Danger d'ordre moral et physiologique.' Il a pas dit lequel venait en premier." }
+    }
+  ],
+
+  "narrative_arc": {
+    "act1": "Recrutement conditionnel sur la protection de Seïra. Introduit la profondeur historique de la mine.",
+    "act2": "Révèle le registre royal — preuve que la mine a déjà été interdite et pourquoi.",
+    "act3": "Reste en retrait mais devient la mémoire du groupe. Présente à la mine comme témoin.",
+    "mine": "N'entre pas dans la mine — reste à l'entrée. Si Seïra ressort avec des données, Mira peut les contextualiser."
+  }
+}

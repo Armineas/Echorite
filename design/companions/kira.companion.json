@@ -1,0 +1,79 @@
+{
+  "id": "kira",
+  "name": { "fr": "Kira" },
+  "role": { "fr": "Informateur haut-placé, double-agent au cœur de Vareth" },
+  "description": {
+    "fr": "Contact de Daven au sein même des cercles Vareth. Son identité réelle est inconnue de Seïra. Elle a envoyé des dessins anatomiques de la mine à Seïra via canal anonyme. La question qui se pose en A2 S4 : Daven la sort, ou il la laisse mourir pour la sécurité du réseau ?"
+  },
+
+  "recruitment": {
+    "character": "daven",
+    "act": 2,
+    "condition": { "flag": 2 },
+    "cost": { "intel": 25 },
+    "scene_id": "daven_a2_s4_kira_extraction",
+    "note": "Kira peut être extraite ou éliminée. Si extraite (flag 32), elle rejoint le réseau de Daven/Seïra mais sa couverture est grillée — ce qui expose Daven."
+  },
+
+  "extraction_choice": {
+    "extract": {
+      "flag": 32,
+      "consequence": "cover_daven_fonctionnaire_blown",
+      "intel_provided": { "fr": "Dessins anatomiques de la mine + liste agents Vareth" },
+      "note": "L'extraction de Kira en A2 S4 grille la couverture fonctionnaire de Daven. Flag 60 (COVER_BLOWN) s'active si extraction directe."
+    },
+    "information_first": {
+      "flag": 33,
+      "consequence": "kira_extracted_delayed",
+      "note": "Daven récupère les informations d'abord, extrait Kira ensuite avec risque réduit. Flag 33 = KIRA_DOSSIER_RECOVERED_FIRST."
+    }
+  },
+
+  "stats": {
+    "atk": 7,
+    "def": 4,
+    "hp": 35,
+    "special": "reseau_interieur"
+  },
+
+  "special_ability": {
+    "id": "reseau_interieur",
+    "name": { "fr": "Réseau intérieur" },
+    "description": { "fr": "Donne accès aux rapports filtrés de la cour Vareth si flag 36 (SEHN_FILTERING_DISCOVERED) non encore actif. Peut révéler 2 rapports supprimés par Sehn." },
+    "passive": true
+  },
+
+  "drawings": {
+    "content": {
+      "fr": "40 dessins anatomiques de la structure interne de la mine. Montrent les veines de cristal se comportant comme des vaisseaux. Annotation : 'cultivé, pas extrait'."
+    },
+    "flag_on_seira_receipt": 2,
+    "note": "Ces dessins déclenchent la scène seira_a2_s4 si flag 2 = true."
+  },
+
+  "echorite_exposure": {
+    "initial": 28,
+    "rate_per_mine_visit": 12,
+    "note": "A eu accès aux rapports miniers depuis l'intérieur. Exposition indirecte mais prolongée."
+  },
+
+  "key_dialogues": [
+    {
+      "scene": "daven_a2_s4_kira_extraction",
+      "node": "kira_question",
+      "text": { "fr": "— Extraction ou élimination ? Vous avez l'air du genre à considérer les deux options avant de décider." }
+    },
+    {
+      "scene": "daven_a3_s1_couverture_decouverture",
+      "node": "kira_apres_extraction",
+      "text": { "fr": "— Ma couverture est grillée depuis que vous m'avez sortie. La vôtre l'est depuis quand ?" },
+      "condition": { "flag": 32 }
+    }
+  ],
+
+  "narrative_arc": {
+    "act2": "Objet du choix d'extraction de Daven. Son sort conditionne flag 32 et flag 60.",
+    "act3": "Si extraite, elle est présente dans le réseau mais exposée. Le dossier qu'elle a envoyé a changé la perception de Seïra.",
+    "mine": "N'entre pas dans la mine — trop exposée. Analyse les données depuis l'extérieur."
+  }
+}

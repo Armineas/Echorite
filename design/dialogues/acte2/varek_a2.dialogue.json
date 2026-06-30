@@ -1,0 +1,562 @@
+{
+  "_comment": "Acte 2 — Varek. Mode 4X. 4 scènes + CP2.",
+  "_design": "L'acte 2 de Varek est une démonstration de rationalisation. Il peut signer l'ordre de Vel'Shan en croyant que c'est logique. Il peut ne pas le signer et voir Orveth agir quand même. Dans les deux cas, le résultat est identique. C'est ça qui craque quelque chose.",
+
+  "scenes": {
+
+    "varek_a2_s1_activite_rebelle": {
+      "id": "varek_a2_s1_activite_rebelle",
+      "character": "varek",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Cabinet de travail. Varek lit le troisième rapport ce mois-ci sur Vel'Shan."},
+          "next": "varek_lit_velshan"
+        },
+
+        "varek_lit_velshan": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Deux signalements en Acte 1. Maintenant un troisième. Le village est à 40 kilomètres du dépôt de fournitures du 7ème régiment."},
+          "next": "sehn_arrive_rapport"
+        },
+
+        "sehn_arrive_rapport": {
+          "type": "line",
+          "speaker": "Sehn",
+          "text": {"fr": "Le troisième régiment demande une autorisation d'intervention, Sire. Activité rebelle confirmée à Vel'Shan."},
+          "next": "varek_questionne_sehn"
+        },
+
+        "varek_questionne_sehn": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Confirmée comment ?"},
+          "next": "sehn_repond_confirmation"
+        },
+
+        "sehn_repond_confirmation": {
+          "type": "line",
+          "speaker": "Sehn",
+          "text": {"fr": "Rapports d'agents locaux. Trois sources indépendantes."},
+          "next": "varek_note_interne"
+        },
+
+        "varek_note_interne": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Trois sources locales. Des gens du village qui veulent des faveurs, ou des agents de la SI qui veulent des résultats. La différence n'est pas négligeable."},
+          "next": "choix_velshan_enquete"
+        },
+
+        "choix_velshan_enquete": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Demander une vérification indépendante avant toute décision."},
+              "next": "varek_verifie",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Autoriser une présence militaire de surveillance. Pas d'action directe."},
+              "next": "varek_surveillance",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Classer. Revenir si quatrième signalement."},
+              "next": "varek_classe",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_verifie": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Envoyez quelqu'un de la Sécurité Intérieure qui ne connaît pas déjà le dossier. Rapport dans cinq jours."},
+          "next": "fin_s1_auto"
+        },
+
+        "varek_surveillance": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Une unité de dix hommes. Observation uniquement. Aucun contact avec les civils."},
+          "next": "fin_s1_auto"
+        },
+
+        "varek_classe": {
+          "type": "description",
+          "text": {"fr": "Il signe le bon de clôture. Rapport suivant."},
+          "next": "fin_s1_auto"
+        },
+
+        "fin_s1_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "varek_a2_s1_activite_rebelle"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a2_s2_velshan_ordre": {
+      "id": "varek_a2_s2_velshan_ordre",
+      "character": "varek",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Cabinet privé. Orveth présente un dossier d'intervention pour Vel'Shan."},
+          "next": "orveth_recommande"
+        },
+
+        "orveth_recommande": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Le village approvisionne les cellules rebelles depuis six semaines. Tolérer ça envoie un message. L'ordre de neutralisation prend trois minutes à signer."},
+          "next": "varek_lit_ordre"
+        },
+
+        "varek_lit_ordre": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Deux cent trente-huit civils selon le dernier recensement. Neutralisation veut dire autre chose que dans un rapport militaire standard."},
+          "next": "varek_questionne_orveth"
+        },
+
+        "varek_questionne_orveth": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Définissez neutralisation."},
+          "next": "orveth_definit"
+        },
+
+        "orveth_definit": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Suppression de la capacité logistique rebelle. Le village cesse de fonctionner comme point de transit."},
+          "next": "varek_comprend"
+        },
+
+        "varek_comprend": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "C'est clair. Il sait ce que ça veut dire. La question est : est-ce que c'est le bon calcul à long terme ?"},
+          "next": "choix_signer_ordre"
+        },
+
+        "choix_signer_ordre": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Signer. La logistique rebelle doit être coupée."},
+              "next": "varek_signe_velshan",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Refuser. Les civils ne sont pas des cibles militaires légitimes."},
+              "next": "varek_refuse_velshan",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_signe_velshan": {
+          "type": "description",
+          "text": {"fr": "Il signe en bas de la page. Écriture propre, rapide."},
+          "next": "varek_apres_signature"
+        },
+
+        "varek_apres_signature": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Le calcul est correct. Ça ne change pas ce que c'est."},
+          "next": "fin_signe_auto"
+        },
+
+        "fin_signe_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "set_flag", "flag": 22, "value": true},
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "varek_a2_s2_velshan_ordre"}
+          ],
+          "next": "end"
+        },
+
+        "varek_refuse_velshan": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Non. Trouvez un autre moyen de couper l'approvisionnement."},
+          "next": "orveth_acquiesce"
+        },
+
+        "orveth_acquiesce": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Bien, Sire."},
+          "next": "varek_note_orveth"
+        },
+
+        "varek_note_orveth": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Il a acquiescé trop vite. Orveth n'abandonne pas ses dossiers."},
+          "next": "fin_refuse_auto"
+        },
+
+        "fin_refuse_auto": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "varek_a2_s2_velshan_ordre"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a2_s3_protocole_pression": {
+      "id": "varek_a2_s3_protocole_pression",
+      "character": "varek",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Salle de conférence. Orveth présente les données du 7ème régiment à soixante jours."},
+          "next": "orveth_donne_donnees"
+        },
+
+        "orveth_donne_donnees": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Les données à soixante jours. Deux cas de dégradation sensorielle sur soixante et onze sujets. Dans les paramètres acceptables selon les modèles de projection."},
+          "next": "varek_lit_rapport"
+        },
+
+        "varek_lit_rapport": {
+          "type": "description",
+          "text": {"fr": "Varek lit la page des cas de dégradation. Deux soldats. Noms, grades, historiques médicaux."},
+          "next": "varek_questionne_degr"
+        },
+
+        "varek_questionne_degr": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Dégradation sensorielle. C'est-à-dire ?"},
+          "next": "orveth_minimise"
+        },
+
+        "orveth_minimise": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Perte partielle de la vision périphérique. Non incapacitant. Les sujets restent opérationnels."},
+          "next": "varek_note_cas"
+        },
+
+        "varek_note_cas": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Non incapacitant. Il y a quatre-vingt-dix jours, il n'y avait aucun cas. La tendance est ce qui compte, pas le nombre absolu."},
+          "next": "choix_donnees_60j"
+        },
+
+        "choix_donnees_60j": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Continuer le déploiement. Deux cas sur soixante et onze, c'est acceptable."},
+              "next": "varek_continue_proto",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Suspendre le protocole sur les nouvelles recrues. Maintenir sur les volontaires seulement."},
+              "next": "varek_suspend_partiel",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Suspendre entièrement en attente de données à quatre-vingt-dix jours."},
+              "next": "varek_suspend_total",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_continue_proto": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Documentez les deux cas. Je veux un rapport hebdomadaire sur les indicateurs sensoriels."},
+          "next": "fin_proto_continue"
+        },
+
+        "fin_proto_continue": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "varek_a2_s3_protocole_pression"}
+          ],
+          "next": "end"
+        },
+
+        "varek_suspend_partiel": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Les volontaires acceptent le risque. Pas les recrues. La distinction compte."},
+          "next": "fin_proto_partiel"
+        },
+
+        "fin_proto_partiel": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "varek_a2_s3_protocole_pression"}
+          ],
+          "next": "end"
+        },
+
+        "varek_suspend_total": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "À quatre-vingt-dix jours. Si la tendance s'inverse, on reprend. Si elle continue, on arrête définitivement."},
+          "next": "orveth_accepte_pause"
+        },
+
+        "orveth_accepte_pause": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Entendu, Sire."},
+          "next": "fin_proto_suspend"
+        },
+
+        "fin_proto_suspend": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "varek_a2_s3_protocole_pression"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a2_s4_sehn_premier_doute": {
+      "id": "varek_a2_s4_sehn_premier_doute",
+      "character": "varek",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Cabinet de travail. Varek reçoit le rapport de Veyra — une analyste du troisième service, pas de Sehn."},
+          "next": "veyra_rapport"
+        },
+
+        "veyra_rapport": {
+          "type": "line",
+          "speaker": "Veyra",
+          "text": {"fr": "Les chiffres de satisfaction provinciale de Sehn. Je les ai comparés aux données brutes du recensement. Il y a un écart systématique de sept à douze points."},
+          "next": "varek_demande_clarif"
+        },
+
+        "varek_demande_clarif": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Un écart de mesure ou un ajustement délibéré ?"},
+          "next": "veyra_repond_ecart"
+        },
+
+        "veyra_repond_ecart": {
+          "type": "line",
+          "speaker": "Veyra",
+          "text": {"fr": "Le sens de l'ajustement est toujours le même. Toujours vers le haut. Les mauvais chiffres ne remontent pas jusqu'à vous."},
+          "next": "varek_prend_rapport"
+        },
+
+        "varek_prend_rapport": {
+          "type": "description",
+          "text": {"fr": "Varek prend le rapport. Il ne dit rien pendant quinze secondes."},
+          "next": "varek_note_sehn"
+        },
+
+        "varek_note_sehn": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Sehn filtre les rapports depuis combien de temps ? Et si les rapports sur Vel'Shan avaient aussi été filtrés — pas vers le haut, mais vers un autre bureau ?"},
+          "next": "choix_sehn_reaction"
+        },
+
+        "choix_sehn_reaction": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Remercier Veyra et classer. Enquêter discrètement sur Sehn."},
+              "next": "varek_enquete_sehn",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Convoquer Sehn immédiatement."},
+              "next": "varek_convoque_sehn",
+              "effects": []
+            }
+          ]
+        },
+
+        "varek_enquete_sehn": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Gardez ça entre nous pour l'instant. Je veux les données brutes des six derniers mois."},
+          "next": "fin_sehn_discret"
+        },
+
+        "fin_sehn_discret": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "varek_a2_s4_sehn_premier_doute"}
+          ],
+          "next": "end"
+        },
+
+        "varek_convoque_sehn": {
+          "type": "description",
+          "text": {"fr": "Sehn arrive deux minutes plus tard. Il ne semble pas surpris."},
+          "next": "sehn_arrive_convoque"
+        },
+
+        "sehn_arrive_convoque": {
+          "type": "line",
+          "speaker": "Sehn",
+          "text": {"fr": "Sire."},
+          "next": "varek_montre_rapport"
+        },
+
+        "varek_montre_rapport": {
+          "type": "description",
+          "text": {"fr": "Varek pose le rapport de Veyra sur le bureau, face visible. Il ne dit rien."},
+          "next": "sehn_regarde"
+        },
+
+        "sehn_regarde": {
+          "type": "line",
+          "speaker": "Sehn",
+          "text": {"fr": "Les chiffres bruts créent de la panique inutile dans les rangs. J'ai exercé un jugement de présentation."},
+          "next": "varek_repond_sehn"
+        },
+
+        "varek_repond_sehn": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Je ne vous ai pas demandé votre jugement de présentation. Je vous ai demandé des rapports exacts."},
+          "next": "fin_sehn_convoque"
+        },
+
+        "fin_sehn_convoque": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "varek_a2_s4_sehn_premier_doute"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "varek_a2_cp2": {
+      "id": "varek_a2_cp2",
+      "character": "varek",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "auto",
+          "condition": {"flag": 22, "value": true},
+          "condition_fail_next": "varek_cp2_non_signe",
+          "effects": [],
+          "next": "varek_cp2_signe"
+        },
+
+        "varek_cp2_signe": {
+          "type": "description",
+          "text": {"fr": "Rapport 7-43-B. Il le lit. Il pose le stylo."},
+          "next": "varek_trente_secondes"
+        },
+
+        "varek_trente_secondes": {
+          "type": "description",
+          "text": {"fr": "Trente secondes. Pas de commentaire dans les marges. Rapport suivant."},
+          "next": "fin_cp2_signe"
+        },
+
+        "fin_cp2_signe": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "cp2_done"}
+          ],
+          "next": "end"
+        },
+
+        "varek_cp2_non_signe": {
+          "type": "description",
+          "text": {"fr": "Le rapport arrive par la filière habituelle. Ce n'est pas un rapport habituel."},
+          "next": "varek_lit_velshan_cp2"
+        },
+
+        "varek_lit_velshan_cp2": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Orveth a agi. Sans l'ordre. Deux cent trente-huit civils."},
+          "next": "varek_convoque_orveth_cp2"
+        },
+
+        "varek_convoque_orveth_cp2": {
+          "type": "description",
+          "text": {"fr": "Il convoque Orveth."},
+          "next": "orveth_arrive_cp2"
+        },
+
+        "orveth_arrive_cp2": {
+          "type": "line",
+          "speaker": "Orveth",
+          "text": {"fr": "Vous n'aviez pas signé. Mais vous l'auriez signé. J'ai raccourci le délai."},
+          "next": "varek_silence_cp2"
+        },
+
+        "varek_silence_cp2": {
+          "type": "description",
+          "text": {"fr": "Un long silence. Varek ne crie pas. Ne se lève pas."},
+          "next": "varek_repond_cp2"
+        },
+
+        "varek_repond_cp2": {
+          "type": "line",
+          "speaker": "Varek",
+          "text": {"fr": "Sortez."},
+          "next": "varek_seul_cp2"
+        },
+
+        "varek_seul_cp2": {
+          "type": "line",
+          "speaker": "Varek",
+          "internal": true,
+          "text": {"fr": "Il a peut-être raison. C'est le problème."},
+          "next": "fin_cp2_non_signe"
+        },
+
+        "fin_cp2_non_signe": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "varek", "act": 2, "scene_id": "cp2_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}

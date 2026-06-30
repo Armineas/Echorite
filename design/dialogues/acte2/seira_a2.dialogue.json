@@ -1,0 +1,523 @@
+{
+  "_comment": "Acte 2 — Seïra. Mode Stratégie. 6 scènes + CP2.",
+  "_design": "L'acte 2 de Seïra est celui où son réseau prend forme et où les preuves arrivent. Elle n'agit pas par sentiment — elle agit parce que les preuves l'exigent. La nuance : elle choisit d'abord de chercher les preuves.",
+
+  "scenes": {
+
+    "seira_a2_s1_bastion_est": {
+      "id": "seira_a2_s1_bastion_est",
+      "character": "seira",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Le Bastion de l'Est. Ce n'était pas une forteresse avant qu'elle arrive. C'était une route abandonnée, un ancien poste douanier, et la mémoire collective de quatre villages sur comment on faisait les choses avant Vareth."},
+          "next": "seira_construit_bastion"
+        },
+
+        "seira_construit_bastion": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Elle a passé trois semaines à écouter avant de donner un seul ordre. Les gens qui savent construire ont cessé d'être reconnus comme tels depuis que Vareth impose ses propres ingénieurs. Elle a juste rendu visible ce qui était déjà là."},
+          "next": "thessa_rapport"
+        },
+
+        "thessa_rapport": {
+          "type": "line",
+          "speaker": "Thessa",
+          "text": {"fr": "Les murs sont à soixante-dix pourcent. Mais on commence à avoir des déserteurs qui se présentent aux portes — des soldats de Vareth. Pas des espions. Des gens qui ne veulent plus."},
+          "next": "seira_question_deserteurs"
+        },
+
+        "seira_question_deserteurs": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Combien ?"},
+          "next": "thessa_nombre"
+        },
+
+        "thessa_nombre": {
+          "type": "line",
+          "speaker": "Thessa",
+          "text": {"fr": "Sept cette semaine. Vingt-trois depuis un mois. Ils ont tous travaillé dans les secteurs miniers."},
+          "next": "choix_deserteurs"
+        },
+
+        "choix_deserteurs": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Les intégrer sous surveillance les trois premières semaines. Leur passé à la mine m'intéresse."},
+              "next": "seira_integre_deserteurs",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Leur accorder l'asile sans les intégrer à nos forces. La provenance mine crée un risque de compromission."},
+              "next": "seira_asile_sans_integration",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_integre_deserteurs": {
+          "type": "description",
+          "text": {"fr": "Vingt-trois déserteurs miniers. Elle commence à noter ce qu'ils lui décrivent. Les yeux des collègues restés là-bas. L'air dans la galerie. La façon dont les ordres passaient sans résistance."},
+          "next": "fin_bastion"
+        },
+
+        "seira_asile_sans_integration": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Elle les accueille. Elle prend quand même leurs témoignages. Elle ne leur dit pas qu'elle note."},
+          "next": "fin_bastion"
+        },
+
+        "fin_bastion": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 2, "scene_id": "seira_a2_s1_bastion_est"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a2_s2_lyria_carnets": {
+      "id": "seira_a2_s2_lyria_carnets",
+      "character": "seira",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Bureau de Seïra. Lyria pose les carnets sur la table — douze, reliés en cuir, écriture serrée. Elle s'assied sans attendre d'invitation."},
+          "next": "lyria_intro"
+        },
+
+        "lyria_intro": {
+          "type": "line",
+          "speaker": "Lyria",
+          "text": {"fr": "Je suis médecin. J'ai suivi quarante-deux patients exposés à l'Échorite sur les dix-huit derniers mois. Les symptômes sont documentés et reproductibles. Ce n'est pas une maladie. C'est une dépendance."},
+          "next": "seira_ecoute"
+        },
+
+        "seira_ecoute": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Elle avait des hypothèses. Pas de données. Maintenant elle a des données. Elle doit décider si elle veut vraiment les avoir."},
+          "next": "seira_pose_question_lyria"
+        },
+
+        "seira_pose_question_lyria": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "Qu'est-ce que ça fait à la capacité de jugement ?"},
+          "next": "lyria_repond_jugement"
+        },
+
+        "lyria_repond_jugement": {
+          "type": "line",
+          "speaker": "Lyria",
+          "text": {"fr": "Après quatre semaines d'exposition régulière : réduction de la dissonance cognitive de quarante pourcent. Autrement dit — les ordres qu'ils auraient questionnés avant, ils les exécutent. Pas parce qu'ils ont peur. Parce qu'il n'y a plus de bruit intérieur pour les faire hésiter."},
+          "next": "seira_mesure_implications"
+        },
+
+        "seira_mesure_implications": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Quarante pourcent de réduction de dissonance. Une armée sans hésitation n'est pas une armée plus efficace. C'est une arme. Et quelqu'un tient la poignée."},
+          "next": "choix_lyria_carnets"
+        },
+
+        "choix_lyria_carnets": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Vous pouvez rester ici. Les carnets sont une première preuve. Il m'en faut deux autres."},
+              "next": "seira_garde_lyria",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Ces carnets ne peuvent pas rester ici. Si Vareth perquisitionne, vous êtes morte. Copiez les données essentielles et brûlez les originaux."},
+              "next": "seira_protege_lyria",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_garde_lyria": {
+          "type": "description",
+          "text": {"fr": "Lyria reste au Bastion. Les carnets aussi. Seïra a sa première preuve matérielle. Il lui en faut deux autres."},
+          "next": "fin_lyria"
+        },
+
+        "seira_protege_lyria": {
+          "type": "description",
+          "text": {"fr": "Lyria copie vingt pages de données essentielles. Elle brûle les originaux sans protester. Elle a passé dix-huit mois à écrire ces carnets. Elle comprend ce que leur destruction signifie."},
+          "next": "fin_lyria"
+        },
+
+        "fin_lyria": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 2, "scene_id": "seira_a2_s2_lyria_carnets"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a2_s3_mira_histoire_mine": {
+      "id": "seira_a2_s3_mira_histoire_mine",
+      "character": "seira",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Mira a mis trois semaines avant de demander à voir Seïra seule. Elle arrive le soir avec un livre de compte sous le bras — pas les siens."},
+          "next": "mira_apporte_livre"
+        },
+
+        "mira_apporte_livre": {
+          "type": "line",
+          "speaker": "Mira",
+          "text": {"fr": "C'est un registre de la chancellerie royale. Le roi précédent — pas celui que Vareth a destitué, celui d'avant lui. Il a fermé la mine il y a trente ans. Le décret dit 'danger d'ordre moral et physiologique pour les sujets de la couronne'."},
+          "next": "seira_lit_registre"
+        },
+
+        "seira_lit_registre": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Ordre moral et physiologique. Un roi qui gouverne par conquête et taxation arbitraire a trouvé quelque chose suffisamment dangereux pour fermer une mine rentable. Elle veut savoir ce qu'il a vu que Vareth utilise aujourd'hui."},
+          "next": "mira_continue"
+        },
+
+        "mira_continue": {
+          "type": "line",
+          "speaker": "Mira",
+          "text": {"fr": "Il y avait un médecin royal. Ses notes sont perdues. Mais les archives de la chancellerie mentionnent son rapport : les soldats de la garde de la mine ne reconnaissaient plus leurs familles après six mois. Pas qu'ils ne voulaient pas les reconnaître. Qu'ils ne pouvaient pas."},
+          "next": "seira_comprend_progression"
+        },
+
+        "seira_comprend_progression": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Lyria avait documenté la phase intermédiaire. Le roi précédent avait vu la phase finale. Vareth a les deux rapports et continue. Ce n'est pas de l'ignorance. C'est une stratégie."},
+          "next": "choix_mira_suite"
+        },
+
+        "choix_mira_suite": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Ce registre est ma deuxième preuve. Il me faut savoir s'il y a eu d'autres fermetures dans d'autres régions."},
+              "next": "seira_cherche_autres_preuves",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Mira, vous avez pris ce registre comment ?"},
+              "next": "seira_demande_origine_registre",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_cherche_autres_preuves": {
+          "type": "description",
+          "text": {"fr": "Elle confie à Mira la recherche dans les archives des provinces du nord. Deux semaines. Elle a sa deuxième preuve. Elle attend la troisième."},
+          "next": "fin_mira"
+        },
+
+        "seira_demande_origine_registre": {
+          "type": "line",
+          "speaker": "Mira",
+          "text": {"fr": "La personne qui m'a aidée à quitter le camp de réfugiés m'a dit que je devais vous apporter quelque chose d'utile si je voulais être utile. J'ai cherché ce qui serait utile."},
+          "next": "seira_pense_daven"
+        },
+
+        "seira_pense_daven": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Quelqu'un lui a conseillé d'être utile. Quelqu'un qui savait que Seïra avait besoin de preuves. Elle range ce détail pour plus tard."},
+          "next": "fin_mira"
+        },
+
+        "fin_mira": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 2, "scene_id": "seira_a2_s3_mira_histoire_mine"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a2_s4_dossier_kira": {
+      "id": "seira_a2_s4_dossier_kira",
+      "character": "seira",
+      "act": 2,
+      "condition": {"flag": 2, "value": true},
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Un messager. Un pli sans signature. Seïra l'ouvre seule."},
+          "next": "seira_ouvre_dossier"
+        },
+
+        "seira_ouvre_dossier": {
+          "type": "description",
+          "text": {"fr": "Le dossier de Kira. Vingt-deux pages. Plans architecturaux de la mine profonde, annotés en rouge. Relevés de concentration cristalline par zone. Et une phrase finale : 'Les salles profondes sont anatomiques. La mine n'a pas été creusée. Elle a poussé.'"},
+          "next": "seira_lit_dossier"
+        },
+
+        "seira_lit_dossier": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Anatomique. Poussé. Si c'est vrai, l'Échorite n'est pas une ressource. C'est quelque chose de vivant qu'on exploite. Quelque chose qui répond. Cela change la nature de tout ce qu'elle a planifié."},
+          "next": "choix_dossier_kira"
+        },
+
+        "choix_dossier_kira": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Trouver qui a envoyé ça. Ce niveau de précision ne vient pas d'un déserteur ordinaire."},
+              "next": "seira_cherche_source",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Ce dossier est ma troisième preuve. Agir maintenant avec ce qu'on a."},
+              "next": "seira_troisieme_preuve",
+              "effects": [{"type": "set_flag", "flag": 40, "value": true}]
+            }
+          ]
+        },
+
+        "seira_cherche_source": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Elle analyse l'écriture, le papier, le style des annotations. Elle a vu ce style avant. Dans des documents officiels de Vareth. Ce n'est pas une fuite. C'est un choix délibéré de quelqu'un à l'intérieur."},
+          "next": "fin_kira_dossier"
+        },
+
+        "seira_troisieme_preuve": {
+          "type": "description",
+          "text": {"fr": "Trois preuves. Les carnets de Lyria, le registre royal, et maintenant les plans. Ce qu'elle a planifié pendant dix-huit mois devient exécutable."},
+          "next": "fin_kira_dossier"
+        },
+
+        "fin_kira_dossier": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 2, "scene_id": "seira_a2_s4_dossier_kira"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a2_s5_brand_prisonniers": {
+      "id": "seira_a2_s5_brand_prisonniers",
+      "character": "seira",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Cour intérieure du Bastion. Vingt-trois soldats de Vareth, capturés à la bataille de l'Ancre. Brand les garde. Il attend les ordres de Seïra."},
+          "next": "brand_rapport"
+        },
+
+        "brand_rapport": {
+          "type": "line",
+          "speaker": "Brand",
+          "text": {"fr": "Vingt-trois. Huit blessés soignables. Quatre officiers subalternes. Le reste, soldats de ligne. Tous affectés au secteur minier il y a moins de six mois. On a les dossiers si tu veux les lire."},
+          "next": "seira_observe_prisonniers"
+        },
+
+        "seira_observe_prisonniers": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Elle les regarde. Certains ont encore les yeux lisses — l'exposition récente. D'autres semblent plus présents, comme s'ils revenaient de loin. Le sevrage, peut-être. Elle se souvient de Lyria : après quatre semaines d'arrêt, cinquante pourcent de récupération cognitive. Peut-être."},
+          "next": "choix_prisonniers"
+        },
+
+        "choix_prisonniers": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Pas d'exécution. Internement six mois. Suivi médical par Lyria. Ceux qui récupèrent leur autonomie de jugement peuvent choisir librement."},
+              "next": "seira_internement_humain",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Libération conditionnelle vers les villages neutres. On ne les garde pas, on n'a pas les ressources, et on ne les tue pas."},
+              "next": "seira_liberation_conditionnelle",
+              "effects": []
+            },
+            {
+              "text": {"fr": "Les quatre officiers séparément, les interroger sur les plans de la mine. Le reste, libération."},
+              "next": "seira_interrogatoire_officiers",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_internement_humain": {
+          "type": "line",
+          "speaker": "Brand",
+          "text": {"fr": "Ça coûte de la nourriture et du temps de garde qu'on n'a pas vraiment."},
+          "next": "seira_repond_brand"
+        },
+
+        "seira_repond_brand": {
+          "type": "line",
+          "speaker": "Seïra",
+          "text": {"fr": "On les a pris. On est responsables. C'est tout."},
+          "next": "fin_prisonniers"
+        },
+
+        "seira_liberation_conditionnelle": {
+          "type": "description",
+          "text": {"fr": "Elle signe les laissez-passer. Les vingt-trois partent le lendemain matin. Trois reviennent d'eux-mêmes dans la semaine. Elle les accueille."},
+          "next": "fin_prisonniers"
+        },
+
+        "seira_interrogatoire_officiers": {
+          "type": "description",
+          "text": {"fr": "Les officiers sont nerveux mais coopératifs. Deux d'entre eux n'ont plus les yeux lisses depuis leur capture. Ils lui disent plus qu'elle ne demandait."},
+          "next": "fin_prisonniers"
+        },
+
+        "fin_prisonniers": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 2, "scene_id": "seira_a2_s5_brand_prisonniers"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a2_s6_decision_confiance": {
+      "id": "seira_a2_s6_decision_confiance",
+      "character": "seira",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Bureau. Nuit. Un messager a transmis une demande de contact de la part d'un déserteur de Vareth qui dit avoir des informations sur la mine. Il a demandé Seïra par son prénom. Pas son titre."},
+          "next": "seira_analyse_demande"
+        },
+
+        "seira_analyse_demande": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Il connaît son prénom. Il a utilisé une voie propre — pas de pression, pas d'ultimatum. Il a demandé, pas exigé. Ce sont les gestes de quelqu'un qui comprend comment elle fonctionne. Ça peut être un espion très bien briefé. Ça peut être quelqu'un qui la suit depuis longtemps."},
+          "next": "seira_pese_preuves"
+        },
+
+        "seira_pese_preuves": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Trois preuves. Les carnets. Le registre. Les plans. Elle avait décidé qu'elle agirait quand elle en aurait trois. Elle en a trois. Le déserteur qui arrive maintenant arrive au moment exact. C'est suspect. Ou c'est parce qu'il attendait qu'elle soit prête."},
+          "next": "choix_confiance_deserteur"
+        },
+
+        "choix_confiance_deserteur": {
+          "type": "choice",
+          "choices": [
+            {
+              "text": {"fr": "Accepter la rencontre. Les preuves sont suffisantes pour agir. Si c'est un piège, la décision était déjà prise."},
+              "next": "seira_accepte_rencontre",
+              "effects": [{"type": "set_flag", "flag": 41, "value": true}]
+            },
+            {
+              "text": {"fr": "Faire vérifier la voie du messager d'abord. Quarante-huit heures de surveillance avant la rencontre."},
+              "next": "seira_verification_avant",
+              "effects": []
+            }
+          ]
+        },
+
+        "seira_accepte_rencontre": {
+          "type": "description",
+          "text": {"fr": "Elle envoie la réponse. La rencontre aura lieu. Elle informe Brand. Elle ne lui dit pas de venir armé. Elle lui dit de venir."},
+          "next": "fin_confiance"
+        },
+
+        "seira_verification_avant": {
+          "type": "description",
+          "text": {"fr": "Quarante-huit heures. La voie est propre. Le messager est réel. Elle accepte alors la rencontre avec deux jours de retard et la certitude qu'on l'a attendue."},
+          "next": "fin_confiance"
+        },
+
+        "fin_confiance": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 2, "scene_id": "seira_a2_s6_decision_confiance"}
+          ],
+          "next": "end"
+        }
+      }
+    },
+
+    "seira_a2_cp2": {
+      "id": "seira_a2_cp2",
+      "character": "seira",
+      "act": 2,
+      "nodes": {
+
+        "start": {
+          "type": "description",
+          "text": {"fr": "Le rapport arrive trois jours après Vel'Shan. Thessa le pose sur la table et sort sans rien dire."},
+          "next": "seira_lit_rapport_velshan"
+        },
+
+        "seira_lit_rapport_velshan": {
+          "type": "description",
+          "text": {"fr": "Deux mille quatre cents morts. Population civile. Le rapport de Vareth dit 'neutralisation de résistance organisée'. Le rapport de ses éclaireurs dit 'hommes, femmes, enfants, aucun armé'."},
+          "next": "seira_pleure"
+        },
+
+        "seira_pleure": {
+          "type": "line",
+          "speaker": "Seïra",
+          "internal": true,
+          "text": {"fr": "Elle pleure. Pas longtemps. Elle n'a pas de temps pour longtemps. Elle pleure parce qu'elle a un réseau d'information et qu'elle n'a pas su avant que ça arrive. Elle note ça. Elle ne veut plus ne pas savoir avant."},
+          "next": "seira_apres_pleurs"
+        },
+
+        "seira_apres_pleurs": {
+          "type": "description",
+          "text": {"fr": "Elle reprend la carte. Elle note les routes vers la mine. Elle calcule les délais. Elle a ses trois preuves. Elle a un déserteur qui demande à la voir. Elle a du travail."},
+          "next": "fin_cp2_seira"
+        },
+
+        "fin_cp2_seira": {
+          "type": "auto",
+          "effects": [
+            {"type": "complete_scene", "character": "seira", "act": 2, "scene_id": "cp2_done"}
+          ],
+          "next": "end"
+        }
+      }
+    }
+  }
+}
